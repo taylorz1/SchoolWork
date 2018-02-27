@@ -1,0 +1,343 @@
+@startuml
+skinparam linetype ortho
+class csse374.Project.PrivateFilter  {
++ boolean filter(SootClass)
++ boolean filter(SootMethod)
++ boolean filter(SootField)
+}
+class csse374.AnalyzorBehaviors.SingletonUMLBehavior  {
++ Collection<Pattern> patterns
+# void atClass(Model,SootClass,OutputStream)
+# void beforeClassBlock(Model,OutputStream)
+# void afterClassBlock(Model,OutputStream)
+# void afterClass(Model,SootClass,OutputStream)
+# void afterMethodBlock(Model,OutputStream)
+# void beforeMethodBlock(Model,OutputStream)
+}
+class csse374.Project.Model  {
+- List<AbstractAnalyzor> config
+- ListMultimap<String,Object> modelElements
++ Collection getModelElement(String,Class)
++ Object getSingleElement(String,Class)
++ void addModelElement(String,Object)
+- void removeModelElement(String,Object)
++ String getPath()
++ String getMainClass()
++ String getClasses()
++ String getDemo()
++ void addSootClass(SootClass)
++ void setScene(Scene)
++ Scene getScene()
++ void addPattern(Pattern)
++ PatternStore getPatternStore()
++ void setPatternStore(PatternStore)
++ void execute()
++ Set<SootClass> getSootClass()
++ void addRelation(RelationObject)
++ boolean checkRelation(RelationObject)
++ void removeRelation(RelationObject)
++ Set<RelationObject> getRelations()
++ String getMethodSignature()
++ void setUnitGraph(UnitGraph)
++ UnitGraph getUnitGraph()
++ String getDepth()
+}
+class csse374.Project.Main  {
++ {static} void main(String[])
+}
+class csse374.analyzers.UMLAnalyzer  {
+- ListMultimap<String,UMLBehaviorTemplate> behaviors
+- ListMultimap<String,UMLRelationBehaviorTemplate> relBehaviors
++ void addClassBehavior(String,UMLBehaviorTemplate)
++ void addRelationBehavior(String,UMLRelationBehaviorTemplate)
+# void fileAnalyze(Model,File)
+}
+class csse374.Project.PublicFilter  {
++ boolean filter(SootClass)
++ boolean filter(SootMethod)
++ boolean filter(SootField)
+}
+class csse374.AlgorithmResolvers.HeirarchyObjectResolveBehavior  {
++ List<SootMethod> resolve(Unit,SootMethod,Model)
+}
+class csse374.analyzers.SequenceAnalyzor  {
+- Model model
+- Set<SootClass> sootclasses
+- Set<String> createdClasses
+- IResolveBehavior behaviors
++ void setBehavior(IResolveBehavior)
+# void fileAnalyze(Model,File)
+- void sequenceAnalyzeHelper(OutputStream,Iterator<Unit>,int,String,String,String)
+- void evaluateInvkExpr(Unit,InvokeExpr,OutputStream,String,int)
+- List<SootMethod> resolveMethod(Model,Unit,SootMethod)
++ void prettyPrintMethods(String,SootMethod,Iterable<SootMethod>)
+- String printParams(SootMethod)
+- String sootClassFinder(Unit)
++ void prettyPrint(String,Iterable<Unit>)
++ int getLineNumber(Unit)
+}
+abstract class csse374.analyzers.FileAnalyzor  {
+- File file
++ void analyze(Model)
+# {abstract} void fileAnalyze(Model,File)
+}
+class csse374.analyzers.DemoInterfaceAnalyzor  {
++ void analyze(Model)
+}
+class csse374.analyzers.RenderAnalyzor  {
+- static Logger logger
+# void fileAnalyze(Model,File)
+}
+class csse374.Project.PreProcessor  {
+- Scanner scanner
+- Map<String,String> configMap
+- Map<String,Boolean> optionMap
+- Map<String,IFilter> filterMap
+- ListMultimap<String,AbstractAnalyzor> analyzorMap
+- List<String> pipeline
+- SceneBuilder soot
+- Model model
+- Map<String,IResolveBehavior> primbehaviors
+- Map<String,IStrategy> aggbehaviors
+- String[] args
++ void addAggResolver(String,IStrategy)
++ void addPrimResolver(String,IResolveBehavior)
++ void process()
+- void methodResolveSet()
+- void addFilters()
+- void printPrompt()
+- void generateModel(List<AbstractAnalyzor>)
+- List<AbstractAnalyzor> initPipeline()
+- List<IFilter> initFilter()
+- void fillconfig(String)
+- void putResponsibly(String,String)
++ void addAnalyzor(String,AbstractAnalyzor)
++ void addOptions(String[])
++ void addOption(String)
++ void addConfig(String)
++ void addConfigs(String[])
++ void addFilter(String,IFilter)
+}
+class csse374.analyzers.InterfaceAnalyzor  {
+- Set<SootClass> sootclass
++ void analyze(Model)
+- Set<RelationObject> getInterface(SootClass)
+}
+interface csse374.analyzers.IAnalyzor  {
++ {abstract} void analyze(Model)
+}
+class csse374.Project.ProtectedFilter  {
++ boolean filter(SootClass)
++ boolean filter(SootMethod)
++ boolean filter(SootField)
+}
+class csse374.AnalyzorBehaviors.FavorCompOverInheBehavior  {
+- Collection<Pattern> patterns
+# void beforeClassBlock(Model,OutputStream)
+# void afterClassBlock(Model,OutputStream)
+# void afterClass(Model,SootClass,OutputStream)
+# void afterMethodBlock(Model,OutputStream)
+# void beforeMethodBlock(Model,OutputStream)
+}
+abstract class csse374.analyzers.InitAnalyzor  {
++ void analyze(Model)
++ {abstract} void buildScene(Model,SceneBuilder)
+}
+class csse374.AlgorithmResolvers.CallGraphResolveBehavior  {
++ List<SootMethod> resolve(Unit,SootMethod,Model)
+- List<SootMethod> performContextSensitivePointerAnalysis(Scene,Unit,SootMethod)
+}
+class csse374.Project.Enums$Enum  {
++ static Enums$Enum INTERFACE
++ static Enums$Enum SUPERCLASS
++ static Enums$Enum ASSOCIATION
++ static Enums$Enum DEPENDENCY
++ static Enums$Enum ASSOCIATIONMANY
++ static Enums$Enum DEPENDENCYMANY
+- static Enums$Enum[] ENUM$VALUES
++ {static} Enums$Enum[] values()
++ {static} Enums$Enum valueOf(String)
+}
+class csse374.analyzers.DemoAnalyzor  {
++ void buildScene(Model,SceneBuilder)
+}
+class csse374.analyzers.FavorCompositionDetector  {
++ Set<RelationObject> relation
+# void detect()
+- boolean isOrange(RelationObject)
+- boolean calledSuper(SootMethod,SootMethod)
+}
+class csse374.analyzers.DemoSuperAnalyzor  {
++ void analyze(Model)
+}
+class csse374.AlgorithmResolvers.Resolver  {
+- List<IResolveBehavior> behaviors
+- IStrategy strategy
++ List<SootMethod> resolve(Unit,SootMethod,Model)
++ void addBehavior(IResolveBehavior)
++ void addStrategy(IStrategy)
+}
+class csse374.analyzers.FindMethodAnalyzor  {
++ void analyze(Model)
+- void populateMap(Map<String,Boolean>,String[])
+}
+class csse374.analyzers.SingletonDetector  {
++ List<String> superClasses
+# void detect()
+- boolean hasField(SootClass)
+- void buildSuperClass(List<String>,SootClass)
+- boolean hasStaticInstanceMethod(SootClass)
+- boolean matchesAnySuperType(String)
+- boolean hasPrivateConstructor(SootClass)
+}
+class csse374.analyzers.AssociationAnalyzor  {
+- Set<SootClass> sootclass
++ void analyze(Model)
+- List<RelationObject> getAssociation(SootClass)
+- boolean sootContains(String)
+- List<String> getFieldGeneric(SootField)
+}
+class csse374.analyzers.InheritanceAnalyzor  {
++ void analyze(Model)
+}
+abstract class csse374.analyzers.AbstractAnalyzor  {
+# List<IFilter> filters
++ void addFilters(List<IFilter>)
++ {abstract} void analyze(Model)
+}
+class csse374.Project.RelationObject  {
+- String from
+- String to
+- Enum<Enums$Enum> type
++ String getFrom()
++ String getTo()
++ Enum<Enums$Enum> getType()
++ void setType(Enum<Enums$Enum>)
++ boolean equals(Object)
++ String toString()
+}
+abstract class csse374.analyzers.PatternDetectAnalyzor  {
+# Model model
++ void analyze(Model)
+# {abstract} void detect()
+}
+interface csse374.AlgorithmResolvers.IResolveBehavior  {
++ {abstract} List<SootMethod> resolve(Unit,SootMethod,Model)
+}
+interface csse374.Project.IFilter  {
++ {abstract} boolean filter(SootClass)
++ {abstract} boolean filter(SootMethod)
++ {abstract} boolean filter(SootField)
+}
+class csse374.analyzers.RecursiveAnalyzor  {
++ Set<SootClass> superinterface
++ void analyze(Model)
+- void getClassesRecursively(SootClass)
+- void checkValid(SootClass)
+}
+class csse374.analyzers.SuperclassAnalyzor  {
+- Set<SootClass> sootclass
++ void analyze(Model)
+- RelationObject getSupeclass(SootClass)
+}
+class csse374.analyzers.DependencyAnalyzor  {
+- Set<SootClass> sootclass
+- Set<RelationObject> relations
++ void analyze(Model)
+- Map<String,Boolean> getDependency(SootClass)
+- boolean sootContains(String)
+- boolean checkAssociation(String,String,boolean)
+- Map<String,Boolean> getGeneric(SootMethod)
+}
+class csse374.analyzers.SootAnalyzor  {
++ void buildScene(Model,SceneBuilder)
+}
+class csse374.Project.Enums  {
+}
+csse374.analyzers.FavorCompositionDetector--|> csse374.analyzers.PatternDetectAnalyzor
+csse374.analyzers.UMLAnalyzer ..> csse374.Project.Model
+csse374.analyzers.AssociationAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.analyzers.PatternDetectAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.PreProcessor ..> csse374.Project.PrivateFilter
+csse374.Project.PreProcessor --> "1 .. *" csse374.AlgorithmResolvers.IResolveBehavior
+csse374.Project.Model ..> "1 .. *" csse374.Project.RelationObject
+csse374.analyzers.FindMethodAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.analyzers.InterfaceAnalyzor ..> "1 .. *" csse374.Project.RelationObject
+csse374.analyzers.InheritanceAnalyzor ..> csse374.Project.Model
+csse374.analyzers.RenderAnalyzor ..> csse374.Project.Model
+csse374.Project.RelationObject --> "1 .. *" csse374.Project.Enums$Enum
+csse374.analyzers.RecursiveAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.analyzers.FindMethodAnalyzor ..> csse374.Project.Model
+csse374.Project.Main ..> csse374.analyzers.UMLAnalyzer
+csse374.AlgorithmResolvers.HeirarchyObjectResolveBehavior ..> csse374.Project.Model
+csse374.analyzers.RenderAnalyzor--|> csse374.analyzers.FileAnalyzor
+csse374.Project.Main ..> csse374.analyzers.SequenceAnalyzor
+csse374.analyzers.SequenceAnalyzor --> csse374.AlgorithmResolvers.IResolveBehavior
+csse374.analyzers.InterfaceAnalyzor ..> csse374.Project.Model
+csse374.AlgorithmResolvers.CallGraphResolveBehavior ..> csse374.Project.Model
+csse374.Project.Main ..> csse374.AnalyzorBehaviors.FavorCompOverInheBehavior
+csse374.Project.PreProcessor --> csse374.Project.Model
+csse374.AlgorithmResolvers.Resolver ..> csse374.Project.Model
+csse374.analyzers.DemoAnalyzor ..> csse374.Project.Model
+csse374.AlgorithmResolvers.HeirarchyObjectResolveBehavior..|> csse374.AlgorithmResolvers.IResolveBehavior
+csse374.analyzers.DemoSuperAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.Main ..> csse374.analyzers.RecursiveAnalyzor
+csse374.analyzers.SingletonDetector--|> csse374.analyzers.PatternDetectAnalyzor
+csse374.Project.PreProcessor ..> csse374.AlgorithmResolvers.HeirarchyObjectResolveBehavior
+csse374.Project.Main ..> csse374.analyzers.DemoSuperAnalyzor
+csse374.Project.Enums$Enum --> "1 .. *" csse374.Project.Enums$Enum
+csse374.analyzers.SootAnalyzor ..> csse374.Project.Model
+csse374.Project.PreProcessor ..> csse374.Project.ProtectedFilter
+csse374.Project.Main ..> csse374.Project.PreProcessor
+csse374.analyzers.InterfaceAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.analyzers.SootAnalyzor--|> csse374.analyzers.InitAnalyzor
+csse374.Project.ProtectedFilter..|> csse374.Project.IFilter
+csse374.analyzers.AbstractAnalyzor --> "1 .. *" csse374.Project.IFilter
+csse374.Project.Main ..> csse374.analyzers.InterfaceAnalyzor
+csse374.AnalyzorBehaviors.FavorCompOverInheBehavior ..> csse374.Project.Model
+csse374.analyzers.InheritanceAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.Main ..> csse374.analyzers.FavorCompositionDetector
+csse374.analyzers.DemoInterfaceAnalyzor ..> csse374.Project.Model
+csse374.Project.Main ..> csse374.analyzers.SuperclassAnalyzor
+csse374.Project.Main ..> csse374.analyzers.DemoAnalyzor
+csse374.analyzers.DependencyAnalyzor ..> csse374.Project.Model
+csse374.analyzers.InitAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.Main ..> csse374.analyzers.SingletonDetector
+csse374.analyzers.DependencyAnalyzor --> "1 .. *" csse374.Project.RelationObject
+csse374.analyzers.FavorCompositionDetector --> "1 .. *" csse374.Project.RelationObject
+csse374.analyzers.PatternDetectAnalyzor --> csse374.Project.Model
+csse374.analyzers.RecursiveAnalyzor ..> csse374.Project.Model
+csse374.analyzers.SequenceAnalyzor--|> csse374.analyzers.FileAnalyzor
+csse374.analyzers.SuperclassAnalyzor ..> csse374.Project.Model
+csse374.analyzers.DemoAnalyzor--|> csse374.analyzers.InitAnalyzor
+csse374.analyzers.SuperclassAnalyzor ..> csse374.Project.RelationObject
+csse374.Project.Main ..> csse374.analyzers.DemoInterfaceAnalyzor
+csse374.analyzers.DependencyAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.Model --> "1 .. *" csse374.analyzers.AbstractAnalyzor
+csse374.Project.PreProcessor --> "1 .. *" csse374.Project.IFilter
+csse374.Project.PublicFilter..|> csse374.Project.IFilter
+csse374.Project.Main ..> csse374.analyzers.AssociationAnalyzor
+csse374.analyzers.FileAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.AlgorithmResolvers.CallGraphResolveBehavior..|> csse374.AlgorithmResolvers.IResolveBehavior
+csse374.analyzers.DemoSuperAnalyzor ..> csse374.Project.Model
+csse374.analyzers.AssociationAnalyzor ..> csse374.Project.Model
+csse374.AlgorithmResolvers.Resolver..|> csse374.AlgorithmResolvers.IResolveBehavior
+csse374.analyzers.SequenceAnalyzor --> csse374.Project.Model
+csse374.AlgorithmResolvers.Resolver --> "1 .. *" csse374.AlgorithmResolvers.IResolveBehavior
+csse374.Project.Main ..> csse374.analyzers.SootAnalyzor
+csse374.Project.PreProcessor ..> csse374.Project.PublicFilter
+csse374.Project.PrivateFilter..|> csse374.Project.IFilter
+csse374.Project.PreProcessor ..> csse374.AlgorithmResolvers.Resolver
+csse374.analyzers.UMLAnalyzer--|> csse374.analyzers.FileAnalyzor
+csse374.Project.PreProcessor --> "1 .. *" csse374.analyzers.AbstractAnalyzor
+csse374.Project.Main ..> csse374.AnalyzorBehaviors.SingletonUMLBehavior
+csse374.analyzers.AssociationAnalyzor ..> "1 .. *" csse374.Project.RelationObject
+csse374.Project.Main ..> csse374.analyzers.DependencyAnalyzor
+csse374.analyzers.SuperclassAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.Project.Main ..> csse374.analyzers.RenderAnalyzor
+csse374.Project.PreProcessor ..> csse374.AlgorithmResolvers.CallGraphResolveBehavior
+csse374.Project.Main ..> csse374.analyzers.FindMethodAnalyzor
+csse374.AnalyzorBehaviors.SingletonUMLBehavior ..> csse374.Project.Model
+csse374.analyzers.DemoInterfaceAnalyzor--|> csse374.analyzers.AbstractAnalyzor
+csse374.analyzers.AbstractAnalyzor..|> csse374.analyzers.IAnalyzor
+@enduml

@@ -1,0 +1,118 @@
+Students:  Here is how you do today's exercise, in m1_Line.
+
+########################################################################
+
+WITH YOUR INSTRUCTOR:
+
+  1. Understand the Point class that we supplied.
+
+  2. Understand how this exercise works:
+     -- You will implement a ** Line ** class.
+     -- In doing so, you will (many times) use methods
+          from the Point class.
+     -- Implement and test the methods of the Line class, one by one,
+          ** using the process described BELOW. **
+
+  3. Understand enough about the tests that WE supplied for you to
+       succeed in this project.
+
+  4. Practice what you will do, by implementing and testing
+       the   __init__   method of the Line class, with your instructor,
+       using the process described BELOW, with your instructor.
+         ** using the process described BELOW. **
+  
+  5. Do the remaining methods of the Line class, one by one,
+         ** using the process described BELOW. **
+ 
+########################################################################
+
+Here is the PROCESS you will use to implement and test
+each method   M   of the Line class.
+(For example, M might be the   reverse   method.)
+ 
+  -- Step A: In the   test_M   function, write a SINGLE ** test **
+       for method M.  To do so:
+     
+       A1: In the  Line  class, under the definition of method M,
+             that is, under
+                def M(...):
+             read/understand the SPECIFICATION of method M.
+          
+       A2: In the   test_M   function, write your test.
+     
+       A3: Run the program.
+             Your test will (of course) fail at this point.
+             Fix any syntax (notational) errors.
+     
+       A4: COMMIT your work.
+ 
+  -- Step B: Implement and test method M.  To do so:
+  
+       B1: Go to the definition of method   M   in the   Line   class,
+             that is, go to:
+                def M(...):
+           Re-read/understand the SPECIFICATION of method M.
+       
+       B2: Implement the method.
+       
+       B3: Run the TESTS of the method.  They are:
+             -- YOUR test, and
+             -- OUR tests (see below for details of OUR tests).
+           Fix errors as needed, until you are satisfied
+           that your implementation of method  M  is correct.
+           
+             ** ASK QUESTIONS as needed, ESPECIALLY if you are **
+             ** failing OUR tests and don't understand why.    **
+
+       B4: COMMIT your work.
+       
+########################################################################
+
+########################################################################
+Here is a BRIEF description of OUR tests, using the   reverse   method
+as an example.  ASK YOUR INSTRUCTOR FOR HELP as needed with OUR tests.
+
+The function
+
+    def test_reverse():
+        """ Tests the   reverse   method of the Line class. """
+        m1t.test_reverse()  # This runs OUR tests.
+        # --------------------------------------------------------------
+        # TODO: 5. This function tests the   reverse   method.
+        # Add one ADDITIONAL test, putting it BELOW this TODO.
+        # --------------------------------------------------------------
+        
+TESTS the   reverse   method.
+So that is where you look for the TESTING code.
+
+You put YOUR test (ONE test is enough) after the TODO.
+OUR tests are called by the statement:
+        m1t.test_reverse()  # This runs OUR tests.
+that precedes the TODO.  So OUR tests run first, THEN your test.
+
+IMPORTANT: We supplied lots of tests.  They are all in the
+   m1t_test_Line   module. Some of the tests that we wrote may be
+   difficult for you to grasp.  Don't hesitate to ASK QUESTIONS
+   if you do not understand a test that your code is failing.
+
+Here is part of our tests of the   reverse   method, as an example:
+
+    line = m1.Line(m1.Point(12, 88),
+                   m1.Point(40, 33))
+    original_end = line.end
+    line.reverse()
+
+    expected = original_end
+    actual = line.start
+    evaluate_test(expected, actual, 'Testing START after 1st reverse:')
+
+The function
+    evaluate_test
+simply tests whether the   expected  and   actual   are equal
+to each other and prints relevant messages.
+
+Note: We wrote the  main  function in such a way that it will
+NOT call your  TEST  function until you write at least SOME
+code in the method to be tested.  So, you will not any output
+from a TEST function until you start implementing its method.
+########################################################################

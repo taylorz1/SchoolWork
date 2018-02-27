@@ -1,0 +1,30 @@
+Students:
+
+Here is how you do today's exercise, in m1_Point.
+
+Do TODO 1 as usual, then TODO 2.  It tells you to:
+  -- With your instructor, understand these instructions.
+  -- In m1_Point, write a two-line implementation of a Point
+       class that (at that point) has NO methods.
+
+Then, for each TODO from #3 to the end of the exercise, you will
+do the following: (This shows TODO 6 (MOVE_TO) as an example.
+Each other TODO is the same, but for the method of that TODO.)
+
+    # ------------------------------------------------------------------
+    # TODO: 6.
+    #   a. Read the above description of the   MOVE_TO   method.
+    #        Do NOT proceed until you understand WHAT it should do
+    #        (but not necessary HOW it will do it).
+    #        NO CODE YET.  Ask questions as needed.
+    #   b. Figure out what TEST(S) would TEST the   move_to   method.
+    #        Implement (i.e., write the code for) those tests.
+    #        You will see red marks and cannot RUN those tests because
+    #        you have not (yet) implemented the   move_to   method.
+    #        COMMIT YOUR WORK and also ask questions as needed.
+    #   c. Implement and test the  move_to   method.
+    #        Get someone knowledgeable to confirm that your
+    #        implementation AND tests are correct.  COMMIT YOUR WORK.
+    # ------------------------------------------------------------------
+ 
+ We may code the first few TODO's together.

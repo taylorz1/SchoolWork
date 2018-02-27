@@ -1,0 +1,67 @@
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+public class Level {
+Point2D.Double[] wallPositions;
+Point2D.Double heroStart;
+
+		private GameWorld world;
+		
+		
+		public Level(GameWorld world) {
+			createLevel(world, 0);
+		}
+		
+		public Level(GameWorld world, int LevelToLoad) {
+			createLevel(world, LevelToLoad);
+		}
+		
+		public void createLevel(GameWorld world, int LevelToLoad) {
+			// Some file I/O shit.
+		}
+		
+		public ArrayList<Point2D> getWalls() {
+			return null;
+			
+		}
+
+//		public Level() {
+//			this.wallPositions = new Point2D.Double[10];
+//			this.heroStart = new Point2D.Double(0, 0);
+//			for (int i = 1; i< 10; i++) {
+//				this.wallPositions[i] = new Point2D.Double( i, i);
+//			}
+//		}
+//	
+//		//This isn't the correct constructor. We need a level generator class.
+//		public Level(Point2D.Double[] wallPositions, Point2D.Double heroStart) {
+//			this.wallPositions = wallPositions;
+//			this.heroStart = heroStart;
+//		}
+//
+//		public Point2D.Double[] getWallPositions() {
+//			return this.wallPositions;
+//		}
+//
+//		public void setWallPositions(Point2D.Double[] wallPositions) {
+//			this.wallPositions = wallPositions;
+//		}
+//
+//		public Point2D.Double getHeroStart() {
+//			return this.heroStart;
+//		}
+//
+//		public void setHeroStart(Point2D.Double heroStart) {
+//			this.heroStart = heroStart;
+//		}
+//
+//		public ArrayList<GameObject> generateObjects() {
+//			//Add generation of objects (walls etc);
+//			for (int i = 0; i < this.wallPositions.length; i++) {
+//				Wall wall = new Wall(this.wallPositions[i]);
+//			}
+//			return null;
+//		}
+		
+		
+}

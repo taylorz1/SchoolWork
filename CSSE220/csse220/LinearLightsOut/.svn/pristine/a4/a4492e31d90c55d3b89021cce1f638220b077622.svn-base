@@ -1,0 +1,21 @@
+package linearLightsOut;
+
+import javax.swing.JButton;
+
+public class QuitButton {
+	public JButton button;
+	
+	public QuitButton() {
+		this.button = createButton();
+	}
+	
+	
+	public JButton createButton() {
+		JButton created = new JButton("Quit");
+		return created;
+	}
+	
+	public JButton getButton() {
+		return this.button;
+	}
+}

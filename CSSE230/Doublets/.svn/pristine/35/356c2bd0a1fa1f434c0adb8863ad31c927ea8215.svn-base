@@ -1,0 +1,10 @@
+/**
+ * Contains the general algorithm to search for doublets.
+ *
+ * @author Jon Lambrecht, Zachary Taylor
+ *         Created Dec 17, 2016.
+ */
+public class Doublets {
+	// DONE: implement this class.
+	
+}

@@ -1,0 +1,117 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class HeroMovHandler implements KeyListener {
+
+	private GameWindowComponent g;
+	char lastPressed = 'n';
+	private boolean upPressed = false;
+	private boolean downPressed = false;
+	private boolean leftPressed = false;
+	private boolean rightPressed = false;
+
+	public HeroMovHandler(GameWindowComponent g) {
+		this.g = g;
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		Hero hero = g.getWorld().getHero();
+		int key = e.getKeyCode();
+		if (key == KeyEvent.VK_UP) {
+			this.upPressed = true;
+			this.lastPressed = 'u';
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			this.downPressed = true;
+			this.lastPressed = 'd';
+		}
+		if (key == KeyEvent.VK_LEFT) {
+			this.leftPressed = true;
+			this.lastPressed = 'l';
+		}
+		if (key == KeyEvent.VK_RIGHT) {
+			this.rightPressed = true;
+			this.lastPressed = 'r';
+		}
+		if (key == KeyEvent.VK_U) {
+			g.getWorld().incLevel();
+		}
+		if (key == KeyEvent.VK_D) {
+			g.getWorld().decLevel();
+		}
+
+		if (key == KeyEvent.VK_X) {
+			g.getWorld().getHero().dropBomb();
+		}
+		if(key == KeyEvent.VK_SPACE){
+			g.getWorld().detonateBombs();
+		}
+		heroDirectionHandler();
+
+	}
+
+	private void heroDirectionHandler() {
+		Hero hero = g.getWorld().getHero();
+		if (this.lastPressed == 'u' && upPressed) {
+			hero.setDyDx(0, -4);
+		}
+		else if (this.lastPressed == 'd' && downPressed) {
+			hero.setDyDx(0, 4);
+		}
+		else if (this.lastPressed == 'l' && leftPressed) {
+			hero.setDyDx(-4, 0);
+		}
+		else if (this.lastPressed == 'r' && rightPressed) {
+			hero.setDyDx(4, 0);
+		}
+		else if (upPressed) {
+			hero.setDyDx(0, -4);
+		}
+		else if (downPressed) {
+			hero.setDyDx(0, 4);
+		}
+		else if (leftPressed) {
+			hero.setDyDx(-4, 0);
+		}
+		else if (rightPressed) {
+			hero.setDyDx(4, 0);
+		}
+		else{
+			hero.setDyDx(0, 0);
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		Hero hero = g.getWorld().getHero();
+		int key = e.getExtendedKeyCode();
+		if (key == KeyEvent.VK_P){
+			g.getWorld().setPaused(!g.getWorld().isPaused());
+		}
+		if (key == KeyEvent.VK_UP) {
+			this.upPressed = false;
+		}
+		else if (key == KeyEvent.VK_DOWN) {
+			this.downPressed = false;
+		}
+		else if (key == KeyEvent.VK_LEFT) {
+			this.leftPressed = false;
+		}
+		else if (key == KeyEvent.VK_RIGHT) {
+			this.rightPressed = false;
+		}
+		heroDirectionHandler();
+
+	
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub.
+
+	}
+
+}

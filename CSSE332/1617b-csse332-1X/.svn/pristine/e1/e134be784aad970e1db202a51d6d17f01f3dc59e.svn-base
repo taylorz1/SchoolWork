@@ -1,0 +1,12 @@
+WHAT WE DID:
+We've implemented a bunch of special features like graphics that can be
+run by browsing the output of the help prompt. The features that we implemented
+in this milestone according to the specifications, such as loading
+and terminating programs according to a scheduler. We created a process table
+that operates by timer interrupt.
+
+HOW TO VERIFY:
+Boot the system using make test or make test-bochs and then type the following
+commands 'Kill xxxx' or 'phello' or 'execute grphcs' or 'execforeground' or
+'shellcolor N' or 'cls' clear screen.
+

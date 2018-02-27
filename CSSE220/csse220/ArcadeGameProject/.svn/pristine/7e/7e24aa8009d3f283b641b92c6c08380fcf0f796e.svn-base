@@ -1,0 +1,104 @@
+import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObject {
+
+	// private Object currentPowerUp;
+	// private Object currentWeapon;
+
+	public Hero(GameWorld world, Point2D.Double startPosition) {
+		super(world, startPosition);
+		// this.currentPowerUp = null;
+		// this.currentWeapon = null;
+
+	}
+
+	@Override
+	boolean canBeMovedInto() {
+		return false;
+	}
+
+	@Override
+	void onBombDamage() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithPlayer(Hero m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithPowerup(PowerUp m) {
+		// TODO Auto-generated method stub.
+
+	}
+	
+
+	public void keyPressed(KeyEvent e) {
+		int key = e.getExtendedKeyCode();
+		if (key == KeyEvent.VK_UP) {
+			this.dy = -1;
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			this.dy = 1;
+		}
+		if (key == KeyEvent.VK_LEFT) {
+			this.dx = -1;
+		}
+		if (key == KeyEvent.VK_RIGHT) {
+			this.dx = 1;
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getExtendedKeyCode();
+
+		if (key == KeyEvent.VK_UP) {
+			this.dy = 0;
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			this.dy = 0;
+		}
+		if (key == KeyEvent.VK_LEFT) {
+			this.dx = 0;
+		}
+		if (key == KeyEvent.VK_RIGHT) {
+			this.dx = 0;
+		}
+
+	}
+
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+
+	
+>>>>>>> .r20
+}

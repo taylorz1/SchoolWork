@@ -1,0 +1,96 @@
+package hardysTaxi;
+
+import java.util.TreeSet;
+
+/**
+ * Provides the static method hardySolutionsLessThan(N) which finds all "taxicab
+ * numbers that are less than n. These are represented as TaxicabNumber objects,
+ * which include the sum and two different ways of writing that as a sum of two
+ * cubes.
+ * 
+ * @author Claude Anderson.
+ * 
+ */
+public class Hardy {
+
+	// TODO: Declare any variables or helper methods that you need.
+
+	/**
+	 * Find the nth Hardy number (start counting with 1, not 0) and the numbers
+	 * whose cubes demonstrate that it is a Hardy number.
+	 * 
+	 * @param n
+	 * @return the nth Hardy number
+	 */
+	public static long nthHardyNumber(int n) {
+
+		// TODO: If you have any fields that are arrays or collections,
+		// You must clear them at the beginning of each call to this method.
+		// This is so that values calculated by previous calls do not speed up
+		// subsequent calls.
+
+		// TODO: replace the following dummy statement by real code that
+		// calculates
+		// and returns the nth Hardy number.
+
+		/*
+		 * TODO: Some thoughts, -If a and b are odd, c and d must be odd -If a
+		 * or b is even, c or d must be even - 1^3 = 1 - 2^3 = 3 + 5 - 3^3 = 7 +
+		 * 9 + 11 - 4^3 = 13 + 15 + 17 + 19 - N^3 = N*(N+1)/2 (Not true, but
+		 * formula probably exists, we just have to think it through)
+		 */
+		TreeSet taxicabs = new TreeSet<Long>(); // This is our set for taxicabs.
+		// We can call size to determine N. We can see if we have a duplicate in
+		// log(n).
+		int a = 1;
+		int b = 12;
+		long cube;
+		while (taxicabs.size() < n) {
+			while (a < b) {
+				cube = b * b * b + a * a * a;
+				if (taxinumberhelper(a, b, cube)) {
+					taxicabs.add(cube);
+					System.out.printf("%d, a: %d, b: %d\n",cube,a,b);
+					//b++;
+				}
+				a++;
+				if (taxicabs.size() == n) {
+					break;
+				}
+			}
+			b++;
+			a = 1;
+		}
+		return (long) taxicabs.last();
+
+	}
+
+	/**
+	 * 
+	 * Searching for a combination of cubes between the original cubes of a
+	 * number given that that number inputed we found the farthest apart cube.
+	 * For example 1729 -> 1 & 12 instead of 9 & 10. Then returns if that number
+	 * is a taxi cab number.
+	 *
+	 * @param a
+	 * @param b
+	 * @param cube
+	 * @return
+	 */
+	public static boolean taxinumberhelper(int a, int b, long cube) {
+		long bound = (int) Math.cbrt(cube);
+		for (int i = a; i < b; i++) {
+			for (int j = i+1; j < bound; j++) {
+				if (j == b) {
+					continue;
+				}
+				long cubic = i * i * i + j * j * j;
+				if (cubic == cube) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+}

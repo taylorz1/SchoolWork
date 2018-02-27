@@ -1,0 +1,63 @@
+import java.util.HashSet;
+import java.util.Iterator;
+
+/**
+ * Contains the general algorithm to search for doublets.
+ *
+ * @author Jon Lambrecht, Zachary Taylor Created Dec 17, 2016.
+ */
+public class Doublets {
+	// DONE: implement this class.
+	Links link;
+	ChainManager chainmanager = null;
+	Chain completedchain = null;
+	String end;
+
+	public Doublets(Links object) {
+		this.link = object;
+	}
+
+	private Chain getChain(String start, String end) {
+		this.end = end;
+		Chain toReturn = new Chain();
+		toReturn = toReturn.addLast(start);
+		if (start.equals(end)) {
+			return toReturn;
+		}
+		this.chainmanager.add(toReturn);
+		Chain test = chainmanager.next();
+		while (test != null) {
+			chainsgenerator(test);
+			if (completedchain != null) {
+				return completedchain;
+			}
+			test = this.chainmanager.next();
+		}
+		return null;
+	}
+
+	private void chainsgenerator(Chain input) {
+		String last = input.getLast();
+		HashSet<String> candidates = this.link.getCandidates(last);
+		Iterator<String> iterator = candidates.iterator();
+		if (candidates.equals(null)) {
+			return;
+		}
+		for (int i = 0; i < candidates.size(); i++) {
+			String toadd = iterator.next();
+			if (input.contains(toadd)) {
+				continue;
+			}
+			Chain tosub = input.addLast(toadd);
+			if (toadd.equals(this.end)) {
+				this.completedchain = tosub;
+				break;
+			}
+			this.chainmanager.add(tosub);
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+	}
+}

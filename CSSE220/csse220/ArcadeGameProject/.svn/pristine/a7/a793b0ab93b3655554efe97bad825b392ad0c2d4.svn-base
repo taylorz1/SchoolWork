@@ -1,0 +1,243 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+
+/**
+ * 
+ * Entirely inspired by BallWorld.java.
+ *
+ * @author taylorz1.
+ *         Created Oct 27, 2016.
+ */
+
+
+public class GameWorld implements GameEnvironment, Drawable, Temporal{
+	private static final long UPDATE_INTERVAL_MS = 10;
+	private final int width;
+	private final int height;
+	private final Color color;
+	
+	
+	private final Shape background;
+	private ArrayList<GameObject> gameObj = new ArrayList<GameObject>();
+	private ArrayList<GameObject> gameObjToAdd = new ArrayList<GameObject>();
+	private ArrayList<GameObject> gameObjToRemove = new ArrayList<GameObject>();
+	
+	
+	private Level level;
+	private Hero hero;
+	private int currentLevel = 1;
+	
+	private Bomb bomb;
+	private boolean bombshouldDie = false;
+
+	public GameWorld(int width, int height, Color color) {
+		this.width = width;
+		this.height = height;
+		this.color = color;
+		
+		this.level = new Level(this, this.currentLevel);
+		initialize();
+
+		this.background = new Rectangle2D.Double(0, 0, this.width, this.height);
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(tickTock).start();
+		
+	}
+	private void initialize() {
+		ArrayList<Point2D.Double> wallPositions = this.level.getWalls();
+		ArrayList<Point2D.Double> monsterPositions = this.level.getMonsters();
+		ArrayList<Point2D.Double> brickPositions = this.level.getBrick();
+		Point2D.Double hero = this.level.heroStart;
+		for (Point2D.Double wall : wallPositions) {
+			Wall rect = new Wall(this, wall);
+			this.gameObjToAdd.add(rect);
+		}
+
+		Monster zzz = new HardMonster(this, new Point2D.Double(500, 500));
+		this.gameObjToAdd.add(zzz);
+		
+//		for (Point2D.Double monster : monsterPositions) {
+//			Monster rect = new EasyMonster(this, monster);
+//			this.gameObjToAdd.add(rect);
+		//}
+		for (Point2D.Double brickwall : brickPositions) {
+			BrickWall bwall = new BrickWall(this, brickwall);
+			this.gameObjToAdd.add(bwall);
+		}
+//		for (Point2D.Double monster : monsterPositions) {
+//			Monster rect = new Monster(this, monster);
+//			this.gameObjToAdd.add(rect);
+//		}
+		this.hero = new Hero(this, hero);
+		this.gameObjToAdd.add(this.hero);
+ 	}
+	
+	public Hero getHero() {
+		return this.hero;
+	}
+	
+	public void setHero(Hero hero) {
+		this.hero = hero;
+	}
+	
+	public ArrayList<GameObject> getRemove() {
+		return this.gameObjToRemove;
+	}
+	
+	
+	public void incLevel() {
+		this.currentLevel++;
+		this.level = new Level(this, this.currentLevel);
+		for (GameObject e : this.gameObj) {
+		this.gameObjToRemove.add(e);
+		}
+		initialize();
+	}
+	
+	public void decLevel() {
+		this.currentLevel--;
+		if (this.currentLevel == 0) {
+			this.currentLevel = 1;
+		}
+		this.level = new Level(this, this.currentLevel);
+		for (GameObject e : this.gameObj) {
+			this.gameObjToRemove.add(e);
+			}
+		initialize();
+	}
+	
+	
+	
+	@Override
+	public boolean isInsideWorldX(Point2D point) {
+		return point.getX() >= 0 && point.getX() <= this.width;
+	}
+
+	@Override
+	public boolean isInsideWorldY(Point2D point) {
+		return point.getY() >= 0 && point.getY() <= this.height;
+	}
+
+	@Override
+	public boolean isInsideWorld(Point2D point) {
+		return isInsideWorldX(point) && isInsideWorldY(point);
+	}
+
+	@Override
+	public Dimension getSize() {
+		return new Dimension(this.width, this.height);
+	}
+	
+	@Override
+	public void removeObj(GameObject gameObject) {
+		this.gameObjToRemove.add(gameObject);
+		
+	}
+	@Override
+	public void addObj(GameObject gameObject) {
+		this.gameObjToAdd.add(gameObject);
+		
+	}
+
+	@Override
+	public synchronized ArrayList<Drawable> getDrawableParts() {
+		return new ArrayList<Drawable>(this.gameObj);
+	}
+
+	@Override
+	public Point2D getCenterPoint() {
+		double x = this.width / 2;
+		double y = this.height / 2;
+		return new Point2D.Double(x, y);
+	}
+
+	// Drawable
+
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+
+	@Override
+	public Shape getShape() {
+		return this.background;
+	}
+	
+	
+	//Time
+	@Override
+	public void die() {
+		// You never want to kill the entire world do you?
+	}
+	
+	@Override
+	public void timePassed() {
+		for (Temporal t : this.gameObj) {
+			t.timePassed();
+		}
+		for (GameObject e : this.gameObj) {
+			for (GameObject f : this.gameObj) {
+				if (e == f) {
+					continue;
+				}
+				e.collide(f);
+			}
+			//Below handles bombs exploding
+			if (this.bomb != null) {
+				if (this.bomb.getExploded()) {
+					Rectangle2D bounder = this.bomb.getbombExplode().getBounds2D();
+					Rectangle2D bounder2 = this.bomb.getbombExplode2().getBounds2D();
+					if (bounder.intersects(e.getShape().getBounds2D())) {
+						e.onBombDamage();
+						bombshouldDie = true;
+					}
+					if (bounder2.intersects(e.getShape().getBounds2D())) {
+						e.onBombDamage();
+					}
+					
+				}
+			}
+		}
+		if (bombshouldDie) {
+			this.bomb.die();
+			this.bomb = null;
+		}
+		bombshouldDie = false;
+		this.gameObj.removeAll(this.gameObjToRemove);
+		this.gameObjToRemove.clear();
+		this.gameObj.addAll(this.gameObjToAdd);
+		this.gameObjToAdd.clear();
+	}
+	public Bomb getBomb() {
+		return bomb;
+	}
+	public void setBomb(Bomb bomb) {
+		this.bomb = bomb;
+	}
+	
+	
+	
+	
+	
+	//Never look at this.
+	
+
+	
+}

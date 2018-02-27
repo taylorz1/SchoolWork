@@ -1,0 +1,76 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+public class BossMonster extends Monster {
+
+	private int counter = 0;
+	private boolean xOrY = false;
+	private int life = 6;
+
+	public BossMonster(GameWorld world) {
+		super(world, new Point2D.Double(600, 600), Color.BLUE, 200);
+		// TODO Auto-generated constructor stub.
+	}
+	
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Rectangle2D.Double(x - size / 2, y - size / 2, size, size);
+		
+	}
+
+	@Override
+	void onBombDamage() {
+		System.out.println(life);
+		this.getWorld().removeBossHeart(life);
+		Monster newMon = new HardMonster(this.getWorld(),this.getPosition());
+		this.getWorld().addObj(newMon);
+		this.getWorld().addMonster(newMon);
+		
+		this.life--;
+		if (life == 0) {
+			if (!(this.getWorld()).getRemove().contains(this)) {
+				this.die();
+			}
+		}
+	}
+
+	@Override
+	public void updatePosition() {
+		setPreviousposition(getPosition());
+		this.counter++;
+		if (this.counter > 2) {
+			this.counter = 0;
+			this.xOrY = !this.xOrY;
+		}
+
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+		double heroDist = Math.sqrt(Math.pow((this.world.getHero().getPosition().getX()) - this.getPosition().x, 2)
+				+ Math.pow((this.world.getHero().getPosition().getY()) - this.getPosition().y, 2));
+
+		if (this.xOrY) {
+			if (x > this.world.getHero().getPosition().getX())
+				this.setPosition(new Point2D.Double(x - 3.5, y));
+			else
+				this.setPosition(new Point2D.Double(x + 3.5, y));
+		} else {
+			if (y > this.world.getHero().getPosition().getY())
+				this.setPosition(new Point2D.Double(x, y - 3.5));
+			else
+				this.setPosition(new Point2D.Double(x, y + 3.5));
+		}
+
+		if (!super.getWorld().isInsideWorld(getPosition())) {
+			this.setPosition(this.getPreviousposition());
+			return;
+
+		}
+
+	}
+
+}

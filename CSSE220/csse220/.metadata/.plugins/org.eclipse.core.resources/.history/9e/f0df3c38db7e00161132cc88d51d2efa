@@ -1,0 +1,35 @@
+import java.awt.Color;
+
+public class Sun {
+
+    private static final Color BORDER_COLOR = Color.BLACK;
+    private static final int NUMBER_OF_RAYS = 8;
+    private static final double RAY_LENGTH_SCALE = 0.5;
+    private static final double RAY_WIDTH_SCALE = 0.1;
+    private static final double RAY_DISTANCE_FROM_SUN_SCALE = .2;
+    private static final double DEFAULT_SUN_DIAMETER = 100.0;
+    private static final double DEFAULT_SUN_X = 100.0;
+    private static final double DEFAULT_SUN_Y = 100.0;
+    private static final Color DEFAULT_SUN_COLOR = Color.YELLOW;
+    private static final double LITTLE_SUNS_X_OFFSET = 50;
+    
+    private double x = DEFAULT_SUN_Y;
+    private double y = DEFAULT_SUN_X;
+    private double circleDiameter = DEFAULT_SUN_DIAMETER;
+    private double rayLength;
+    private double rayWidth;
+    private double rayDistanceFromSun;
+    private Color color = DEFAULT_SUN_COLOR;
+
+	public Sun (double x, double y, double circleDiameter, Color color) {
+		this.x = x;
+		this.y = y;
+		this.circleDiameter = circleDiameter;
+		this.rayLength = circleDiameter*RAY_LENGTH_SCALE;
+		this.rayWidth = circleDiameter*RAY_WIDTH_SCALE;
+		this.rayDistanceFromSun = circleDiameter*RAY_DISTANCE_FROM_SUN_SCALE; 
+		this.color = color;
+	}
+	
+	
+}

@@ -1,0 +1,59 @@
+import java.awt.geom.Point2D;
+
+public class Hero {
+
+	private Object currentPowerUp;
+	private Object currentWeapon;
+	private Point2D.Double startPos;
+
+	public Hero(Point2D.Double point2d) {
+		this.currentPowerUp = null;
+		this.currentWeapon = null;
+		this.startPos = point2d;
+
+	}
+
+	public Point2D.Double getStartPos() {
+		return startPos;
+	}
+	
+	public void addToGameWorld(){
+		
+	}
+//	@Override
+//	boolean canBeMovedInto() {
+//		return false;
+//	}
+//
+//	@Override
+//	void onBombDamage() {
+//		// TODO Auto-generated method stub.
+//
+//	}
+//
+//	@Override
+//	void collide(GameObject m) {
+//		// TODO Auto-generated method stub.
+//
+//	}
+//
+//	@Override
+//	void collideWithPlayer(Hero m) {
+//		// TODO Auto-generated method stub.
+//
+//	}
+//
+//	@Override
+//	void collideWithMonster(Monster m) {
+//		// TODO Auto-generated method stub.
+//
+//	}
+//
+//	@Override
+//	void collideWithPowerup(PowerUp m) {
+//		// TODO Auto-generated method stub.
+//
+//	}
+
+
+}

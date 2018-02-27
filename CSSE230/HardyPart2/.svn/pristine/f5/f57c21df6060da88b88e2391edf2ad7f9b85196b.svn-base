@@ -1,0 +1,98 @@
+package hardysTaxi;
+
+import java.util.HashSet;
+import java.util.PriorityQueue;
+
+/**
+ * Provides the static method hardySolutionsLessThan(N) which finds all "taxicab
+ * numbers that are less than n. These are represented as TaxicabNumber objects,
+ * which include the sum and two different ways of writing that as a sum of two
+ * cubes.
+ * 
+ * @author Claude Anderson.
+ * 
+ */
+public class Hardy {
+
+	// TODO: Declare any variables or helper methods that you need.
+
+	/**
+	 * Find the nth Hardy number (start counting with 1, not 0) and the numbers
+	 * whose cubes demonstrate that it is a Hardy number.
+	 * 
+	 * @param n
+	 * @return the nth Hardy number
+	 */
+	public static long nthHardyNumber(int n) {
+
+		// TODO: If you have any fields that are arrays or collections,
+		// You must clear them at the beginning of each call to this method.
+		// This is so that values calculated by previous calls do not speed up
+		// subsequent calls.
+
+		// TODO: replace the following dummy statement by real code that
+		// calculates
+		// and returns the nth Hardy number.
+
+		/*
+		 * TODO: Some thoughts, -If a and b are odd, c and d must be odd -If a
+		 * or b is even, c or d must be even - 1^3 = 1 - 2^3 = 3 + 5 - 3^3 = 7 +
+		 * 9 + 11 - 4^3 = 13 + 15 + 17 + 19 - N^3 = N*(N+1)/2 (Not true, but
+		 * formula probably exists, we just have to think it through)
+		 */
+
+		PriorityQueue<Long> hardies = new PriorityQueue<Long>();
+
+		HashSet<Long> lookuptable = new HashSet<Long>();
+
+		// I think there's a better data structure
+		// TreeSet<Long> potentials = new TreeSet<Long>();
+		PriorityQueue<Long> numbers = new PriorityQueue<Long>();
+		//LinkedList<Long> numbers = new LinkedList<Long>();
+
+		long a = 2, b = 1;
+		long large = 0;
+		long next = 0;
+		long temp = 0;
+		long temp2 = 0;
+
+		int count = 0;
+		while (true) {
+			next = (a + 1) * (a + 1) * (a + 1) + 1;
+			
+			//col is a, row is b
+			for (b = 1; b < a; b++) {
+				temp = a * a * a + b * b * b;
+				if (b == 1) {
+					if (!hardies.isEmpty()) {
+						while (hardies.peek() < temp) {
+							lookuptable.remove(hardies.poll());
+						}
+						//Needs to be sorted
+						while (!numbers.isEmpty() && numbers.peek() < temp && count != n) {
+							temp2 = numbers.poll();
+							count++;
+						}
+						//large = temp2;
+						if (count == n) {
+							return temp2;
+						}
+					}
+				}
+				if (!lookuptable.contains(temp)) {
+					if (temp > next) {
+						hardies.offer(temp);
+						lookuptable.add(temp);
+					}
+				} else {
+					numbers.offer(temp);
+					hardies.remove(temp);
+					lookuptable.remove(temp);
+				}
+			}
+			a++;
+
+		}
+	}
+
+}

@@ -1,0 +1,97 @@
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
+
+/**
+ * Contains the general algorithm to search for doublets.
+ *
+ * @author Jon Lambrecht, Zachary Taylor Created Dec 17, 2016.
+ */
+public class Doublets {
+	// DONE: implement this class.
+	Links link;
+	ChainManager chainmanager = null;
+	Chain completedchain = null;
+	String end;
+
+	public Doublets(Links object) {
+		this.link = object;
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Welcome to Doublets, a game of \"verbal torture.\"");
+		System.out.println("Enter starting word: ");
+		String start = "wet";
+		System.out.println("Enter ending word: ");
+		String end = "dry";
+		System.out.println("Enter chain manager (s: stack, q: queue, x: exit");
+		String chainm = "q";
+		scan.close();
+		if (chainm.equals("x")) {
+			return;
+		} else if (chainm.equals("s")) {
+			this.chainmanager = new StackChainManager();
+		} else if (chainm.equals("q")) {
+			this.chainmanager = new QueueStackManager();
+		} else {
+			System.out.println("invalid character entered\n");
+			return;
+		}
+		Chain toPrint = getChain(start, end);
+		if (toPrint != null) {
+		System.out.println(toPrint.toString());
+		} else {
+			System.out.println("No doublet chain exists from " + start + " to " + end);
+		}
+	}
+
+	private Chain getChain(String start, String end) {
+		this.end = end;
+		Chain toReturn = new Chain();
+		toReturn = toReturn.addLast(start);
+		if (start.equals(end)) {
+			return toReturn;
+		}
+		this.chainmanager.add(toReturn);
+		Chain test = chainmanager.next();
+		while (test != null) {
+			chainsgenerator(test);
+			if (completedchain != null) {
+				return completedchain;
+			}
+			test = this.chainmanager.next();
+		}
+		return null;
+	}
+
+	private void chainsgenerator(Chain input) {
+		String last = input.getLast();
+		HashSet<String> candidates = this.link.getCandidates(last);
+		if (candidates != null) {
+		Iterator<String> iterator = candidates.iterator();
+		for (int i = 0; i < candidates.size(); i++) {
+			String toadd = iterator.next();
+			if (input.contains(toadd)) {
+				continue;
+			}
+			Chain tosub = input.addLast(toadd);
+			if (toadd.equals(this.end)) {
+				System.out.println("set");
+				this.completedchain = tosub;
+				break;
+			}
+			this.chainmanager.add(tosub);
+		}
+		} else {
+			return;
+		}
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Enter dictionary: ");
+		Scanner scan = new Scanner(System.in);
+		//String dict = scan.nextLine();
+		String dict = "english.cleaned.all.35.txt";
+		scan.close();
+		Links link = new Links(dict);
+		Doublets doublet = new Doublets(link);
+	}
+}

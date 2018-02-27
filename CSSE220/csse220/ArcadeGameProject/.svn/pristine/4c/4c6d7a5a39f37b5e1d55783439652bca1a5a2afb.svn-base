@@ -1,0 +1,8 @@
+
+public class GameWorldComponent {
+
+	public GameWorldComponent(GameWorld world) {
+		// TODO Auto-generated constructor stub.
+	}
+
+}

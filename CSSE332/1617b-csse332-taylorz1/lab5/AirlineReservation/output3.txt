@@ -1,0 +1,73 @@
+Customer 0 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 7A
+	Seat - 11A
+__________________________
+Customer 1 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 5B
+	Seat - 5C
+__________________________
+Customer 11 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 12A
+__________________________
+Customer 2 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 4C
+	Seat - 9C
+__________________________
+Customer 5 Purchase Receipt
+Coach Seats -- 3:
+	Seat - 7C
+	Seat - 11C
+	Seat - 10A
+__________________________
+Customer 12 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 4A
+	Seat - 6C
+__________________________
+Customer 4 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 10B
+__________________________
+Customer 3 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 2C
+__________________________
+Customer 6 Purchase Receipt
+Coach Seats -- 3:
+	Seat - 8B
+	Seat - 7B
+	Seat - 9A
+__________________________
+Customer 13 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 1C
+__________________________
+Customer 7 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 4B
+	Seat - 8C
+__________________________
+Customer 14 Purchase Receipt
+Coach Seats -- 4:
+	Seat - 3A
+	Seat - 9B
+	Seat - 11B
+	Seat - 8A
+__________________________
+Customer 9 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 12C
+__________________________
+Customer 10 Purchase Receipt
+Coach Seats -- 1:
+	Seat - 10C
+__________________________
+Customer 8 Purchase Receipt
+Coach Seats -- 2:
+	Seat - 5A
+	Seat - 3B
+__________________________

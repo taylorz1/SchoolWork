@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+mainClassName = "main.MapGeneratorApp"
+
+run {
+	standardInput = System.in
+}
+
+repositories {
+    maven {
+        url "https://maven.csse.rose-hulman.edu/artifactory/libs-release"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}

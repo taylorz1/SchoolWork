@@ -1,0 +1,1 @@
+xst -intstyle ise -ifn "C:/Users/taylorz1/Documents/CSSE132/lab01/xilinxSample/mux16b8.xst" -ofn "C:/Users/taylorz1/Documents/CSSE132/lab01/xilinxSample/mux16b8.syr" 

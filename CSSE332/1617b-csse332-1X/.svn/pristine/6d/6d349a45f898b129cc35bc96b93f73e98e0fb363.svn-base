@@ -1,0 +1,34 @@
+/* OS Shell */
+/* Tucker Osman, Zach Taylor, Jarrett Alexander */
+
+char line[512];
+char filebuffer[13312];
+
+int main() {
+  while(1) {
+    interrupt(0x21,0,"YO> ",0,0);
+    interrupt(0x21,1,line,0,0);
+    interrupt(0x21,0,"\r\n\0",0,0);
+    if (stringcmp(line, "type \0") == 0) {
+      interrupt(0x21, 3, line+5, filebuffer, 0);
+	    interrupt(0x21, 0, filebuffer, 0, 0);
+    } else if (stringcmp(line, "execute \0") == 0) {
+	    interrupt(0x21, 4, line+8, 0x3000, 0);
+    } else if (stringcmp(line, "delete \0") == 0) {
+	    interrupt(0x21, 7, line+7, 0, 0);
+    } else {
+      interrupt(0x21,0,"Not a valid command\r\n\0",0,0);
+    }
+  }
+}
+
+int stringcmp(char* a, char* b) {
+	int i = 0;
+	while (b[i] != '\0') {
+		if (a[i] != b[i]) {
+			return 1;
+		}
+		i++;
+	}
+	return 0;
+}

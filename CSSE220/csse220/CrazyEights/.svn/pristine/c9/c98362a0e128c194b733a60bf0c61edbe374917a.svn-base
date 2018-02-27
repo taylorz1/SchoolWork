@@ -1,0 +1,13 @@
+import java.util.ArrayList;
+
+public class Deck {
+	private ArrayList<Card> Cards;
+	private ArrayList<Card> UsedCards;
+	
+	
+	public Deck(){
+		this.Cards=new ArrayList<Card>();
+		this.UsedCards=new ArrayList<Card>();
+		
+	}
+}

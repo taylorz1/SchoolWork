@@ -1,0 +1,47 @@
+import java.awt.Dimension;
+import java.awt.geom.Point2D;
+import java.util.List;
+
+public interface GameEnvironment {
+	boolean isInsideWorldX(Point2D point);
+
+	/**
+	 * Checks whether the given point is within the vertical extents of this
+	 * world. Ignores the horizontal location of the point.
+	 * 
+	 * @param point
+	 * @return true iff the given point is within the vertical extents of this
+	 */
+	boolean isInsideWorldY(Point2D point);
+
+	/**
+	 * Checks whether the given point is within the bounds of this world, both
+	 * vertically and horizontally.
+	 * 
+	 * @param point
+	 * @return true iff the given point is within this world
+	 */
+	boolean isInsideWorld(Point2D point);
+
+	/**
+	 * Returns the size of this world.
+	 * 
+	 * @return the size
+	 */
+	Dimension getSize();
+
+	/**
+	 * Returns a list of the drawable parts in this environment.
+	 * 
+	 * @return a possibly-empty list
+	 */
+	public List<Drawable> getDrawableParts();
+
+	/**
+	 * Returns the center point of the world
+	 * 
+	 * @return the center point
+	 */
+	Point2D getCenterPoint();
+
+}

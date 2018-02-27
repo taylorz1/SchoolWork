@@ -1,0 +1,726 @@
+package editortrees;
+
+// A height-balanced binary tree with rank that could be the basis for a text editor.
+
+public class EditTree {
+	private Node root = NULL_NODE;
+	static Node NULL_NODE = new Node();
+	private int rotationCount = 0;
+	private DisplayableBinaryTree display;
+
+	/**
+	 * MILESTONE 1 Construct an empty tree
+	 */
+	public EditTree() {
+		this.root = EditTree.NULL_NODE;
+	}
+
+	/**
+	 * MILESTONE 1 Construct a single-node tree whose element is cc
+	 * 
+	 * @param ch
+	 */
+	public EditTree(char ch) {
+		this.root = new Node(ch, NULL_NODE);
+		this.root.rank = 0;
+	}
+
+	/**
+	 * MILESTONE 2 Make this tree be a copy of e, with all new nodes, but the
+	 * same shape and contents.
+	 * 
+	 * @param e
+	 */
+	public EditTree(EditTree e) {
+		String s = e.toString();
+		for (int i = 0; i < s.length(); i++) {
+			this.add(s.charAt(i));
+		}
+	}
+
+	/**
+	 * MILESTONE 3 Create an EditTree whose toString is s. This can be done in
+	 * O(N) time, where N is the length of the tree (repeatedly calling insert()
+	 * would be O(N log N), so you need to find a more efficient way to do this.
+	 * 
+	 * @param s
+	 */
+	public EditTree(String s) {
+
+	}
+
+	/**
+	 * MILESTONE 1 returns the total number of rotations done in this tree since
+	 * it was created. A double rotation counts as two.
+	 *
+	 * @return number of rotations since tree was created.
+	 */
+	public int totalRotationCount() {
+		return this.rotationCount; // replace by a real calculation.
+	}
+
+	/**
+	 * MILESTONE 1 return the string produced by an inorder traversal of this
+	 * tree
+	 */
+	@Override
+	public String toString() {
+		StringBuilder toReturn = new StringBuilder();
+		if (this.root != NULL_NODE) {
+			this.root.toString(toReturn); // replace by a real calculation.
+		}
+		return toReturn.toString();
+	}
+
+	/**
+	 * MILESTONE 1 This one asks for more info from each node. You can write it
+	 * like the arraylist-based toString() method from the BST assignment.
+	 * However, the output isn't just the elements, but the elements, ranks, and
+	 * balance codes. Former CSSE230 students recommended that this method,
+	 * while making it harder to pass tests initially, saves them time later
+	 * since it catches weird errors that occur when you don't update ranks and
+	 * balance codes correctly. For the tree with node b and children a and c,
+	 * it should return the string: [b1=, a0=, c0=] There are many more examples
+	 * in the unit tests.
+	 * 
+	 * @return The string of elements, ranks, and balance codes, given in a
+	 *         pre-order traversal of the tree.
+	 */
+	public String toDebugString() {
+		StringBuilder toReturn = new StringBuilder();
+		toReturn.append("[");
+		if (this.root != NULL_NODE) {
+			this.root.toDebugString(toReturn); // replace by a real calculation.
+			toReturn.delete(toReturn.length() - 2, toReturn.length());
+		}
+		toReturn.append("]");
+		return toReturn.toString();
+	}
+
+	/**
+	 * MILESTONE 1
+	 * 
+	 * @param ch
+	 *            character to add to the end of this tree.
+	 */
+	public void add(char ch) {
+		// Notes:
+		// 1. Please document chunks of code as you go. Why are you doing what
+		// you are doing? Comments written after the code is finalized tend to
+		// be useless, since they just say WHAT the code does, line by line,
+		// rather than WHY the code was written like that. Six months from now,
+		// it's the reasoning behind doing what you did that will be valuable to
+		// you!
+		// 2. Unit tests are cumulative, and many things are based on add(), so
+		// make sure that you get this one correct.
+
+		if (root == NULL_NODE) {
+			root = new Node(ch, NULL_NODE);
+			return;
+		}
+
+		Node curr = this.root;
+		while (curr.right != NULL_NODE) {
+			curr = curr.right;
+		}
+
+		curr.right = new Node(ch, curr);
+		if (curr.balance == Node.Code.SAME) {
+			curr.balance = Node.Code.RIGHT;
+			carryBalance(curr);
+		} else if (curr.balance == Node.Code.RIGHT) {
+			// Do rot
+		} else if (curr.balance == Node.Code.LEFT) {
+			curr.balance = Node.Code.SAME;
+		}
+
+	}
+
+	/**
+	 * MILESTONE 1
+	 * 
+	 * @param ch
+	 *            character to add
+	 * @param pos
+	 *            character added in this inorder position
+	 * @throws IndexOutOfBoundsException
+	 *             id pos is negative or too large for this tree
+	 */
+	public void add(char ch, int pos) throws IndexOutOfBoundsException {
+		if (pos <= this.size() && pos >= 0) {
+			// if (pos > this.size()) {
+			// throw new IndexOutOfBoundsException();
+			// }
+			// if (pos < 0) {
+			// throw new IndexOutOfBoundsException();
+			// }
+			if (root == NULL_NODE) {
+				root = new Node(ch, NULL_NODE);
+				return;
+			}
+			addPosWrapper wrapper = root.posNodeFinder(pos, root.rank, false);
+			int wrapperPos = wrapper.currentPos;
+			Node wrapperNode = wrapper.toReturn;
+			if (pos <= wrapperPos) {
+				wrapperNode.left = new Node(ch, wrapperNode);
+				wrapperNode.rank++;
+				if (wrapperNode.balance == Node.Code.SAME) {
+					wrapperNode.balance = Node.Code.LEFT;
+					carryBalance(wrapperNode);
+				} else if (wrapperNode.balance == Node.Code.RIGHT) {
+					wrapperNode.balance = Node.Code.SAME;
+				} else {
+					// Do rot
+				}
+			} else {
+				wrapperNode.right = new Node(ch, wrapperNode);
+				if (wrapperNode.balance == Node.Code.SAME) {
+					wrapperNode.balance = Node.Code.RIGHT;
+					carryBalance(wrapperNode);
+				} else if (wrapperNode.balance == Node.Code.RIGHT) {
+					// Do rot
+				} else if (wrapperNode.balance == Node.Code.LEFT) {
+					wrapperNode.balance = Node.Code.SAME;
+				}
+			}
+
+		} else
+			throw (new IndexOutOfBoundsException());
+
+	}
+
+	private void carryBalance(Node wrapperNode) {
+		Node curr = wrapperNode;
+		if (curr.balance == Node.Code.SAME) {
+			return;
+		}
+		Node parent = wrapperNode.parent;
+		while (parent != NULL_NODE) {
+			if (parent.balance == Node.Code.SAME) {
+				if (parent.left == curr) { // We're the left child
+					parent.balance = Node.Code.LEFT;
+					curr = curr.parent;
+					parent = curr.parent;
+				} else { // We're the right child
+					parent.balance = Node.Code.RIGHT;
+					curr = curr.parent;
+					parent = curr.parent;
+				}
+			} else if (parent.balance == Node.Code.LEFT) {
+				if (parent.right == curr) {
+					parent.balance = Node.Code.SAME;
+					return;
+				} else if (curr.balance == Node.Code.LEFT) {
+					// SR
+					this.rotationCount++;
+					boolean rootrot = parent == this.root;
+					if (rootrot) {
+						this.root = curr;
+					}
+					parent.singleRight();
+					return;
+				} else if (curr.balance == Node.Code.RIGHT) {
+					// DR
+					this.rotationCount += 2;
+					// Root update
+					if (parent == this.root) {
+						this.root = curr.right;
+					}
+					curr.doubleRight();
+					return;
+				}
+			} else { // parent is right
+				if (parent.left == curr) {
+					parent.balance = Node.Code.SAME;
+					return;
+				} else if (curr.balance == Node.Code.RIGHT) {
+					// SL
+					if (this.root == parent) {
+						this.root = parent.right;
+					}
+					this.rotationCount++;
+					parent.singleLeft();
+					return;
+				} else if (curr.balance == Node.Code.LEFT) {
+					// DL
+					this.rotationCount += 2;
+					// Root update
+					if (parent == this.root) {
+						this.root = curr.left;
+					}
+					curr.doubleLeft();
+					return;
+				}
+			}
+		}
+	}
+
+	/**
+	 * MILESTONE 1
+	 * 
+	 * @param pos
+	 *            position in the tree
+	 * @return the character at that position
+	 * @throws IndexOutOfBoundsException
+	 */
+	public char get(int pos) throws IndexOutOfBoundsException {
+		if (this.root == NULL_NODE) {
+			throw (new IndexOutOfBoundsException());
+		}
+		if (pos < this.size() && pos >= 0) {
+			return this.root.get(pos, this.root.rank);
+		}
+		throw (new IndexOutOfBoundsException());
+	}
+
+	/**
+	 * MILESTONE 1
+	 * 
+	 * @return the height of this tree
+	 */
+	public int height() {
+		if (this.root == NULL_NODE) {
+			return -1;
+		}
+		return root.height();
+	}
+
+	/**
+	 * MILESTONE 2
+	 * 
+	 * @return the number of nodes in this tree
+	 */
+	public int size() {
+		if (this.root == NULL_NODE) {
+			return 0;
+		}
+		int size = 0;
+		Node current = this.root;
+		size += current.rank + 1;
+		while (current.right != NULL_NODE) {
+			current = current.right;
+			size += current.rank + 1;
+		}
+		return size;
+	}
+
+	/**
+	 * MILESTONE 2
+	 * 
+	 * @param pos
+	 *            position of character to delete from this tree
+	 * @return the character that is deleted
+	 * @throws IndexOutOfBoundsException
+	 */
+	public char delete(int pos) throws IndexOutOfBoundsException {
+		// Implementation requirement:
+		// When deleting a node with two children, you normally replace the
+		// node to be deleted with either its in-order successor or predecessor.
+		// The tests assume assume that you will replace it with the
+		// *successor*.
+		Node toRemove = this.root.getNode(pos, this.root.rank); // Should adjust
+																// ranks
+		Node parent = toRemove.parent;
+		boolean left = leftright(toRemove);
+		if (toRemove.left != NULL_NODE && toRemove.right != NULL_NODE) {
+			deleteNode(left, toRemove);
+		} else if (toRemove.left == NULL_NODE && toRemove.right == NULL_NODE) {
+			if (this.root == toRemove) {
+				this.root = NULL_NODE;
+			}
+			if (left) {
+				parent.left = NULL_NODE;
+				carryBalance2(parent, true, true);
+				return toRemove.element;
+			} else {
+				parent.right = NULL_NODE;
+				carryBalance2(parent, false, true);
+				return toRemove.element;
+			}
+		} else if (toRemove.left != NULL_NODE) {
+			if (this.root == toRemove) {
+				this.root = toRemove.left;
+				return toRemove.element;
+			}
+			if (left) {
+				parent.left = toRemove.left;
+				carryBalance2(parent, true, true);
+			} else {
+				parent.right = toRemove.left;
+				carryBalance2(parent, false, true);
+			}
+			// parent.balance();
+		} else if (toRemove.right != NULL_NODE) {
+			if (this.root == toRemove) {
+				this.root = toRemove.right;
+				return toRemove.element;
+			}
+			if (left) {
+				parent.left = toRemove.right;
+				carryBalance2(parent, true, true);
+			} else {
+				parent.right = toRemove.right;
+				carryBalance2(parent, false, true);
+			}
+			// parent.balance();
+		}
+
+		return toRemove.element;
+	}
+
+	public boolean leftright(Node toCheck) {
+		Node parent = toCheck.parent;
+		return toCheck == parent.left;
+	}
+
+	public void deleteNode(boolean left2, Node toRemove) {
+		// TODO Auto-generated method stub.
+		boolean deltah = false;
+		Node curr = toRemove.right;
+		while (curr.left != EditTree.NULL_NODE) {
+			curr.rank--;
+			curr = curr.left;
+		}
+		if (this.root == toRemove) { // If you delete the root take is
+										// successor.
+			this.root = curr;
+			curr.left = toRemove.left;
+			curr.rank = toRemove.rank;
+			if (curr.parent == toRemove) {
+				curr.parent = NULL_NODE;
+				toRemove.left.parent = curr;
+				if (toRemove.balance == Node.Code.RIGHT) {
+					curr.balance = Node.Code.SAME;
+					return;
+				} else if (toRemove.balance == Node.Code.SAME) {
+					curr.balance = Node.Code.LEFT;
+				} else {
+					curr.balance = Node.Code.LEFT;
+				}
+				carryBalance2(curr, false, true);
+				return;
+			}
+			Node action = curr.parent;
+			action.left = curr.right;
+			curr.right.parent = action;
+			curr.parent = NULL_NODE;
+			curr.right = toRemove.right;
+			curr.right.parent = curr;
+			curr.balance = toRemove.balance;
+
+			// if (action.balance == Node.Code.SAME) {
+			// action.balance = Node.Code.RIGHT;
+			// } else if (action.balance == Node.Code.LEFT) {
+			// action.balance = Node.Code.SAME;
+			// }
+			carryBalance2(action, true, true);
+			return;
+
+		}
+		if (left2) {
+			if (curr.parent == toRemove) {
+				boolean heightChange = curr.right != NULL_NODE;
+				toRemove.parent.left = curr;
+				curr.parent = toRemove.parent;
+				toRemove.left.parent = curr;
+				curr.left = toRemove.left;
+				curr.rank = toRemove.rank;
+				if (toRemove.balance == Node.Code.RIGHT) {
+					curr.balance = Node.Code.SAME;
+					return;
+				} else if (toRemove.balance == Node.Code.SAME) {
+					curr.balance = Node.Code.LEFT;
+				} else {
+					curr.balance = Node.Code.LEFT;
+				}
+				
+				carryBalance2(curr.parent, true, heightChange);
+				return;
+			} else {
+				Node action = curr.parent;
+				action.right = curr.left;
+				curr.left.parent = curr.parent;
+				action.left = curr;
+				action = toRemove.parent;
+				curr.right = toRemove.right;
+				toRemove.right.parent = curr;
+				curr.left = toRemove.left;
+				toRemove.left.parent = curr;
+				curr.rank = toRemove.rank - 1;
+				curr.balance = toRemove.balance;
+
+				if (action.balance == Node.Code.SAME) {
+					action.balance = Node.Code.RIGHT;
+					deltah = true;
+				} else if (action.balance == Node.Code.LEFT) {
+					action.balance = Node.Code.SAME;
+					deltah = true;
+				} else {
+					if (action.right.balance == Node.Code.LEFT) {
+						action.doubleLeft();
+						deltah = true;
+					} else {
+						action.singleLeft();
+						deltah = true;
+					}
+				}
+			}
+
+			//carryBalance2(action.parent, true, true);
+		} else {
+			if (curr.parent == toRemove) {
+				boolean heightChange = curr.right != NULL_NODE;
+				toRemove.parent.right = curr;
+				curr.parent = toRemove.parent;
+				toRemove.left.parent = curr;
+				curr.left = toRemove.left;
+				curr.rank = toRemove.rank;
+				if (toRemove.balance == Node.Code.RIGHT) {
+					curr.balance = Node.Code.SAME;
+				} else if (toRemove.balance == Node.Code.SAME) {
+					curr.balance = Node.Code.LEFT;
+				} else {
+					curr.balance = Node.Code.LEFT;
+				}
+				
+				carryBalance2(curr.parent, false, heightChange);
+				return;
+			}
+			Node action = curr.parent;
+			action.left = curr.right;
+			curr.right.parent = action;
+			toRemove.parent.right = curr;
+			action = toRemove.parent;
+			curr.right = toRemove.right;
+			toRemove.right.parent = curr;
+			curr.left = toRemove.left;
+			toRemove.left.parent = curr;
+			curr.rank = toRemove.rank;
+			curr.balance = toRemove.balance;
+
+			if (action.balance == Node.Code.SAME) {
+				action.balance = Node.Code.LEFT;
+				deltah = true;
+			} else if (action.balance == Node.Code.RIGHT) {
+				action.balance = Node.Code.SAME;
+				deltah = true;
+			} else {
+				if (action.left.balance == Node.Code.RIGHT) {
+					action.left.doubleRight();
+					deltah = true;
+				} else {
+					action.singleRight();
+				}
+			}
+			carryBalance2(action.parent, true, true);
+		}
+	}
+
+	private void carryBalance2(Node action, boolean left, boolean deltah) {
+		if (!deltah || action == NULL_NODE) {
+			return;
+		}
+		boolean new_left = leftright(action);
+		if (left) { // We're the right most node.
+			if (action.balance == Node.Code.SAME) {
+				action.balance = Node.Code.RIGHT;
+				// if actions right is right, do sl
+				if (action.right.balance == Node.Code.RIGHT) {
+
+				}
+				// if actions right is left, do dl?
+				else if (action.right.balance == Node.Code.LEFT) {
+
+					// action.right.doubleLeft();
+				}
+			} else if (action.balance == Node.Code.LEFT) {
+				action.balance = Node.Code.SAME;
+				carryBalance2(action.parent, false, true);
+			} else {
+				if (action.right.balance == Node.Code.LEFT) {
+					if (this.root == action) {
+						this.root = action.right.left;
+					}
+					this.rotationCount += 2;
+					Node parent = action.parent;
+					boolean newleft = leftright(action);
+					action.right.doubleLeft();
+					carryBalance2(parent, newleft, true);
+				} else if (action.right.balance == Node.Code.RIGHT) {
+					if (this.root == action) {
+						this.root = action.right;
+					}
+					this.rotationCount++;
+					Node parent = action.parent;
+					boolean newleft = leftright(action);
+					action.singleLeft();
+					carryBalance2(parent, newleft, true);
+				}
+
+			}
+		} else {
+			boolean heightChange = action.left != NULL_NODE;
+			if (action.balance == Node.Code.SAME) {
+				action.balance = Node.Code.LEFT;
+				// if actions left has balance left, do sr
+
+				// if actions left has balance right, do dr
+			} else if (action.balance == Node.Code.RIGHT) {
+				action.balance = Node.Code.SAME;
+				carryBalance2(action.parent, leftright(action), true);
+			} else {
+				if (action.left.balance == Node.Code.LEFT) {
+					if (this.root == action) {
+						this.root = action.left;
+					}
+					this.rotationCount++;
+					Node parent = action.parent;
+					boolean newleft = leftright(action);
+					action.singleRight();
+					carryBalance2(parent, newleft, true);
+				} else if (action.left.balance == Node.Code.RIGHT) {
+					if (this.root == action) {
+						this.root = action.left.right;
+					}
+					this.rotationCount += 2;
+					Node parent = action.parent;
+					boolean newleft = leftright(action);
+					action.left.doubleRight();
+					carryBalance2(parent, newleft, true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * MILESTONE 3, EASY This method operates in O(length*log N), where N is the
+	 * size of this tree.
+	 * 
+	 * @param pos
+	 *            location of the beginning of the string to retrieve
+	 * @param length
+	 *            length of the string to retrieve
+	 * @return string of length that starts in position pos
+	 * @throws IndexOutOfBoundsException
+	 *             unless both pos and pos+length-1 are legitimate indexes
+	 *             within this tree.
+	 */
+	public String get(int pos, int length) throws IndexOutOfBoundsException {
+		return "";
+	}
+
+	/**
+	 * MILESTONE 3, MEDIUM - SEE PAPER REFERENCED IN SPEC FOR ALGORITHM! Append
+	 * (in time proportional to the log of the size of the larger tree) the
+	 * contents of the other tree to this one. Other should be made empty after
+	 * this operation.
+	 * 
+	 * @param other
+	 * @throws IllegalArgumentException
+	 *             if this == other
+	 */
+	public void concatenate(EditTree other) throws IllegalArgumentException {
+
+	}
+
+	/**
+	 * MILESTONE 3: DIFFICULT This operation must be done in time proportional
+	 * to the height of this tree.
+	 * 
+	 * @param pos
+	 *            where to split this tree
+	 * @return a new tree containing all of the elements of this tree whose
+	 *         positions are >= position. Their nodes are removed from this
+	 *         tree.
+	 * @throws IndexOutOfBoundsException
+	 */
+	public EditTree split(int pos) throws IndexOutOfBoundsException {
+		return null; // replace by a real calculation.
+	}
+
+	/**
+	 * MILESTONE 3: JUST READ IT FOR USE OF SPLIT/CONCATENATE This method is
+	 * provided for you, and should not need to be changed. If split() and
+	 * concatenate() are O(log N) operations as required, delete should also be
+	 * O(log N)
+	 * 
+	 * @param start
+	 *            position of beginning of string to delete
+	 * 
+	 * @param length
+	 *            length of string to delete
+	 * @return an EditTree containing the deleted string
+	 * @throws IndexOutOfBoundsException
+	 *             unless both start and start+length-1 are in range for this
+	 *             tree.
+	 */
+	public EditTree delete(int start, int length) throws IndexOutOfBoundsException {
+		if (start < 0 || start + length >= this.size())
+			throw new IndexOutOfBoundsException(
+					(start < 0) ? "negative first argument to delete" : "delete range extends past end of string");
+		EditTree t2 = this.split(start);
+		EditTree t3 = t2.split(length);
+		this.concatenate(t3);
+		return t2;
+	}
+
+	/**
+	 * MILESTONE 3 Don't worry if you can't do this one efficiently.
+	 * 
+	 * @param s
+	 *            the string to look for
+	 * @return the position in this tree of the first occurrence of s; -1 if s
+	 *         does not occur
+	 */
+	public int find(String s) {
+		return -2;
+	}
+
+	/**
+	 * MILESTONE 3
+	 * 
+	 * @param s
+	 *            the string to search for
+	 * @param pos
+	 *            the position in the tree to begin the search
+	 * @return the position in this tree of the first occurrence of s that does
+	 *         not occur before position pos; -1 if s does not occur
+	 */
+	public int find(String s, int pos) {
+		return -2;
+	}
+
+	/**
+	 * @return The root of this tree.
+	 */
+	public Node getRoot() {
+		return this.root;
+	}
+
+	public int slowHeight() {
+		// TODO Auto-generated method stub.
+		if (root == NULL_NODE) {
+			return -1;
+		}
+		if (root.left == NULL_NODE && root.right == NULL_NODE) {
+			return 0;
+		}
+		return 1 + Math.max(this.root.left.slowHeight(), this.root.right.slowHeight());
+	}
+
+	public int slowSize() {
+		// TODO Auto-generated method stub.
+		if (root == NULL_NODE) {
+			return 0;
+		}
+		return root.slowSize();
+	}
+
+	public void show() {
+		if (this.display == null) {
+			this.display = new DisplayableBinaryTree(this, 960, 1080, true);
+		} else {
+			this.display.show(true);
+		}
+	}
+}

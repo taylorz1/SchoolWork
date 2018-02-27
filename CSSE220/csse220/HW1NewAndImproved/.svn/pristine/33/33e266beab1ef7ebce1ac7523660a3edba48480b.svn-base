@@ -1,0 +1,28 @@
+/*
+ * DONE: Fill out this comment according to the guidelines provided in the 
+ * homework description
+ */
+public class HW1 {
+
+	/*
+	 * This method takes in 4 separate integers. The first two comprise the first fraction
+	 * as the numerator and denominator, respectively.  The third and forth integers 
+	 * comprise the second fraction.
+	 * 
+	 * This method returns the decimal result of adding the two fractions
+	 */
+	public static double addFraction(int a, int b, int c, int d) {
+		//a is the numerator and b is the denominator of the first fraction
+		//c is the numerator and d is the denominator of the second fraction
+		
+		//DONE: Alter this method to follow the coding standards given
+		//HINT: This may include splitting/rearranging the method and/or renaming 
+		//      variables to something more intuitive
+		
+		double var = a*d;
+		double var2 = b*c;
+		double var3 = b*d;
+		double r = (var/var3 + var2/var3);
+		return r;
+	}
+}

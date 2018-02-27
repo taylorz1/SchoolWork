@@ -1,0 +1,490 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+/**
+ * MOST OF THESE PROBLEMS SHOULD BE DONE INDIVIDUALLY
+ * One of them you can do with a partner 
+ * 
+ * Some practice problems with 2d arrays and hashmaps
+ * Actually includes 6 regular problems and one bonus problem
+ *
+ * @author hewner.
+ *         Created Dec 31, 2013.
+ */
+/**
+ * 
+ * DONE this is a random assortment of homework questions
+ *
+ * @author taylorz1. Created Sep 8, 2016.
+ */
+public class MapAnd2DArrayHomework {
+
+	/**
+	 * Given one string, return the most common character.
+	 * 
+	 * Example: mostCommonCharacter("aaab") returns 'a'
+	 * mostCommonCharacter("abcbcdc") returns 'c'
+	 * 
+	 * You can assume that your string will not be empty and that one character
+	 * will be more common than all the others (i.e. there won't be a tie for
+	 * the most common character)
+	 * 
+	 * Your solution should use hashmaps, NOT nested for loops. You'll need one
+	 * for loop though.
+	 *
+	 * @param input
+	 *            - string to find most common character of
+	 * @return most common character
+	 * 
+	 */
+	public static char mostCommonCharacter(String input) {
+		HashMap<Character, Integer> occurance = new HashMap<Character, Integer>();
+		char common_character = input.charAt(0);
+
+		for (int i = 0; i < input.length(); i++) {
+			if (occurance.containsKey(input.charAt(i))) {
+				occurance.put(input.charAt(i), occurance.get(input.charAt(i)) + 1);
+			} else {
+				occurance.put(input.charAt(i), 1);
+			}
+			if (occurance.get(input.charAt(i)) > occurance.get(common_character)) {
+				common_character = input.charAt(i);
+			}
+		}
+		return common_character;
+	}
+
+	/**
+	 * 
+	 * Reverses (i.e. exchanges the keys and values) a hashmap which may contain
+	 * multiple keys with the same value. Because of this, the values of the
+	 * reversed map will be a list.
+	 * 
+	 * 
+	 * For example: {1=A,2=A,3=B} yields {A=[1,2], B=[3]}
+	 * 
+	 * The initial hashmap maps Integers to Strings. The reversed hashmap will
+	 * map Strings to ArrayLists of Integers.
+	 * 
+	 * @param initialMap
+	 *            the HashMap to be reversed
+	 * @return a copy of the hashmap with keys and values exchanged
+	 */
+	public static HashMap<String, ArrayList<Integer>> reverseHashmap(HashMap<Integer, String> initialMap) {
+		HashMap<String, ArrayList<Integer>> rhm_output = new HashMap<String, ArrayList<Integer>>();
+		for (int key : initialMap.keySet()) {
+			ArrayList<Integer> rh_input = new ArrayList<Integer>();
+			for (int key2 : initialMap.keySet()) {
+				if (initialMap.get(key) == initialMap.get(key2)) {
+					rh_input.add(key2);
+				}
+				rhm_output.put(initialMap.get(key), rh_input);
+			}
+		}
+		return rhm_output;
+	}
+
+	/**
+	 * During a heat wave, any sign of lower tempatures is news. This function
+	 * takes an array of tempatures and an array of cites - where each tempature
+	 * reading was recorded. The function should return the name of a city that
+	 * experienced a tempature drop. If no city experienced a drop, the function
+	 * should return null.
+	 * 
+	 * You can assume only 1 city will experience a drop.
+	 * 
+	 * Use maps to solve this problem.
+	 * 
+	 * Example 1:
+	 * 
+	 * Temps: City: 80 Seattle 100 LA 81 Seattle 99 LA
+	 * 
+	 * The function should return "LA" because it experienced a drop from 100 to
+	 * 99.
+	 * 
+	 * Example 2:
+	 * 
+	 * Temps: City: 91 Terre Haute 92 Terre Haute 80 Seattle 93 Terre Haute 100
+	 * LA 83 Seattle 93 Terre Haute 82 Seattle 105 LA 85 Seattle
+	 * 
+	 * The function should return "Seattle" because 83 to 82 was a drop.
+	 *
+	 * Example 3:
+	 * 
+	 * Temps: City: 91 Terre Haute 92 Terre Haute 80 Seattle
+	 * 
+	 * The function should return null because no city had a drop.
+	 *
+	 * @param temps
+	 *            tempatures recorded in time order
+	 * @param tempCity
+	 *            where each tempature was taken
+	 * @return city that had a tempature drop
+	 */
+	public static String getTempatureDropCity(int[] temps, String[] tempCity) {
+		HashMap<String, Integer> temperature_mapping = new HashMap<String, Integer>();
+		HashMap<String, Integer> temperature_freq = new HashMap<String, Integer>();
+		for (int i = 0; i < tempCity.length; i++) {
+			if (temperature_mapping.containsKey(tempCity[i])) {
+				if (temperature_mapping.get(tempCity[i]) > temps[i]) {
+					return tempCity[i];
+
+				} else {
+					temperature_mapping.replace(tempCity[i], temps[i]);
+				}
+			} else {
+				temperature_mapping.put(tempCity[i], temps[i]);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * In a particular school (not Rose-Hulman) each course can only have 1
+	 * pre-requisite course.
+	 * 
+	 * These pre-req courses are represented by a map, for example:
+	 * 
+	 * {"CS120"="","CS220"="CS120","CS230"="CS220","MA100"="MA102","MA102"=
+	 * "MA100"}
+	 * 
+	 * Note that if a course has no pre-req, it is represented by the empty
+	 * string ""
+	 * 
+	 * So in this example, CS120 has no pre-req course. CS220 has a pre-req of
+	 * 120 CS230 has a pre-req of 230 MA100 has a pre-req of MA102 MA102 has a
+	 * pre-req of MA100
+	 * 
+	 * Your job is to write a function that determines how many courses must be
+	 * taken to take a specific course.
+	 * 
+	 * So your function should return 0 for "CS120" your function should return
+	 * 1 for "CS220" your function should return 2 for "CS230" your function
+	 * should return -1 for "MA102" or "MA100". They are in a pre-req loop, so
+	 * it is impossible to take any of the courses.
+	 * 
+	 * @param courseMap
+	 *            map of all courses to a pre-req
+	 * @param course
+	 *            course to check
+	 * @return number of courses before you can take given course, or -1 if it
+	 *         is in a pre-req loop
+	 */
+	public static int getNumberOfCoursesToTake(HashMap<String, String> courseMap, String course) {
+		int count = 0;
+		int stop_loop = 0;
+		String replace_course = course;
+		while (stop_loop < courseMap.size()) {
+			if (courseMap.get(replace_course) == "") {
+				return count;
+			} else {
+				replace_course = courseMap.get(replace_course);
+				count++;
+			}
+			stop_loop++;
+		}
+		return -1;
+	}
+
+	/**
+	 * 
+	 * Given a square array, determines if it is diagonal That is, returns true
+	 * if all values in the array are 0 except the main diagonal. The main
+	 * diagonal is entries of the form data[i][j] where i == j. Elements on the
+	 * main diagonal can be 0 or any other number.
+	 * 
+	 * Examples: {{1,0,0}, {0,2,0} {0,0,3}} yields true
+	 * 
+	 * {{1,0,9}, {0,2,0}, {0,0,3}} yields false because 0,2 is nonzero
+	 * 
+	 * {{0,0,0}, {0,0,0}, {0,0,3}} yields true because there can be 0 entries on
+	 * the diagonal if desired
+	 * 
+	 * @param data
+	 *            input array
+	 * @return true if it is diagonal, false otherwise
+	 */
+	public static boolean isDiagonal(int[][] data) {
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[0].length; j++) {
+				if (!(i == j)) {
+					if (!(data[i][j] == 0)) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * 
+	 * Given a 2D array populated with a sequence of characters that wrap from
+	 * the rightmost position to the leftmost position on the next row, find the
+	 * length of the longest sequence of repeated characters.
+	 * 
+	 * For example
+	 * 
+	 * abba dafa
+	 * 
+	 * Has a longest sequence of 2 for the 2 repeated bs
+	 * 
+	 * 2 Bs yield the longest repeat sequence here. Note that the As do not
+	 * follow after each other and hence, do not get considered.
+	 * 
+	 * The array is considered to "wrap" from the rightmost position to the
+	 * leftmost position on the next line.
+	 * 
+	 * For example:
+	 * 
+	 * abcdd ddefg
+	 * 
+	 * Is considered to have a longest sequence of 4 because the two ds on the
+	 * right "wrap around" to connect with the two ds on the next line
+	 * 
+	 * @param data
+	 * @return the length of the longest sequence
+	 */
+	public static int longestRepeatSequence(char[][] data) {
+		int count = 0;
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data[0].length; j++) {
+				count++;
+			}
+		}
+		char[] length_array = new char[count];
+		for (int i1 = 0; i1 < data.length; i1++) {
+			System.arraycopy(data[i1], 0, length_array, data[0].length * i1, data[i1].length);
+		}
+		char checker = length_array[0];
+		int repeat = 1;
+		int to_check = 0;
+		for (int i2 = 1; i2 < count; i2++) {
+			if (checker == length_array[i2]) {
+				repeat++;
+				if (repeat > to_check) {
+					to_check = repeat;
+				}
+			} else {
+				checker = length_array[i2];
+				repeat = 1;
+			}
+		}
+		return to_check;
+	}
+
+	/**
+	 * Given a 2D array of characters, returns a string consisting of all the
+	 * characters in column-order, that is, one column at a time, going from
+	 * left to right.
+	 * 
+	 * For example,
+	 * 
+	 * hlo el!
+	 * 
+	 * returns the string "hello!"
+	 * 
+	 * @param data
+	 *            rectangular 2D array.
+	 * @return a single string made of all the characters in each column.
+	 */
+	public static String stringFromColumns(char[][] data) {
+		String beta = "";
+		for (int j = 0; j < data[0].length; j++) {
+			for (int i = 0; i < data.length; i++) {
+				String alpha = Character.toString(data[i][j]);
+				beta += alpha;
+			}
+		}
+		return beta;
+	}
+
+	/**
+	 * Given A specific starting position and distance returns a 10x10 character
+	 * array with all positions that are less than or equal to that manhattan
+	 * distance from the starting position marked with an x.
+	 * 
+	 * Recall the manhattan distance is the distance in terms of number of
+	 * direct steps North South East West.
+	 *
+	 * You can compute the manhanttan distance with this formula distance = |x1
+	 * - x2| + |y1 - y2|
+	 * 
+	 * Unmarked cells should be filled with a period '.'
+	 * 
+	 * For example, given row=1,col=1,distance 1 .x........ xxx.......
+	 * .x........ .......... .......... .......... .......... ..........
+	 * .......... .......... ..........
+	 * 
+	 * For example, given row=1,col=6,distance 2 .....xxx.. ....xxxxx.
+	 * .....xxx.. ......x... .......... .......... .......... ..........
+	 * .......... .......... ..........
+	 * 
+	 * 
+	 * @param row
+	 *            starting position row
+	 * @param col
+	 *            starting position col
+	 * @param distance
+	 * @return new 10x10 char array with correct squares marked
+	 */
+	public static char[][] distanceArray(int row, int col, int distance) {
+		char[][] Map = new char[10][10];
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (Math.abs(row - i) + Math.abs(col - j) <= distance) {
+					Map[i][j] = 'x';
+				} else {
+					Map[i][j] = '.';
+				}
+			}
+		}
+		return Map;
+	}
+
+	/**
+	 * BONUS: Extra credit problem
+	 * 
+	 * Feel free to skip this one if you don't have time. It's a little harder.
+	 * 
+	 * You are given a map indicating the elevation of a small area like a desk.
+	 * A ball is placed on the desk. The ball will roll downhill going north
+	 * south east or west.
+	 *
+	 * The ball always starts at position 1,1
+	 *
+	 * It will always choose the path of steepest descent. It will eventually
+	 * come to rest when it is at a position where all neighboring positions are
+	 * higher/equal. Return the elevation of that position.
+	 * 
+	 * You can assume that map will be such that the ball will always come to
+	 * rest without moving through an edge
+	 * 
+	 * You can assume there will always be one steepest position for the ball to
+	 * go to
+	 * 
+	 * For example, in an array like this: 9999 9549 9999 yields 4 The ball
+	 * would start in 1,1 (5) rolls to 4 and stops
+	 * 
+	 * 99999999999 98711111199 96999999999 95444444399 99999999999 yields 4 The
+	 * ball starts at 8, follows steepest decent to 6 Then at the first 4 there
+	 * is no lower position so it stops
+	 * 
+	 * @param map
+	 *            map indicating elevation
+	 * @return height where the ball stops
+	 */
+	public static int ballRestElevation(int[][] map) {
+		int posx = 1;
+		int posy = 1;
+		int breaker = 0;
+		while (breaker < 100) {
+			int pos_repx = posx;
+			int pos_repy = posy;
+			int state1 = 0;
+			int state2 = 0;
+			int state3 = 0;
+			int state4 = 0;
+			int state5 = 0;
+			int state6 = 0;
+			int state7 = 0;
+			int state8 = 0;
+			String stater = "";
+			HashMap<String, Integer> States = new HashMap<String, Integer>();
+			ArrayList<Integer> values = new ArrayList<Integer>();
+			if (map[posx - 1][posy] < map[posx][posy]) {
+				// posx = posx - 1;
+				state1 = map[posx - 1][posy];
+				States.put("state1", state1);
+				values.add(state1);
+			}
+			if (map[posx][posy - 1] < map[posx][posy]) {
+				// posy = posy - 1;
+				state2 = map[posx][posy - 1];
+				States.put("state2", state2);
+				values.add(state2);
+			}
+			if (map[posx - 1][posy - 1] < map[posx][posy]) {
+				// posx = posx - 1;
+				// posy = posy - 1;
+				state3 = map[posx - 1][posy - 1];
+				States.put("state3", state3);
+				values.add(state3);
+			}
+			if (map[posx + 1][posy] < map[posx][posy]) {
+				// posx = posx + 1;
+				state4 = map[posx + 1][posy];
+				States.put("state4", state4);
+				values.add(state4);
+			}
+			if (map[posx][posy + 1] < map[posx][posy]) {
+				// posy = posy + 1;
+				state5 = map[posx][posy + 1];
+				States.put("state5", state5);
+				values.add(state5);
+			}
+			if (map[posx + 1][posy + 1] < map[posx][posy]) {
+				// posy = posy + 1;
+				// posx = posx + 1;
+				state6 = map[posx + 1][posy + 1];
+				States.put("state6", state6);
+				values.add(state6);
+			}
+			if (map[posx - 1][posy + 1] < map[posx][posy]) {
+				// posx = posx - 1;
+				// posy = posy + 1;
+				state7 = map[posx - 1][posy + 1];
+				States.put("state7", state7);
+				values.add(state7);
+			}
+			if (map[posx + 1][posy - 1] < map[posx][posy]) {
+				// posx = posx + 1;
+				// posy = posy - 1;
+				state8 = map[posx + 1][posy - 1];
+				States.put("state8", state8);
+				values.add(state8);
+			}
+			Collections.sort(values);
+
+			for (String key : States.keySet()) {
+				if (States.get(key) == values.get(0)) {
+					stater = key;
+				}
+			}
+
+			if (stater.equals("state1")) {
+				posx = posx - 1;
+				posy = posy;
+			} else if (stater.equals("state2")) {
+				posx = posx;
+				posy = posy - 1;
+			} else if (stater.equals("state3")) {
+				posx = posx - 1;
+				posy = posy - 1;
+			} else if (stater.equals("state4")) {
+				posx = posx + 1;
+				posy = posy;
+			} else if (stater.equals("state5")) {
+				posx = posx;
+				posy = posy + 1;
+			} else if (stater.equals("state6")) {
+				posx = posx + 1;
+				posy = posy + 1;
+			} else if (stater.equals("state7")) {
+				posx = posx - 1;
+				posy = posy + 1;
+			} else if (stater.equals("state8")) {
+				posx = posx + 1;
+				posy = posy - 1;
+			}
+
+			if (pos_repx == posx && pos_repy == posy) {
+				return map[posx][posy];
+			}
+			breaker++;
+		}
+		return 0;
+	}
+}

@@ -1,0 +1,13 @@
+WHAT WE DID:
+We've made a shell which can print a file and run a program. It uses interrupt
+21h to talk to the loaded kernel and use the system functions (reading a file,
+reading a string, printing text, running a program). The shell is not built in
+to the kernel, and the only thing the kernel actually does is launch the shell.
+The kernel is also broken up into logical files that separate the main working
+parts of the kernel (floppy_driver deals with files, prog deals with loading and
+killing programs, etc.)
+
+HOW TO VERIFY:
+Boot the system using `make test-bochs` (or however you want to start the VM)
+and then type the commands `type messag` and then `execute tstpr2` to see that
+all functionality described in the Milestone works as expected.

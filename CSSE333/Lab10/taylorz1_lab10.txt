@@ -1,0 +1,75 @@
+Q1: What are the differences in the execution plans for these two queries?
+
+	The query on the unindexed databases performs a table scan whereas the
+	one on the indexed table first scans an Index and then takes the first
+	row to get the max.
+
+
+Q2: What is the difference in I/O and CPU cost for these two queries?
+	
+	The indexed query appears to use about half as much I/O (0.0053 compared
+	to (0.0090). The CPU cost is about the same in the scan stage. In the stages
+	after however the indexed query uses about 0.00 while the unindexed one uses
+	0.0012 in its Stream Aggregate stage.
+
+Q3: What can you conclude about the relationship between aggregate data and
+	indexes insofar as time optimization is concerned?
+	
+	Indexes allow extreme optimization over aggregate data, essentially halving
+	I/O operations which is the majority of CPU time.
+	
+	
+Q4: What are these similarities? (Hint: Look at the I/O costs for the index
+	and table scans on the Customers index and table, respectively.)
+	
+	Index Scan (Customers): 0.0046 
+	Table Scan (Customers): 0.0046
+	
+	The table and index scan costs for I/O are almost exactly the same. 
+	
+Q5: Explain why there ins't too much of a difference between the two queries
+	in terms of execution times.
+	
+	Regardless of there being an index or not the database must perform an
+	inner join on all of the data within the table which is a much more costly
+	operation compared to simple fetching, making it dwarf the cost of such an
+	operation.
+	
+Q6: SELECT rows FROM sysindexes WHERE id = OBJECT_ID('order details') AND indid < 2
+	
+	This is the preferred query because it results in the samllest cost based on
+	experimentation. This is logical because this query is simply a list of I/O
+	interactions that deal with a very small amount of data, resulting in low cost.
+	The other query requires everything to be fetched and returned from the table 
+	(a huge amount of I/O) and then counts it (a negligable amount of CPU) to
+	return the same data.
+	
+Q7: The first one is the better query. (the one with declarations)
+
+	This is due to the clutch being the conversion between types. Converting
+	between the implicit input of nvarchar(4000) to the column's nvarchar(25)
+	is more costly than converting a varchar(10) to an nvarchar(25). The difference
+	is extremely marginal at best.
+	
+Q8: The top query is the better one. (the shorter one).
+
+	This is because the first one does all of the operations with a defined
+	operation while it is in working memory (or atleast within the working page).
+	The second query forces more I/O by only fetching one piece of data at a time
+	to accumulate with compared to the typical method of using whatever amount
+	of working memory with a bit and summing that.
+	
+Q9: The bottom query is the better one.
+
+	The top query performs a lot of extra I/O because it has to writeback
+	after the first update and then on the second it gets the same data and
+	then must writeback again. Whereas the bottom query can perform all the
+	operations while it has the data in working memory which prevents extraneous
+	I/O.
+	
+Q10: The bottom query is better
+
+	The bottom query is better because it avoids the issue of a merge join
+	by using a clustered index inside of its execution due to SQL knowing that
+	it is going to execute an OR at the beginning of execution, while the other
+	must execute a Union later.

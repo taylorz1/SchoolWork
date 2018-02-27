@@ -1,0 +1,57 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D.Double;
+
+public class HeartObject extends GameObject implements Drawable {
+
+	private Shape shape;
+	
+	public HeartObject(GameWorld world, Double position) {
+		super(world, position);
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = 45;
+		this.shape =  new Ellipse2D.Double(x - size / 2, y - size / 2, size, size);
+	}
+	@Override
+	public Color getColor() {
+		return Color.RED;
+	}
+
+	@Override
+	public Shape getShape() {
+		return this.shape;
+	}
+
+	@Override
+	public void updatePosition() {
+		return;
+	}
+
+	@Override
+	void onBombDamage() {
+		return;
+	}
+
+	@Override
+	void collide(GameObject m) {
+		return;
+	}
+
+	@Override
+	void collideWithHero(Hero m) {
+		return;
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		return;
+	}
+
+	@Override
+	void collideWithPowerUp(PowerUp m) {
+		return;
+	}
+
+}

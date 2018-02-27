@@ -1,0 +1,21 @@
+LAB 5 by Zach Taylor and Tucker Osman
+USAGE: ./airlinereservation <number of passenger processes> <output file>
+
+*************************************************************************
+SAMPLE OUTPUTS
+
+
+./airlinereservation 3 output1.txt
+./airlinereservation 5 output2.txt
+./airlinereservation 15 output3.txt
+
+output1.txt prints receipts as expected. Three customers, each with the seats they want.
+There are no first class seats in this run.
+
+output2.txt prints receipts as expected. This one has some first class seats selected.
+
+output3.txt prints receipts as expected. There was one time that the program hung when there
+were no more seats that could be assigned, but that didn't happen ever again, even when a
+specific cabin was full. I guess you could say that was an anomoly.
+
+

@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+/**
+ * 
+ * DONE. This class generates a team.
+ *
+ * @author taylorz1.
+ *         Created Sep 15, 2016.
+ */
+public class Team {
+	private String name;
+	private ArrayList<Student> members;
+	private ArrayList<Double> grades;
+	private float average;
+	// You'll need to add methods, constructors and fields here
+
+	public Team(String nameTeam, ArrayList<Student> students) {
+		this.name = nameTeam;
+		this.members = students;
+		this.grades = new ArrayList<>();
+		this.average = 0;
+	}
+
+	public void addGrade(double grade) {
+		for (int i = 0; i < this.members.size(); i++) {
+			this.members.get(i).addGrade(grade);
+			this.grades.add(grade);
+		}
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public float getAverage() {
+		double sum = 0;
+		if (this.grades.size() != 0) {
+			for (int i = 0; i < this.grades.size(); i++) {
+				sum += this.grades.get(i);
+			}
+			this.average = (float) (sum / this.grades.size());
+			return this.average;
+		}
+		return this.average;
+	}
+}

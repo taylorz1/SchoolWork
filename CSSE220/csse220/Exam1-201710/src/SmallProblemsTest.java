@@ -1,0 +1,79 @@
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+public class SmallProblemsTest {
+
+	@Test
+	public void testIsDoubled() {
+		assertTrue(SmallProblems.isDoubled("BuffaloBuffalo"));
+		assertTrue(SmallProblems.isDoubled("aaaa"));
+		assertTrue(SmallProblems.isDoubled("abab"));
+		assertTrue(SmallProblems.isDoubled("abcabc"));
+		assertTrue(!SmallProblems.isDoubled("abba"));
+		assertTrue(!SmallProblems.isDoubled("abcab"));
+		assertTrue(!SmallProblems.isDoubled("BuffaloBuffalq"));
+		assertTrue(SmallProblems.isDoubled(""));
+	}
+
+	@Test
+	public void testFirstHalf() {
+		assertArrayEquals(new int[] {4, 2}, 
+				SmallProblems.firstHalf(new int[] {4,2,3,1}));
+		assertArrayEquals(new int[] {4, 2, 9}, 
+				SmallProblems.firstHalf(new int[] {4,2,9,3,1,2}));
+		assertArrayEquals(new int[] {4, 2, 9, 0}, 
+				SmallProblems.firstHalf(new int[] {4,2,9,0,3,1,2,88}));
+		assertArrayEquals(new int[] {}, 
+				SmallProblems.firstHalf(new int[] {}));
+		
+		// these test cases are for dealing with arrays of odd length
+		// if you can get the above but not these, you can get 75%
+		// of the credit for this problem
+
+		assertArrayEquals(new int[] {4, 2}, 
+				SmallProblems.firstHalf(new int[] {4,2,3}));
+		assertArrayEquals(new int[] {1, 2, 9}, 
+				SmallProblems.firstHalf(new int[] {1,2,9,3,1}));
+		assertArrayEquals(new int[] {4, 2, 9, 0}, 
+				SmallProblems.firstHalf(new int[] {4,2,9,0,3,1,2}));
+		assertArrayEquals(new int[] {2}, 
+				SmallProblems.firstHalf(new int[] {2}));
+
+	}
+	
+
+	@Test
+	public void testRemoveOdds() {
+		ArrayList<Integer> input = new ArrayList<Integer>();
+		input.add(1);
+		input.add(2);
+		input.add(3);
+		input.add(4);
+		input.add(5);
+		SmallProblems.removeOdds(input);
+		assertEquals("[2, 4]", input.toString());
+		input.clear();
+		input.add(9);
+		input.add(9);
+		input.add(9);
+		input.add(4);
+		input.add(9);
+		SmallProblems.removeOdds(input);
+		assertEquals("[4]", input.toString());
+		input.clear();
+		input.add(2);
+		input.add(4);
+		input.add(6);
+		input.add(11);
+		input.add(8);
+		SmallProblems.removeOdds(input);
+		assertEquals("[2, 4, 6, 8]", input.toString());
+
+	}
+
+}

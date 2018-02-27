@@ -1,0 +1,114 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObjMov implements Drawable{
+
+
+	private Color color;
+	private Shape shape;
+	private boolean bombDropped = false;
+	private int maxBombs = 1;
+	private int bombCount = 0;
+	private boolean fullBombs = false;
+	private boolean remoteDetonation = false;
+	public boolean isDead = false;
+
+	public Hero(GameWorld world, Point2D.Double startPosition){
+		super(world, startPosition);
+		this.setPosition(startPosition);
+		this.shape = new Ellipse2D.Double(this.getPosition().getX(), this.getPosition().getY(), 30, 30);
+		this.color = Color.BLUE;
+		this.setSize(30);
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Ellipse2D.Double(x-size /2, y-size/2, size, size);
+	}
+	
+	public void increaseBombs(){
+		System.out.println("inc");
+		this.maxBombs++;
+	}
+
+	
+	public void bombDropped(){
+		this.bombCount++;
+		if(bombCount>=maxBombs)
+			fullBombs=true;
+	}
+	public void bombExploded(){
+		this.bombCount--;
+		if(bombCount<maxBombs)
+			fullBombs=false;
+		if(bombCount<0)
+			this.bombCount=0;
+	}
+	
+	
+	public void dropBomb() {
+		System.out.println(bombCount+" "+maxBombs);
+		if (!fullBombs && !isDead) {
+		bombDropped();
+		Bomb bomb = new Bomb(this.getWorld(), getPosition(), this, this.remoteDetonation);
+		this.getWorld().addObj(bomb);
+		((GameWorld) this.getWorld()).addBomb(bomb);
+		}
+		}
+	
+	
+	
+	@Override
+	boolean canBeMovedInto() {
+		return true;
+	}
+
+	@Override
+	void onBombDamage() {
+			if (!( (GameWorld) this.getWorld()).getRemove().contains(this)) {
+				this.isDead = true;
+				this.die();
+			}
+		//Also needs to print some sort of "you lose" message.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		m.collideWithHero(this);
+		}
+
+	@Override
+	void collideWithHero(Hero m) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	void collideWithPowerUp(PowerUp m) {
+		//m.collideWithHero(this);
+		
+	}
+
+	public void enableRemoteDetonation() {
+		this.remoteDetonation  = true;
+		
+	}
+}
+

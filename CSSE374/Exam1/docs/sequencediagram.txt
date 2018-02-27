@@ -1,0 +1,22 @@
+@startuml
+-> MapGeneratorApp: main
+activate MapGeneratorApp
+MapGeneratorApp -> MapGeneratorApp: buildTileSet
+
+create MapGenerator
+MapGeneratorApp -> MapGenerator: new
+activate MapGenerator
+MapGenerator -> MapGenerator: generateMapRepresentation
+activate MapGenerator
+MapGenerator -> MapGenerator: mutateMap
+deactivate MapGenerator
+MapGeneratorApp -> MapGenerator: renderMap
+loop For each tile
+MapGenerator -> ITile: renderTile
+activate ITile
+ITile -> System.out: println(tile's text)
+deactivate ITile
+end
+deactivate MapGenerator
+deactivate MapGeneratorApp
+@enduml

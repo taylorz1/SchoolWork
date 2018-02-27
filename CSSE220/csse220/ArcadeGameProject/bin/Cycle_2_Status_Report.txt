@@ -1,0 +1,6 @@
+We have implemented the following features:
+    Bombs exploding :: 2 hours
+    All bomb results :: 1 hour
+    One kind of monster :: 1 hour
+    
+Side Note: We have also finished milestone 1

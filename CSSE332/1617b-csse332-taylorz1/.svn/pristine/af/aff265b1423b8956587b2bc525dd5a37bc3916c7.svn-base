@@ -1,0 +1,69 @@
+3 processes loaded
+Process id | Arrival Time | Total Remaining | Type | Time | Start | Remaining
+         1 |            0 |              21
+                                            |    R |    5 |    -1 |         5
+                                            |    W |    8 |    -1 |         8
+                                            |    R |    3 |    -1 |         3
+                                            |    W |    1 |    -1 |         1
+                                            |    R |    9 |    -1 |         9
+                                            |    W |    3 |    -1 |         3
+                                            |    R |    4 |    -1 |         4
+         2 |            1 |              15
+                                            |    R |    4 |    -1 |         4
+                                            |    W |    3 |    -1 |         3
+                                            |    R |    5 |    -1 |         5
+                                            |    W |    2 |    -1 |         2
+                                            |    R |    6 |    -1 |         6
+         3 |            2 |              16
+                                            |    R |    6 |    -1 |         6
+                                            |    W |    1 |    -1 |         1
+                                            |    R |    2 |    -1 |         2
+                                            |    W |    3 |    -1 |         3
+                                            |    R |    8 |    -1 |         8
+
+Admitted pid 1 @ 0
+Dispatched pid 1 @ 0
+Admitted pid 2 @ 1
+Preempted pid 1 @ 1
+Dispatched pid 2 @ 1
+Admitted pid 3 @ 2
+Blocked pid 2 @ 5
+Dispatched pid 3 @ 5
+Wait complete pid 2 @ 8
+Preempted pid 3 @ 8
+Dispatched pid 2 @ 8
+Blocked pid 2 @ 13
+Dispatched pid 3 @ 13
+Wait complete pid 2 @ 15
+Preempted pid 3 @ 15
+Dispatched pid 2 @ 15
+Completed pid 2 @ 21
+Dispatched pid 3 @ 21
+Blocked pid 3 @ 22
+Dispatched pid 1 @ 22
+Wait complete pid 3 @ 23
+Preempted pid 1 @ 23
+Dispatched pid 3 @ 23
+Blocked pid 3 @ 25
+Dispatched pid 1 @ 25
+Wait complete pid 3 @ 28
+Preempted pid 1 @ 28
+Dispatched pid 3 @ 28
+Completed pid 3 @ 36
+Dispatched pid 1 @ 36
+Blocked pid 1 @ 36
+No processes to run @ 36
+Wait complete pid 1 @ 44
+Dispatched pid 1 @ 44
+Blocked pid 1 @ 47
+No processes to run @ 47
+Wait complete pid 1 @ 48
+Dispatched pid 1 @ 48
+Blocked pid 1 @ 57
+No processes to run @ 57
+Wait complete pid 1 @ 60
+Dispatched pid 1 @ 60
+Completed pid 1 @ 64
+No processes to run @ 64
+
+No more events

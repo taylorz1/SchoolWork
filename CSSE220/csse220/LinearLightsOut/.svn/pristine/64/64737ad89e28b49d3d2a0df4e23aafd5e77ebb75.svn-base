@@ -1,0 +1,21 @@
+package linearLightsOut;
+
+import javax.swing.JButton;
+
+public class NewGameButton {
+	public JButton button;
+	
+	public NewGameButton() {
+		this.button = createButton();
+	}
+	
+	
+	public JButton createButton() {
+		JButton created = new JButton("New Game");
+		return created;
+	}
+	
+	public JButton getButton() {
+		return this.button;
+	}
+}

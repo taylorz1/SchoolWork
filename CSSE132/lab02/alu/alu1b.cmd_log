@@ -1,0 +1,3 @@
+sch2sym -intstyle ise -family spartan3e -refsym alu1b C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sch C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sym 
+sch2sym -intstyle ise -family spartan3e -refsym alu1b C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sch C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sym 
+sch2sym -intstyle ise -family spartan3e -w -refsym alu1b C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sch C:/Users/taylorz1/Documents/CSSE132/lab02/alu/alu1b.sym 

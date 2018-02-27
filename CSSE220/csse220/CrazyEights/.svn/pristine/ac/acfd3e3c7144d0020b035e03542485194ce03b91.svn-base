@@ -1,0 +1,62 @@
+import java.util.ArrayList;
+
+public class Player {
+	private String playername;
+	private ArrayList<Card> HandofCard;
+	private int Playernumber;
+
+	public Player(int Playernumber) {
+		this.playername = "player" + Playernumber;
+		this.HandofCard = new ArrayList<Card>();
+	}
+
+	public void addCardtoHand(Card cardname) {
+		this.HandofCard.add(cardname);
+	}
+
+	public String getPlayername() {
+		return this.playername;
+	}
+
+	public void setPlayername(String playername) {
+		this.playername = playername;
+	}
+
+	public ArrayList<Card> getHandofCard() {
+		return this.HandofCard;
+	}
+
+	public void setHandofCard(ArrayList<Card> handofCard) {
+		this.HandofCard = handofCard;
+	}
+
+	public int getPlayernumber() {
+		return this.Playernumber;
+	}
+
+	public void setPlayernumber(int playernumber) {
+		this.Playernumber = playernumber;
+	}
+
+	public void hitCard(Card topcard) {
+
+	}
+	
+	// Investigate this method.
+	public void playCard(Card card) {
+		if (this.HandofCard.contains(card)) {
+			this.HandofCard.remove(card);
+		} else {
+			System.out.print("You have tried to play a card you do not have!"); 
+		}
+	}
+	
+	public String printHand() {
+		String tortn = "Your cards are ";
+		for (Card card : this.HandofCard) {
+			tortn=tortn + card.getRank() + card.getSuit();
+		}
+		return tortn;
+	}
+
+}

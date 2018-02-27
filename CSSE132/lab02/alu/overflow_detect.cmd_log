@@ -1,0 +1,1 @@
+sch2sym -intstyle ise -family spartan3e -w -refsym overflow_detect C:/Users/taylorz1/Documents/CSSE132/lab02/alu/overflow_detect.sch C:/Users/taylorz1/Documents/CSSE132/lab02/alu/overflow_detect.sym 

@@ -1,0 +1,26 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+	id 'application'
+}
+
+sourceCompatibility = 1.8
+
+mainClassName = "client.CheeseCakeClient"
+
+repositories {
+    maven {
+        url "https://maven.csse.rose-hulman.edu/artifactory/libs-release"
+    }
+}
+
+dependencies {
+	compile 'edu.rosehulman.csse374:CheeseCakeFactory:1.0.0'	
+	testCompile 'junit:junit:4.+'
+}
+
+run {
+	standardInput = System.in
+}
+

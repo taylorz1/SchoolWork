@@ -1,0 +1,10 @@
+/* Kernel */
+/* Tucker Osman, Zach Taylor, Jarrett Alexandar */
+
+typedef struct {
+  int active;
+  int sp;
+} pcb_struct;
+
+static pcb_struct processes[8];
+static int currentProcess;

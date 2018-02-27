@@ -1,0 +1,117 @@
+ ./readerswriters 4657 5 4
+Shared memory key = 4657, numreaders = 5, numwriters = 4
+	 WRITER 	 3 	 is writing now.
+	 WRITER 	 3 	 wrote 1.
+	 WRITER 	 1 	 is writing now.
+	 WRITER 	 1 	 wrote 2.
+	 WRITER 	 2 	 is writing now.
+	 WRITER 	 2 	 wrote 3.
+READER 	 2 	 about to read. Reader count = 1.
+   READER 	 2 	 read 3.
+   READER 	 2 	 done reading. Reader count = 0.
+READER 	 4 	 about to read. Reader count = 1.
+   READER 	 4 	 read 3.
+   READER 	 4 	 done reading. Reader count = 0.
+	 WRITER 	 4 	 is writing now.
+	 WRITER 	 4 	 wrote 4.
+READER 	 5 	 about to read. Reader count = 1.
+   READER 	 5 	 read 4.
+   READER 	 5 	 done reading. Reader count = 0.
+READER 	 3 	 about to read. Reader count = 1.
+   READER 	 3 	 read 4.
+   READER 	 3 	 done reading. Reader count = 0.
+READER 	 1 	 about to read. Reader count = 1.
+   READER 	 1 	 read 4.
+   READER 	 1 	 done reading. Reader count = 0.
+	 WRITER 	 3 	 is writing now.
+	 WRITER 	 3 	 wrote 5.
+	 WRITER 	 1 	 is writing now.
+	 WRITER 	 1 	 wrote 6.
+	 WRITER 	 2 	 is writing now.
+	 WRITER 	 2 	 wrote 7.
+	 WRITER 	 4 	 is writing now.
+	 WRITER 	 4 	 wrote 8.
+READER 	 2 	 about to read. Reader count = 1.
+   READER 	 2 	 read 8.
+   READER 	 2 	 done reading. Reader count = 0.
+READER 	 5 	 about to read. Reader count = 1.
+   READER 	 5 	 read 8.
+   READER 	 5 	 done reading. Reader count = 0.
+READER 	 4 	 about to read. Reader count = 1.
+   READER 	 4 	 read 8.
+READER 	 3 	 about to read. Reader count = 2.
+   READER 	 3 	 read 8.
+   READER 	 3 	 done reading. Reader count = 1.
+READER 	 1 	 about to read. Reader count = 2.
+   READER 	 1 	 read 8.
+   READER 	 1 	 done reading. Reader count = 1.
+   READER 	 4 	 done reading. Reader count = 0.
+	 WRITER 	 3 	 is writing now.
+	 WRITER 	 3 	 wrote 9.
+	 WRITER 	 1 	 is writing now.
+	 WRITER 	 1 	 wrote 10.
+	 WRITER 	 2 	 is writing now.
+	 WRITER 	 2 	 wrote 11.
+	 WRITER 	 4 	 is writing now.
+	 WRITER 	 4 	 wrote 12.
+READER 	 2 	 about to read. Reader count = 1.
+   READER 	 2 	 read 12.
+   READER 	 2 	 done reading. Reader count = 0.
+READER 	 5 	 about to read. Reader count = 1.
+   READER 	 5 	 read 12.
+   READER 	 5 	 done reading. Reader count = 0.
+READER 	 3 	 about to read. Reader count = 1.
+   READER 	 3 	 read 12.
+   READER 	 3 	 done reading. Reader count = 0.
+READER 	 1 	 about to read. Reader count = 1.
+   READER 	 1 	 read 12.
+   READER 	 1 	 done reading. Reader count = 0.
+READER 	 4 	 about to read. Reader count = 1.
+   READER 	 4 	 read 12.
+   READER 	 4 	 done reading. Reader count = 0.
+	 WRITER 	 3 	 is writing now.
+	 WRITER 	 3 	 wrote 13.
+	 WRITER 	 1 	 is writing now.
+	 WRITER 	 1 	 wrote 14.
+	 WRITER 	 2 	 is writing now.
+	 WRITER 	 2 	 wrote 15.
+	 WRITER 	 4 	 is writing now.
+	 WRITER 	 4 	 wrote 16.
+READER 	 5 	 about to read. Reader count = 1.
+   READER 	 5 	 read 16.
+   READER 	 5 	 done reading. Reader count = 0.
+READER 	 2 	 about to read. Reader count = 1.
+   READER 	 2 	 read 16.
+   READER 	 2 	 done reading. Reader count = 0.
+READER 	 3 	 about to read. Reader count = 1.
+   READER 	 3 	 read 16.
+   READER 	 3 	 done reading. Reader count = 0.
+READER 	 1 	 about to read. Reader count = 1.
+   READER 	 1 	 read 16.
+   READER 	 1 	 done reading. Reader count = 0.
+READER 	 4 	 about to read. Reader count = 1.
+   READER 	 4 	 read 16.
+   READER 	 4 	 done reading. Reader count = 0.
+	 WRITER 	 1 	 is writing now.
+	 WRITER 	 1 	 wrote 17.
+	 WRITER 	 3 	 is writing now.
+	 WRITER 	 3 	 wrote 18.
+	 WRITER 	 2 	 is writing now.
+	 WRITER 	 2 	 wrote 19.
+READER 	 5 	 about to read. Reader count = 1.
+   READER 	 5 	 read 19.
+   READER 	 5 	 done reading. Reader count = 0.
+READER 	 2 	 about to read. Reader count = 1.
+   READER 	 2 	 read 19.
+   READER 	 2 	 done reading. Reader count = 0.
+	 WRITER 	 4 	 is writing now.
+	 WRITER 	 4 	 wrote 20.
+READER 	 3 	 about to read. Reader count = 1.
+   READER 	 3 	 read 20.
+   READER 	 3 	 done reading. Reader count = 0.
+READER 	 1 	 about to read. Reader count = 1.
+   READER 	 1 	 read 20.
+   READER 	 1 	 done reading. Reader count = 0.
+READER 	 4 	 about to read. Reader count = 1.
+   READER 	 4 	 read 20.
+   READER 	 4 	 done reading. Reader count = 0.

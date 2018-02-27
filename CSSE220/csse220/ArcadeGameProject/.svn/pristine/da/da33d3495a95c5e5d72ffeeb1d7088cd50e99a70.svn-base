@@ -1,0 +1,23 @@
+import java.awt.geom.Point2D;
+
+public abstract class GameObject {
+	
+	private GameWindow world;
+	private Point2D.Double position;
+
+	public GameObject(GameWindow world, Point2D.Double position){
+		this.world = world;
+		this.setPosition(position);
+	}
+
+	public Point2D.Double getPosition() {
+		return position;
+	}
+
+	public void setPosition(Point2D.Double position) {
+		this.position = position;
+	}
+
+	
+
+}

@@ -1,0 +1,28 @@
+#include "./sharedMemory.h"
+#include "./writer.h"
+
+sharedMemoryStruct *ShmPTR;
+
+int main(int argc, char* argv[]) {
+    key_t key = atoi(argv[1]);
+    int i, writerid = atoi(argv[2]);
+    locateAndAttachSharedMemory(key, &ShmPTR);
+
+    /* entry section */
+    sleep(1);
+
+    /* critical section */
+    writeDB(writerid);
+
+    /* exit section */
+
+    /* Detach shared memory regioin just before terminating. */
+    detachSharedMemory((void *)ShmPTR);
+    return 0;
+}
+
+void writeDB(int who) {
+    printf("\t WRITER \t %d \t is writing now.\n", who);
+    ShmPTR->data +=1;
+    printf("\t WRITER \t %d \t wrote %d.\n", who, ShmPTR->data);
+}

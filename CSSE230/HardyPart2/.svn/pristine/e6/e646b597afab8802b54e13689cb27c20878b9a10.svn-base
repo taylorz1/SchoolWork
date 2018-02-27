@@ -1,0 +1,252 @@
+package hardysTaxi;
+
+import java.util.TreeSet;
+
+import java.util.HashSet;
+import java.util.SortedSet;
+import java.util.Stack;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * Provides the static method hardySolutionsLessThan(N) which finds all "taxicab
+ * numbers that are less than n. These are represented as TaxicabNumber objects,
+ * which include the sum and two different ways of writing that as a sum of two
+ * cubes.
+ * 
+ * @author Claude Anderson.
+ * 
+ */
+public class Hardy {
+	private static int n;
+	private static HashMap<Long, Long> lastChecked;
+	private static TreeSet<Long> taxiCabs;
+	// TODO: Declare any variables or helper methods that you need.
+
+	/**
+	 * Find the nth Hardy number (start counting with 1, not 0) and the numbers
+	 * whose cubes demonstrate that it is a Hardy number.
+	 * 
+	 * @param n
+	 * @return the nth Hardy number
+	 */
+	public static long nthHardyNumber(int n) {
+
+		// TODO: If you have any fields that are arrays or collections,
+		// You must clear them at the beginning of each call to this method.
+		// This is so that values calculated by previous calls do not speed up
+		// subsequent calls.
+
+		// TODO: replace the following dummy statement by real code that
+		// calculates
+		// and returns the nth Hardy number.
+		Hardy.n = n;
+
+		/*
+		 * lastChecked.get(int b) returns the highest value of a that has been
+		 * checked for the input b
+		 */
+		lastChecked = new HashMap<Long, Long>();
+
+		taxiCabs = new TreeSet<Long>(); // This is our set for
+										// taxicabs.
+		// We can call size to determine N. We can see if we have a duplicate in
+		// log(n).
+		long a = 9;
+		long b = 10;
+		
+		/*
+		 * following code is for inorder2 only
+		 */
+//		while(taxiCabs.size() < n){
+//			inOrder2(a,b,Long.MAX_VALUE);
+//			if(a == b-1){
+//				b++;
+//				if(lastChecked.containsKey(b)){
+//					a = lastChecked.get(b);
+//				}
+//				else{
+//					a = 1;
+//				}
+//			}
+//			else{
+//				a++;
+//			}
+//		}
+//		Object[] arr = taxiCabs.toArray();
+//		return (long) arr[n-1];
+		
+		inOrder(a, b, Long.MAX_VALUE);
+		System.out.println(taxiCabs.last());
+		return taxiCabs.last();
+
+	}
+
+	/**
+	 * 
+	 * Searching for a combination of cubes between the original cubes of a
+	 * number given that that number inputed we found the farthest apart cube.
+	 * For example 1729 -> 1 & 12 instead of 9 & 10. Then returns if that number
+	 * is a taxi cab number.
+	 *
+	 * @param a
+	 * @param b
+	 * @param cube
+	 * @return
+	 */
+
+	// Describing the recursive method call
+	// Arguments: Need the A and B and the cube value, this replaces the
+	// helper method.
+	// Increment over all possible cubes to determine if a number and then
+	// determine if there are "less" cubes via incrementing B as: see
+	// (12,11) -> (13,1)
+	// Add your argument at the end.
+	// Have a conditional for the size of the set and break when you reach
+	// N.
+	// Technically this ensures that you write in order of least to
+	// greatest.
+
+	public static void inOrder(long a, long b, long max) {
+
+		long cube = cube(a, b);
+
+		if (taxiCabs.size() >= n)
+			return;
+
+		long nextA;
+		if (!lastChecked.containsKey(b + 1))
+			nextA = 1;
+		else
+			nextA = lastChecked.get(b + 1) + 1;
+
+		// If there is a lower value, go to it first
+		if (cube(nextA, b + 1) < cube) {
+			inOrder(nextA, b + 1, cube);
+		}
+		
+		// When no lower values, call self
+		if (isTaxiNumber(a, b, cube)) {
+			if (!taxiCabs.isEmpty() && taxiCabs.last() > cube)
+				System.out.println(cube + "-------------------------------");
+			taxiCabs.add(cube);
+
+			System.out.printf("%d, a: %d, b: %d, Size: %d\n", cube, a, b,taxiCabs.size());
+		}
+		
+		// If next largest val < max call on next largest
+		if (a < b - 1) {
+			if(cube(a+1,b) < max)
+				inOrder(a + 1, b, max);
+		} else {
+			if (!lastChecked.containsKey(b + 1))
+				nextA = 1;
+			else
+				nextA = lastChecked.get(b + 1) + 1;
+			if(cube(nextA,b+1) < max)
+				inOrder(nextA, b + 1, max);
+		}
+
+	}
+	
+	public static void inOrder2(long a, long b, long max) {
+
+		long cube = cube(a, b);
+
+		if (taxiCabs.size() >= n)
+			return;
+
+		long nextA;
+		if (!lastChecked.containsKey(b + 1))
+			nextA = 1;
+		else
+			nextA = lastChecked.get(b + 1) + 1;
+
+		// If there is a lower value, go to it first
+		if (cube(nextA, b + 1) < cube) {
+			inOrder(nextA, b + 1, cube);
+		}
+		
+		// When no lower values, call self
+		if (isTaxiNumber(a, b, cube)) {
+			if (!taxiCabs.isEmpty() && taxiCabs.last() > cube)
+				System.out.println(cube + "-------------------------------");
+			taxiCabs.add(cube);
+
+			System.out.printf("%d, a: %d, b: %d, Size: %d\n", cube, a, b,taxiCabs.size());
+		}
+		
+		if(a < b-1){
+			inOrder(a+1,b,max);
+		}
+		
+
+	}
+
+	public static boolean taxiNumberHelper(long a, long b, long cube) {
+		// long bound = (int) Math.cbrt(cube);
+		// Add combination of a and b to lastChecked
+		Hardy.lastChecked.put(b, a);
+		boolean cubicbound = false;
+		if (b * b * b > 3 * a * a + 3 * a + 2) {
+			cubicbound = true;
+		}
+
+		if (cubicbound) {
+			for (long i = a; i <= b + 1; i++) {
+				for (long j = 1; j < b; j++) {
+					if (j == i || j == a) {
+						continue;
+					}
+					long cubic = i * i * i + j * j * j;
+					if (cubic == cube) {
+						return true;
+					}
+				}
+			}
+
+		} else {
+			for (long i = a; i < b; i++) {
+				for (long j = i + 1; j < b; j++) {
+					if (j == b) {
+						continue;
+					}
+					long cubic = i * i * i + j * j * j;
+					if (cubic == cube) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private static long cube(long a, long b) {
+		return a * a * a + b * b * b;
+	}
+
+	private static boolean isTaxiNumber(long a, long b, long cube) {
+		Hardy.lastChecked.put(b, a);
+		//System.out.printf("%d, a: %d, b: %d, Size: %d\n", cube, a, b, taxiCabs.size());
+		long a2 = 1;
+		long b2 = 12;
+		long cube2 = cube(a2, b2);
+		while (cube2 < cube(b, b)) {
+			cube2 = cube(a2, b2);
+			// If its a Hardy Number
+			if (cube2 == cube && a2 != a && a2 != b) {
+				// System.out.println("c: " + a2 + " d: " + b2);
+				return true;
+			}
+			if (a2 < b2 - 1) {
+				a2++;
+			} else {
+				a2 = 1;
+				b2++;
+			}
+		}
+		return false;
+
+	}
+
+}

@@ -1,0 +1,71 @@
+#include "./sharedMemory.h"
+#include "./readerswriters.h"
+
+int main(int argc, char* argv[]) {
+    int ShmID;                        /* ID to shared memory */
+    sharedMemoryStruct *ShmPTR;       /* Pointer to shared memory region */
+    key_t key;                        /* Common key to shared memory region.*/
+    int readerid, writerid, i;
+    int numReaders, numWriters;
+
+    if (argc < 4) {
+        printf("./readerswriters <SM_KEY> <NUMBER_OF_READERS> ");
+        printf("<NUMBER_OF_WRITERS> \n");
+        return 0;
+    }
+    key = (key_t) atoi(argv[1]);
+    numReaders = atoi(argv[2]);
+    numWriters = atoi(argv[3]);
+
+    ShmID = createSharedMemoryRegion(key);
+    ShmPTR = attachSharedMemoryRegion(ShmID);
+
+    printf("Shared memory key = %d, numreaders = %d, numwriters = %d\n",
+        key, numReaders, numWriters);
+
+    /* Initialize semaphores and other data for readers-writers problem. */
+    sem_init(&(ShmPTR->mutex), 1, 1);
+    sem_init(&(ShmPTR->db), 1, 1);
+    ShmPTR->readers = 0;
+    ShmPTR->data = 0;
+
+    /*  You will want to replace the line below with code that creates a 
+        process fan of numReaders readers and numWriters writers. 
+        
+        This process should detach and remove the shared memory region only
+        after all child processes have terminated.
+    */
+    /*makeChild(key, 1, "writer");*/
+    int index;
+    for (index = 0; index < numWriters; index++) {
+	makeChild(key, index, "writer");
+    }
+    for (index = 0; index < numReaders; index++) {
+	makeChild(key, index, "reader");
+    }
+
+    for (index = 0; index < numReaders+numWriters; index++) {
+	wait(NULL);
+    }
+    detachSharedMemory((void *)ShmPTR);
+    removeSharedMemory(ShmID);
+
+    return 0;
+}
+
+void makeChild(key_t key, int ID, char* program) {
+    pid_t pid = fork();
+    if (pid < 0) {
+        printf("*** fork error (parent) ***\n");
+        exit(1);
+    } else if (pid == 0) { /* In the child process */
+        char shm_key[MAX_ARRAY_SIZE];
+        char process_id[MAX_ARRAY_SIZE];
+        char path[MAX_ARRAY_SIZE];
+        strncpy(path, "./", 3);
+        strncat(path, program, strlen(program));
+        snprintf(shm_key, MAX_ARRAY_SIZE, "%d", key);
+        snprintf(process_id, MAX_ARRAY_SIZE, "%d", ID);
+        execlp(path, program, shm_key, process_id, NULL);
+    }
+}

@@ -1,0 +1,64 @@
+import javax.swing.JFrame;
+
+public class GameWindow implements Runnable {
+
+	private JFrame gameFrame;
+	private String title;
+	private int width, height;
+	private Thread thread;
+	private boolean running;
+	
+	public GameWindow(String title, int width, int height){
+		this.title = title;
+		this.width = width;
+		this.height = height;
+	}
+	
+	public void createFrame(){
+		this.gameFrame = new JFrame(this.title);
+		gameFrame.setSize(this.width, this.height);
+		
+		// Exits the program properly on close.
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		
+		// Does not allow the window to be resized.
+		gameFrame.setResizable(false); 
+		
+		// Window appears in the center of the screen.
+		gameFrame.setLocationRelativeTo(null); 
+		
+		// Sets the window visible.
+		gameFrame.setVisible(true);
+	}
+	
+	
+	public void init(){
+		running = true;
+		createFrame();
+	}
+	
+
+	
+	private void tick() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	private void render() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	@Override
+	
+	public synchronized void run() {
+		
+		init();
+		while(running){
+			tick();
+			render();
+		}
+	
+		
+	}
+}

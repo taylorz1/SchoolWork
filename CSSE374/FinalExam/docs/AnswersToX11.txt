@@ -1,0 +1,19 @@
+1. This is done pretty well with the separation of work between the client
+and server. He also talks a lot about how you can write X11 extensions to 
+do things like the ubunutu 3d desktop, etc.
+2. This is also correct, there is no reliance on what the object actually is
+as long as it is the right 'kind' of object (that is a server or client).
+3. This is fine as far as X11 goes.
+4. The design is pretty coupled via all the round trips required. He said
+this is one of the biggest problems with X and that it is reduced in X11
+but still exists (specifically when he talks about fonts and how they solved
+that problem).
+5. This does have a problem, atleast in previous version of X that there was no 
+way to extend the X protocol you could only use it as is. I remember him
+ specifically saying this about X10, but I don't think this extends to X11.
+ Specifically  because you can create extensions that do a wide variety of things
+ but there are certain parts of the design that are left closed off from extension
+ like all the font handling if I remember correctly.
+6. No dependence on concrete classes! That's a lot of the benefit of this design.
+7. No problem with trainwrecks.
+8. This is unviolated.

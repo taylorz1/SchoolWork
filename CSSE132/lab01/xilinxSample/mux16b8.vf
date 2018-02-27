@@ -1,0 +1,375 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : mux16b8.vf
+// /___/   /\     Timestamp : 09/07/2016 12:21:52
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan3e -verilog C:/Users/taylorz1/Documents/CSSE132/lab01/xilinxSample/mux16b8.vf -w C:/Users/taylorz1/Documents/CSSE132/lab01/xilinxSample/mux16b8.sch
+//Design Name: mux16b8
+//Device: spartan3e
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale 1ns / 1ps
+
+module M2_1E_MXILINX_mux16b8(D0, 
+                             D1, 
+                             E, 
+                             S0, 
+                             O);
+
+    input D0;
+    input D1;
+    input E;
+    input S0;
+   output O;
+   
+   wire M0;
+   wire M1;
+   
+   AND3  I_36_30 (.I0(D1), 
+                 .I1(E), 
+                 .I2(S0), 
+                 .O(M1));
+   AND3B1  I_36_31 (.I0(S0), 
+                   .I1(E), 
+                   .I2(D0), 
+                   .O(M0));
+   OR2  I_36_38 (.I0(M1), 
+                .I1(M0), 
+                .O(O));
+endmodule
+`timescale 1ns / 1ps
+
+module M8_1E_MXILINX_mux16b8(D0, 
+                             D1, 
+                             D2, 
+                             D3, 
+                             D4, 
+                             D5, 
+                             D6, 
+                             D7, 
+                             E, 
+                             S0, 
+                             S1, 
+                             S2, 
+                             O);
+
+    input D0;
+    input D1;
+    input D2;
+    input D3;
+    input D4;
+    input D5;
+    input D6;
+    input D7;
+    input E;
+    input S0;
+    input S1;
+    input S2;
+   output O;
+   
+   wire M01;
+   wire M03;
+   wire M23;
+   wire M45;
+   wire M47;
+   wire M67;
+   
+   (* HU_SET = "I_M01_3" *) 
+   M2_1E_MXILINX_mux16b8  I_M01 (.D0(D0), 
+                                .D1(D1), 
+                                .E(E), 
+                                .S0(S0), 
+                                .O(M01));
+   MUXF5_L  I_M03 (.I0(M01), 
+                  .I1(M23), 
+                  .S(S1), 
+                  .LO(M03));
+   (* HU_SET = "I_M23_2" *) 
+   M2_1E_MXILINX_mux16b8  I_M23 (.D0(D2), 
+                                .D1(D3), 
+                                .E(E), 
+                                .S0(S0), 
+                                .O(M23));
+   (* HU_SET = "I_M45_1" *) 
+   M2_1E_MXILINX_mux16b8  I_M45 (.D0(D4), 
+                                .D1(D5), 
+                                .E(E), 
+                                .S0(S0), 
+                                .O(M45));
+   MUXF5_L  I_M47 (.I0(M45), 
+                  .I1(M67), 
+                  .S(S1), 
+                  .LO(M47));
+   (* HU_SET = "I_M67_0" *) 
+   M2_1E_MXILINX_mux16b8  I_M67 (.D0(D6), 
+                                .D1(D7), 
+                                .E(E), 
+                                .S0(S0), 
+                                .O(M67));
+   MUXF6  I_O (.I0(M03), 
+              .I1(M47), 
+              .S(S2), 
+              .O(O));
+endmodule
+`timescale 1ns / 1ps
+
+module mux16b8(A, 
+               B, 
+               C, 
+               D, 
+               E, 
+               F, 
+               G, 
+               H, 
+               S, 
+               O);
+
+    input [15:0] A;
+    input [15:0] B;
+    input [15:0] C;
+    input [15:0] D;
+    input [15:0] E;
+    input [15:0] F;
+    input [15:0] G;
+    input [15:0] H;
+    input [2:0] S;
+   output [15:0] O;
+   
+   wire V;
+   
+   (* HU_SET = "XLXI_1_4" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_1 (.D0(A[0]), 
+                                 .D1(B[0]), 
+                                 .D2(C[0]), 
+                                 .D3(D[0]), 
+                                 .D4(E[0]), 
+                                 .D5(F[0]), 
+                                 .D6(G[0]), 
+                                 .D7(H[0]), 
+                                 .E(V), 
+                                 .S0(S[0]), 
+                                 .S1(S[1]), 
+                                 .S2(S[2]), 
+                                 .O(O[0]));
+   (* HU_SET = "XLXI_9_5" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_9 (.D0(A[1]), 
+                                 .D1(B[1]), 
+                                 .D2(C[1]), 
+                                 .D3(D[1]), 
+                                 .D4(E[1]), 
+                                 .D5(F[1]), 
+                                 .D6(G[1]), 
+                                 .D7(H[1]), 
+                                 .E(V), 
+                                 .S0(S[0]), 
+                                 .S1(S[1]), 
+                                 .S2(S[2]), 
+                                 .O(O[1]));
+   (* HU_SET = "XLXI_10_6" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_10 (.D0(A[2]), 
+                                  .D1(B[2]), 
+                                  .D2(C[2]), 
+                                  .D3(D[2]), 
+                                  .D4(E[2]), 
+                                  .D5(F[2]), 
+                                  .D6(G[2]), 
+                                  .D7(H[2]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[2]));
+   (* HU_SET = "XLXI_11_7" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_11 (.D0(A[3]), 
+                                  .D1(B[3]), 
+                                  .D2(C[3]), 
+                                  .D3(D[3]), 
+                                  .D4(E[3]), 
+                                  .D5(F[3]), 
+                                  .D6(G[3]), 
+                                  .D7(H[3]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[3]));
+   (* HU_SET = "XLXI_24_8" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_24 (.D0(A[4]), 
+                                  .D1(B[4]), 
+                                  .D2(C[4]), 
+                                  .D3(D[4]), 
+                                  .D4(E[4]), 
+                                  .D5(F[4]), 
+                                  .D6(G[4]), 
+                                  .D7(H[4]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[4]));
+   (* HU_SET = "XLXI_25_9" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_25 (.D0(A[5]), 
+                                  .D1(B[5]), 
+                                  .D2(C[5]), 
+                                  .D3(D[5]), 
+                                  .D4(E[5]), 
+                                  .D5(F[5]), 
+                                  .D6(G[5]), 
+                                  .D7(H[5]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[5]));
+   (* HU_SET = "XLXI_26_10" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_26 (.D0(A[6]), 
+                                  .D1(B[6]), 
+                                  .D2(C[6]), 
+                                  .D3(D[6]), 
+                                  .D4(E[6]), 
+                                  .D5(F[6]), 
+                                  .D6(G[6]), 
+                                  .D7(H[6]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[6]));
+   (* HU_SET = "XLXI_27_11" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_27 (.D0(A[7]), 
+                                  .D1(B[7]), 
+                                  .D2(C[7]), 
+                                  .D3(D[7]), 
+                                  .D4(E[7]), 
+                                  .D5(F[7]), 
+                                  .D6(G[7]), 
+                                  .D7(H[7]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[7]));
+   (* HU_SET = "XLXI_28_12" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_28 (.D0(A[8]), 
+                                  .D1(B[8]), 
+                                  .D2(C[8]), 
+                                  .D3(D[8]), 
+                                  .D4(E[8]), 
+                                  .D5(F[8]), 
+                                  .D6(G[8]), 
+                                  .D7(H[8]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[8]));
+   (* HU_SET = "XLXI_29_13" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_29 (.D0(A[9]), 
+                                  .D1(B[9]), 
+                                  .D2(C[9]), 
+                                  .D3(D[9]), 
+                                  .D4(E[9]), 
+                                  .D5(F[9]), 
+                                  .D6(G[9]), 
+                                  .D7(H[9]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[9]));
+   (* HU_SET = "XLXI_30_14" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_30 (.D0(A[10]), 
+                                  .D1(B[10]), 
+                                  .D2(C[10]), 
+                                  .D3(D[10]), 
+                                  .D4(E[10]), 
+                                  .D5(F[10]), 
+                                  .D6(G[10]), 
+                                  .D7(H[10]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[10]));
+   (* HU_SET = "XLXI_31_15" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_31 (.D0(A[11]), 
+                                  .D1(B[11]), 
+                                  .D2(C[11]), 
+                                  .D3(D[11]), 
+                                  .D4(E[11]), 
+                                  .D5(F[11]), 
+                                  .D6(G[11]), 
+                                  .D7(H[11]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[11]));
+   (* HU_SET = "XLXI_32_16" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_32 (.D0(A[12]), 
+                                  .D1(B[12]), 
+                                  .D2(C[12]), 
+                                  .D3(D[12]), 
+                                  .D4(E[12]), 
+                                  .D5(F[12]), 
+                                  .D6(G[12]), 
+                                  .D7(H[12]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[12]));
+   (* HU_SET = "XLXI_33_17" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_33 (.D0(A[13]), 
+                                  .D1(B[13]), 
+                                  .D2(C[13]), 
+                                  .D3(D[13]), 
+                                  .D4(E[13]), 
+                                  .D5(F[13]), 
+                                  .D6(G[13]), 
+                                  .D7(H[13]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[13]));
+   (* HU_SET = "XLXI_34_18" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_34 (.D0(A[14]), 
+                                  .D1(B[14]), 
+                                  .D2(C[14]), 
+                                  .D3(D[14]), 
+                                  .D4(E[14]), 
+                                  .D5(F[14]), 
+                                  .D6(G[14]), 
+                                  .D7(H[14]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[14]));
+   (* HU_SET = "XLXI_35_19" *) 
+   M8_1E_MXILINX_mux16b8  XLXI_35 (.D0(A[15]), 
+                                  .D1(B[15]), 
+                                  .D2(C[15]), 
+                                  .D3(D[15]), 
+                                  .D4(E[15]), 
+                                  .D5(F[15]), 
+                                  .D6(G[15]), 
+                                  .D7(H[15]), 
+                                  .E(V), 
+                                  .S0(S[0]), 
+                                  .S1(S[1]), 
+                                  .S2(S[2]), 
+                                  .O(O[15]));
+   VCC  XLXI_86 (.P(V));
+endmodule

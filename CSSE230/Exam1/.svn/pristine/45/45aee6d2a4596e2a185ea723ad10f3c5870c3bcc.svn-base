@@ -1,0 +1,150 @@
+package quack;
+
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+/**
+ * A class to implement the Quack ADT.
+ *
+ * @author Nate Chenette and Zachary Taylor. Created Dec 15, 2016.
+ */
+
+public class Quack {
+	SinglyLinkedList list; // Data must be stored here.
+	boolean inStackMode; // true if Quack in stack mode, false if in queue mode.
+	int size;
+	ArrayList<Node> nodes = new ArrayList<Node>();
+
+	public Quack() {
+		list = new SinglyLinkedList();
+		inStackMode = true; // Quack always starts in stack mode
+		size = 0;
+	}
+
+	/**
+	 * Converts and sets the Quack to stack mode. If already in stack mode, stay
+	 * there.
+	 */
+	public void toStackMode() {
+		// DONE Write me!
+		if (this.inStackMode) {
+			return;
+		}
+		this.inStackMode = true;
+
+	}
+
+	/**
+	 * Converts and sets the Quack to queue mode. If already in queue mode, stay
+	 * there.
+	 */
+	public void toQueueMode() {
+		// DONE Write me!
+		if (!this.inStackMode) {
+			return;
+		}
+		this.inStackMode = false;
+
+	}
+
+	/**
+	 * Insert an item into the Quack.
+	 */
+	public void insert(String newitem) {
+		// DONE Write me!
+		if (size == 0) {
+			list.head = new Node(newitem, null);
+			size++;
+			nodes.add(list.head);
+		} else {
+			Node nd = list.head;
+			while (nd.next != null) {
+				nd = nd.next;
+			}
+			nd.next = new Node(newitem, null);
+			size++;
+			nodes.add(nd.next);
+		}
+	}
+
+	/**
+	 * Retrieve the next item from the Quack according to mode: FIFO if in queue
+	 * mode LIFO if in stack mode
+	 * 
+	 * If the Quack is empty, throws a NoSuchElementException.
+	 */
+	public String retrieve() {
+		// DONE Write me!
+		if (size == 0) {
+			throw (new NoSuchElementException());
+		}
+		if (!inStackMode) {
+			System.out.println(list.toString());
+			Node nd = list.head.next;
+			Node toreturn = list.head;
+			list.head = nd;
+			size--;
+			return toreturn.data;
+		}
+		// In stack mode
+		Node nd = list.head;
+		Node previous = nd;
+		while (nd.next != null) {
+			previous = nd;
+			nd = nd.next;
+		}
+		previous.next = null;
+		Node toreturn = nd;
+		return toreturn.data;
+	}
+
+	// ------- Code below this point should not be changed -------
+
+	// For testing purposes
+	public String toString() {
+		return list.toString();
+	}
+
+	/**
+	 * Basic singly linked list.
+	 */
+	public class SinglyLinkedList {
+		Node head;
+
+		SinglyLinkedList() {
+			head = null;
+		}
+
+		// For testing/debugging purposes
+		public String toString() {
+			StringBuilder s = new StringBuilder();
+			s.append("[");
+			Node nd = head;
+			if (nd != null) {
+				s.append(nd.data);
+				nd = nd.next;
+			}
+			while (nd != null) {
+				s.append(", ");
+				s.append(nd.data);
+				nd = nd.next;
+			}
+			s.append("]");
+			return s.toString();
+		}
+	}
+
+	/**
+	 * Basic node.
+	 */
+	class Node {
+		String data;
+		Node next;
+
+		Node(String item, Node nextNode) {
+			data = item;
+			next = nextNode;
+		}
+	}
+
+}

@@ -1,0 +1,26 @@
+WHAT WE DID:
+We've implemented a bunch of special features like graphics that can be
+run by browsing the output of the help prompt. The features that we implemented
+in this milestone according to the specifications, such as loading
+and terminating programs according to a scheduler. We created a process table
+that operates by timer interrupt.
+
+HOW TO VERIFY:
+Boot the system using make test or make test-bochs and then type the following
+commands 'Kill xxxx' or 'phello' or 'execute grphcs' or 'execforeground' or
+'shellcolor N' or 'cls' clear screen.
+
+
+HOW TO USE:
+To build the operating system, simply type 'make test' into your console.
+For any feature you wish to test simply write 'help' to see the total
+documentation.
+
+BUGS:
+If you type kill with no arguemnt after running exec phello it kills the shell.
+It you write 'type KERNEL' it will print a bunch of random memory.
+
+EXTRA FEATURES:
+shellcolor, jumphng, shutdown, graphics library, sitstill, several math
+functions.
+

@@ -1,0 +1,59 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObjMov implements Drawable{
+
+
+	private Color color;
+	private Shape shape;
+	private boolean bombDropped = false;
+
+	public Hero(GameWorld world, Point2D.Double startPosition){
+		super(world, startPosition);
+		this.shape = new Ellipse2D.Double(startPosition.x, startPosition.y, 30, 30);
+		this.color = Color.BLUE;
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public Shape getShape() {
+		return this.shape;
+	}
+
+	
+	public void setDropped(boolean a) {
+		this.bombDropped = a;
+	}
+	
+	public void dropBomb() {
+		Bomb bomb = new Bomb(this.getWorld(), getPosition(), this);
+		this.getWorld().addObj(bomb);
+	}
+	
+	@Override
+	boolean canBeMovedInto() {
+		return true;
+	}
+
+	@Override
+	void onBombDamage() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	
+
+}
+

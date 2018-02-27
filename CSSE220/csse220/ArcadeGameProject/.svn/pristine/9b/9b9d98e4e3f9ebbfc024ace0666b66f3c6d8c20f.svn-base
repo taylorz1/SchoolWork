@@ -1,0 +1,18 @@
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObject{
+	
+	public Hero(GameWindow world, Point2D.Double startPosition) {
+		super(world,getPosition());
+		this.currentPowerUp = null;
+		this.currentWeapon = null;
+
+	}
+	
+	protected void setCenterPoint(Point2D centerPoint) {
+		
+	}
+
+
+	
+}

@@ -1,0 +1,67 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+public class Hero extends GameObjMov implements Drawable{
+
+
+	private Color color;
+	private Shape shape;
+	private boolean bombDropped = false;
+
+	public Hero(GameWorld world, Point2D.Double startPosition){
+		super(world, startPosition);
+		this.setPosition(startPosition);
+		this.shape = new Ellipse2D.Double(this.getPosition().getX(), this.getPosition().getY(), 30, 30);
+		this.color = Color.BLUE;
+		this.setSize(30);
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+	
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Ellipse2D.Double(x-size /2, y-size/2, size, size);
+	}
+
+	
+	public void setDropped(boolean a) {
+		this.bombDropped = a;
+	}
+	
+	public void dropBomb() {
+		if (!bombDropped) {
+		Bomb bomb = new Bomb(this.getWorld(), getPosition(), this);
+		this.getWorld().addObj(bomb);
+		((GameWorld) this.getWorld()).setBomb(bomb);
+		}
+	}
+	
+	
+	@Override
+	boolean canBeMovedInto() {
+		return true;
+	}
+
+	@Override
+	void onBombDamage() {
+			if (!( (GameWorld) this.getWorld()).getRemove().contains(this)) {
+				this.die();
+			}
+		//Also needs to print some sort of "you lose" message.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		m.collide(this);
+		}
+}
+

@@ -1,0 +1,170 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.io.File;
+import java.io.IOException;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+public class Hero extends GameObjMov implements Drawable {
+
+	private boolean isInvincible = false;
+	private long timeFlag = (long) 0.0;
+	private long repainter;
+	private Color color;
+	private int maxBombs = 1;
+	private int bombCount = 0;
+	private boolean fullBombs = false;
+	private boolean remoteDetonation = false;
+	private int bombSize = 25;
+	private boolean isAlive = true;
+	private boolean alreadyPlaying = false;
+
+	public Hero(GameWorld world, Point2D.Double startPosition) {
+		super(world, startPosition);
+		this.setPosition(startPosition);
+		this.color = Color.BLUE;
+		this.setSize(23);
+		this.repainter = GameWindowComponent.repaintint();
+	}
+
+	@Override
+	public Color getColor() {
+		if (isInvincible()) {
+			this.color = updateInvicibility();
+		} else {
+			this.color = Color.BLUE;
+		}
+		return this.color;
+	}
+
+	public void resetColor() {
+		this.color = Color.BLUE;
+	}
+
+	public Color updateInvicibility() {
+		// Some jank method for the invicibility powerup
+		this.color = new Color((float) Math.random(), (float) Math.random(), (float) Math.random());
+		this.timeFlag = this.timeFlag + this.repainter;
+			AudioInputStream audioInputStream;
+			try {
+				audioInputStream = AudioSystem
+						.getAudioInputStream(new File("C:/Users/abdelrom/Downloads/invincible.wav").getAbsoluteFile());
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				if (this.timeFlag >= 5000F) {
+					clip.stop();
+					this.alreadyPlaying = false;
+					clip.close();
+				}
+				if (this.timeFlag <= 50) {
+					clip.start();
+					this.alreadyPlaying = true;
+				}
+				if (this.timeFlag >= 5000F) {
+					setInvincible(false);
+				}
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException exception) {
+				exception.printStackTrace();
+			}
+		return this.color;
+	}
+
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Ellipse2D.Double(x - size / 2, y - size / 2, size, size);
+	}
+
+	public void increaseBombs() {
+		System.out.println("inc");
+		this.maxBombs++;
+	}
+
+	public void bombDropped() {
+		this.bombCount++;
+		if (this.bombCount >= this.maxBombs)
+			this.fullBombs = true;
+	}
+
+	public void bombExploded() {
+		this.bombCount--;
+		if (this.bombCount < this.maxBombs)
+			this.fullBombs = false;
+		if (this.bombCount < 0)
+			this.bombCount = 0;
+	}
+
+	public void increaseBombSize() {
+		this.bombSize = this.bombSize + 10;
+	}
+
+	public void dropBomb() {
+		if (!this.world.isPaused() && this.isAlive) {
+			if (!this.fullBombs) {
+				bombDropped();
+				Bomb bomb = new Bomb(this.getWorld(), getPosition(), this, this.remoteDetonation, this.bombSize);
+				this.getWorld().addObj(bomb);
+				(this.getWorld()).addBomb(bomb);
+			}
+		}
+	}
+
+	@Override
+	void onBombDamage() {
+		if (!(this.getWorld()).getRemove().contains(this)) {
+			this.die();
+		}
+		// Also needs to print some sort of "you lose" message.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		m.collideWithHero(this);
+	}
+
+	@Override
+	void collideWithHero(Hero m) {
+		return;
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		return;
+	}
+
+	@Override
+	void collideWithPowerUp(PowerUp m) {
+		return;
+	}
+
+	public void enableRemoteDetonation() {
+		this.remoteDetonation = true;
+
+	}
+
+	@Override
+	public void die() {
+		(this.getWorld()).setHero(null);
+		this.isAlive = false;
+		this.getWorld().removeObj(this);
+	}
+
+	public boolean isInvincible() {
+		return isInvincible;
+	}
+
+	public void setInvincible(boolean isInvincible) {
+		this.timeFlag = 0;
+		this.isInvincible = isInvincible;
+	}
+
+}

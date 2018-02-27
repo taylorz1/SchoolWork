@@ -1,0 +1,25 @@
+
+
+
+     Hi!  Thanks for reading me.
+
+
+
+Go into the clmystery directory and read the file called "instructions" using
+the "cat" command.  It will tell you what to do.
+
+The instructions file says how to find the answer or check your answer using a
+"solutions" file.  Don't be tempted! You won't be graded on whether or not you
+solved the murder, but rather _how_ you solved it.
+
+
+TO CHECK YOUR ANSWER:
+---------------------
+
+Copy and paste the following command, replace John Doe with the suspect's name
+you want to check, and execute it _from inside the main clmystery directory_:
+
+  echo "John Doe" | $(command -v md5 || command -v md5sum) \
+  | grep -qif /dev/stdin encoded && echo CORRECT\! GREAT WORK, GUMSHOE. \
+  || echo SORRY, TRY AGAIN.
+

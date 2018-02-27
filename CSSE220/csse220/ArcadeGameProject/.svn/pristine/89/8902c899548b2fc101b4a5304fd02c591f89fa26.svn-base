@@ -1,0 +1,29 @@
+import java.awt.geom.Point2D;
+
+public class Level {
+Point2D.Double[] wallPositions;
+Point2D.Double heroStart;
+	
+		public Level(Point2D.Double[] wallPositions, Point2D.Double heroStart) {
+			this.wallPositions = wallPositions;
+			this.heroStart = heroStart;
+		}
+
+		public Point2D.Double[] getWallPositions() {
+			return this.wallPositions;
+		}
+
+		public void setWallPositions(Point2D.Double[] wallPositions) {
+			this.wallPositions = wallPositions;
+		}
+
+		public Point2D.Double getHeroStart() {
+			return this.heroStart;
+		}
+
+		public void setHeroStart(Point2D.Double heroStart) {
+			this.heroStart = heroStart;
+		}
+		
+		
+}

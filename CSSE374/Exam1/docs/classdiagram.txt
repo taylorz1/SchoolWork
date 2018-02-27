@@ -1,0 +1,56 @@
+@startuml
+class MapGeneratorApp {
+	+ {static} void main(String[] args);
+	- {static} List<ITile> buildTileSet();
+}
+
+
+class MapGenerator {
+	- List<ITile> tileSet
+	- int columns
+	- int rows
+	- int nMutations
+	- Random randomNumbers
+	- ITile[][] mapRep
+
+	+ MapGenerator(List<ITile> tileSet, int numRows, int numCols, int nMutations)
+	- ITile[][] generateMapRepresentation()
+	+ void renderMap()
+	- void mutateMap(ITile[][] mapRep)
+	- ITile generateRandomTile()
+	- HashSet<ITile> selectTilesForMutation(ITile[][] mapRep)
+}
+
+interface ITile {
+	ITile createNewTile()
+	void renderTile()
+}
+
+class EmptyTile {
+	+ EmptyTile()
+	+ ITile createNewTile()
+	+ void renderTile()
+}
+
+class DirtTile {
+	+ DirtTile ()
+	+ ITile createNewTile()
+	+ void renderTile()
+}
+
+class DiamondTile {
+	+ int yield
+	+ DiamondTile(int diamondYield)
+	+ ITile createNewTile()
+	+ void renderTile()
+}
+
+MapGeneratorApp ..> MapGenerator
+MapGeneratorApp ..> EmptyTile
+MapGeneratorApp ..> DirtTile
+MapGeneratorApp ..> DiamondTile
+MapGenerator "1" o-- "*" ITile
+EmptyTile ..|> ITile
+DirtTile ..|> ITile
+DiamondTile ..|> ITile
+@enduml

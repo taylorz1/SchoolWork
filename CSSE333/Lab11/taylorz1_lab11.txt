@@ -1,0 +1,47 @@
+Task 1
+Turnin 1:
+		Because of the lock placed on the table by beginning
+		the transaction. This lock was an exclusive lock most
+		likely, which disallows other types of locks additionally.
+		
+Turnin 2:
+		At the end you can simply put ROLLBACK transaction. Which 
+		will remove all edits made in the current transaction due
+		to them being atomic. If this question's intent is how to
+		invert the operation that transaction 1 has made, then you
+		can simply run the query in reverse with some minimal renaming
+		of the variables for consistency. For example 'Howard Snyder'
+		gets moved into the update clause. Then 'Howard Snyder' becomes
+		after update.
+		
+		
+Task 2
+Turnin 3:
+		ROLLBACK transaction undoes the edits that the commit transaction
+		has done. This command cannot be used after a commit transaction
+		because the transaction has already been written back to memory
+		and additionally the transaction that rollback would refer to is
+		already completed once commit is run. So it would simply rollback
+		to the commit, if it rolled back.
+		
+Task 3
+Turnin 4: (IX intent exclusive) (X exclusive)
+		There are 2 intent exclusive locks, 1 shared lock
+		and 1 exclusive lock.
+		
+
+Turnin 5: BEGIN TRANSACTION
+  UPDATE Employees
+    SET Title = 'Sales Manager', Address = '8 Houndstooth Road'
+    WHERE LastName ='Dodsworth', FirstName = 'Anne'
+	commit transaction
+	
+Turnin 5.b:
+		1: A transaction is an atomic modification / operation on a database.
+		2: It would be needed in cases where you are updating a table that is
+			used by more than one user to ensure that every user gets proper data
+			i.e. no dirty reads.
+		3: A lock is a semophore placed on a table that prevents editing or access
+			from users other than one current user.
+		4: sp_lock returns all of the locks and information about the locks held
+			by a specific sp user id.

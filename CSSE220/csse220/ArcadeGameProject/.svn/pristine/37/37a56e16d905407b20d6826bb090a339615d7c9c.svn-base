@@ -1,0 +1,81 @@
+import javax.swing.JFrame;
+
+public class GameWindow implements Runnable {
+
+	private JFrame gameFrame;
+	private String title;
+	private int width, height;
+	private Thread thread;
+	private boolean running;
+	private Level currentLevel;
+	
+	public GameWindow(String title){
+		this.title = title;
+		this.width = 1000;
+		this.height = 800;
+		this.currentLevel = new Level();
+	}
+	
+	public void createFrame(){
+		JFrame GameFrame = new JFrame();
+		
+		GameFrame.setTitle("Fantastic!");
+		GameFrame.setSize(1000,800);
+		
+		GameFrame.add(new GameWindowComponent());
+		
+		fanFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		fanFrame.setVisible(true);
+		
+		
+		
+		this.gameFrame = new JFrame(this.title);
+		gameFrame.setSize(this.width, this.height);
+		
+		//We wanna contruct a rectangle on our frame.
+		
+		
+		
+		// Exits the program properly on close.
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		
+		// Does not allow the window to be resized.
+		gameFrame.setResizable(false); 
+		
+		// Window appears in the center of the screen.
+		gameFrame.setLocationRelativeTo(null); 
+		
+		// Sets the window visible.
+		gameFrame.setVisible(true);
+	}
+	
+	
+	public void init(){
+		running = true;
+		createFrame();
+	}
+	
+
+	
+	private void tick() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	private void render() {	
+		
+	}
+	
+
+	@Override
+	public synchronized void run() {
+		
+		init();
+		while(this.running){
+			tick();
+			render();
+		}
+	
+		
+	}
+}

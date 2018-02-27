@@ -1,0 +1,26 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+	id 'application'
+}
+
+sourceCompatibility = 1.8
+
+mainClassName = "edu.rosehulman.client.GamingApp"
+
+repositories {
+    maven {
+        url "https://maven.csse.rose-hulman.edu/artifactory/libs-release"
+    }
+}
+
+dependencies {
+	compile 'com.mashape.unirest:unirest-java:1.4.9'
+	testCompile 'junit:junit:4.+'
+}
+
+run {
+	standardInput = System.in
+}
+

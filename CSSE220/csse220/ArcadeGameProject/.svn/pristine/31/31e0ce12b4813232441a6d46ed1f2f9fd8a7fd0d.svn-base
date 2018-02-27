@@ -1,0 +1,32 @@
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+
+public class EasyMonster extends Monster {
+	int counter = 0;
+
+	public EasyMonster(GameWorld world, Double position) {
+		super(world, position, java.awt.Color.MAGENTA);
+		this.setDyDx(1, 0);
+
+	}
+
+	@Override
+	public void updatePosition() {
+		counter++;
+		if (counter > 100) {
+			this.setDyDx((int) -this.dx, 0);
+			counter = 0;
+		}
+
+		double x = this.getPosition().getX() + this.dx;
+		double y = this.getPosition().getY() + this.dy;
+		if (!super.getWorld().isInsideWorld(getPosition())) {
+			this.setPosition(this.getPreviousposition());
+			return;
+		}
+		setPreviousposition(getPosition());
+		this.setPosition(new Point2D.Double(x, y));
+
+	}
+
+}

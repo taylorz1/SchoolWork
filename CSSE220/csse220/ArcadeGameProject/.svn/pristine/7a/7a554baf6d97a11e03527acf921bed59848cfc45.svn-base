@@ -1,0 +1,44 @@
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+public class Level {
+Point2D.Double[] wallPositions;
+Point2D.Double heroStart;
+
+
+		public Level() {
+			this.wallPositions = new Point2D.Double[10];
+			this.heroStart = new Point2D.Double(0, 0);
+			for (int i = 1; i< 10; i++) {
+				this.wallPositions[i] = new Point2D.Double( i, i);
+			}
+		}
+	
+		public Level(Point2D.Double[] wallPositions, Point2D.Double heroStart) {
+			this.wallPositions = wallPositions;
+			this.heroStart = heroStart;
+		}
+
+		public Point2D.Double[] getWallPositions() {
+			return this.wallPositions;
+		}
+
+		public void setWallPositions(Point2D.Double[] wallPositions) {
+			this.wallPositions = wallPositions;
+		}
+
+		public Point2D.Double getHeroStart() {
+			return this.heroStart;
+		}
+
+		public void setHeroStart(Point2D.Double heroStart) {
+			this.heroStart = heroStart;
+		}
+
+		public ArrayList<Drawable> generateObjects() {
+			//Add generation of objects (walls etc);
+			return null;
+		}
+		
+		
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=Scene/C:\/Program Files\/Java\/jre1.8.0_91\/lib\/rt.jar&lt;java.awt(Component.class[Component" modifiers="1057" timestamp="1463613414853"/>
+<typeInfo handle="=Scene/C:\/Program Files\/Java\/jre1.8.0_91\/lib\/rt.jar&lt;javax.swing(JComponent.class[JComponent" modifiers="1057" timestamp="1463613414853"/>
+<typeInfo handle="=Interfaces/C:\/Program Files\/Java\/jre1.8.0_91\/lib\/rt.jar&lt;javax.xml.crypto.dsig(Transform.class[Transform" modifiers="1537" timestamp="1463613414853"/>
+<typeInfo handle="=Interfaces/src&lt;stringTransforms{TransformInterface.java[TransformInterface" modifiers="513" timestamp="1475614175001"/>
+<typeInfo handle="=BettingInterfaces/src&lt;{BettingInterface.java[BettingInterface" modifiers="513" timestamp="1476300484816"/>
+<typeInfo handle="=BallWorlds/src&lt;ballworlds{Ball.java[Ball" modifiers="1025" timestamp="1476750995983"/>
+<typeInfo handle="=BallWorlds/src&lt;ballworlds{AbstractBouncer.java[AbstractBouncer" modifiers="1025" timestamp="1479327747461"/>
+<typeInfo handle="=ArcadeGameProject/src&lt;{GameObject.java[GameObject" modifiers="1025" timestamp="1478728346671"/>
+<typeInfo handle="=ArcadeGameProject/src&lt;{Wall.java[Wall" modifiers="1" timestamp="1478723206411"/>
+<typeInfo handle="=ArcadeGameProject/src&lt;{GameObjMov.java[GameObjMov" modifiers="1025" timestamp="1478728323270"/>
+<typeInfo handle="=ArcadeGameProject/src&lt;{Drawable.java[Drawable" modifiers="513" timestamp="1478728141161"/>
+<typeInfo handle="=ArcadeGameProject/src&lt;{Temporal.java[Temporal" modifiers="513" timestamp="1478723206339"/>
+<typeInfo handle="=Final-201710/src&lt;gravity{GravityRect.java[GravityRect" modifiers="1" timestamp="1479328784243"/>
+</typeInfoHistroy>

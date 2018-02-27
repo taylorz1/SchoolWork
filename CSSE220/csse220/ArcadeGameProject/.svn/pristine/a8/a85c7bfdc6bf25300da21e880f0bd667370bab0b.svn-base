@@ -1,0 +1,139 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+
+/**
+ * 
+ * Heavily inspired by the BallWorldComponent.
+ *
+ * @author taylorz1.
+ *         Created Oct 27, 2016.
+ */
+public class GameWindowComponent extends JComponent{
+	private static final int FRAMES_PER_SECOND = 30;
+	private static final long REPAINT_INTERVAL_MS = 1000 / FRAMES_PER_SECOND;
+
+	private GameWorld world;
+	private boolean hasShownNullErrorMessage = false;
+	
+
+	public GameWindowComponent(GameWorld world) {
+		this.world = world;
+		
+//		HeroMovHandler movHandler = new HeroMovHandler();
+//		addKeyListener(movHandler);
+		
+		setPreferredSize(world.getSize());
+		setMaximumSize(world.getSize());
+
+		// Creates a separate "thread of execution" to trigger periodic
+		// repainting of this component.
+		Runnable repainter = new Runnable() {
+			@Override
+			public void run() {
+				// Periodically asks Java to repaint this component
+				try {
+					while (true) {
+						Thread.sleep(REPAINT_INTERVAL_MS);
+						repaint();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(repainter).start();
+	}
+	
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+
+		drawDrawable(g2, this.world);
+
+//		List<Drawable> drawableParts = this.world.getDrawableParts();
+//		for (Drawable d : drawableParts) {
+//			drawDrawable(g2, d);
+//		}
+	}
+	
+	
+	
+	private void drawDrawable(Graphics2D g2, Drawable d) {
+		Color color = d.getColor();
+		if (color == null) {
+			showNullPointerMessage("color", d);
+			return;
+		}
+		Shape shape = d.getShape();
+		if (shape == null) {
+			showNullPointerMessage("shape", d);
+			return;
+		}
+		g2.setColor(this.world.getColor());
+		g2.draw(shape);
+		g2.fill(shape);
+	}
+	
+	
+	private void showNullPointerMessage(String nullAttribute, Drawable d) {
+		if (!this.hasShownNullErrorMessage) {
+			this.hasShownNullErrorMessage = true;
+			String message = "I could not draw this Drawable object of type "
+					+ d.getClass().getName() + " because its " + nullAttribute
+					+ " is null.\n";
+			JOptionPane.showMessageDialog(null, message,
+					"Null pointer exception", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+//	public class HeroMovHandler implements KeyListener{
+//		Hero hero = GameWindowComponent.this.world.getHero();
+//		@Override
+//		public void keyPressed(KeyEvent e) {
+//			int key = e.getExtendedKeyCode();
+//			if (key == KeyEvent.VK_UP) {
+//				this.hero.setDyDx(0, -1);
+//			}
+//			if (key == KeyEvent.VK_DOWN) {
+//				this.hero.setDyDx(0	, 1);
+//			}
+//			if (key == KeyEvent.VK_LEFT) {
+//				this.hero.setDyDx(-1, 0);
+//			}
+//			if (key == KeyEvent.VK_RIGHT) {
+//				this.hero.setDyDx(1, 0);
+//			}			
+//		}
+//
+//		@Override
+//		public void keyReleased(KeyEvent e) {
+//			int key = e.getExtendedKeyCode();
+//
+//			if (key == KeyEvent.VK_UP) {
+//				this.hero.setDyDx(0, 0);
+//			}
+//			if (key == KeyEvent.VK_DOWN) {
+//				this.hero.setDyDx(0, 0);
+//			}
+//			if (key == KeyEvent.VK_LEFT) {
+//				this.hero.setDyDx(0, 0);
+//			}
+//			if (key == KeyEvent.VK_RIGHT) {
+//				this.hero.setDyDx(0, 0);
+//			}			
+//		}
+//
+//		@Override
+//		public void keyTyped(KeyEvent e) {
+//			// TODO Auto-generated method stub.
+//			
+//		}
+		
+	}
+

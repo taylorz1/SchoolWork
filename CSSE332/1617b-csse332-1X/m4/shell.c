@@ -1,0 +1,105 @@
+/* OS Shell */
+/* Tucker Osman, Zach Taylor, Jarrett Alexander */
+
+int stringcmp(char* a, char* b);
+int strnlen(char* strn);
+
+char line[512];
+char lineForFile[512];
+char filebuffer[13312];
+int i,j,k;
+
+int main() {
+  while(1) {
+    for(i=0;i<512;i++) line[i]=0;
+    interrupt(0x21,0,"YO> ",0,0);
+    interrupt(0x21,1,line,0,0);
+    interrupt(0x21,0,"\r\n\0",0,0);
+    if (stringcmp(line, "type \0") == 0) {
+      filebuffer[0] = 0;
+	    interrupt(0x21, 3, line+5, filebuffer, 0);
+	    interrupt(0x21, 0, filebuffer, 0, 0);
+    } else if (stringcmp(line, "execute \0") == 0) {
+	    interrupt(0x21, 4, line+8, 0x3000, 0);
+    } else if (stringcmp(line, "delete \0") == 0) {
+	    interrupt(0x21, 7, line+7, 0, 0);
+    } else if (stringcmp(line, "copy \0") == 0) {
+	    j = strnlen(line);
+	    for(i=0;i<j;i++) if(line[i]==' '||line[i]=='\n'||line[i]=='\r') line[i]=0;
+	    interrupt(0x21, 3, line+5, filebuffer, 0);
+	    interrupt(0x21, 8, line+5+strnlen(line+5)+1, filebuffer, strnlen(filebuffer)/512+1);
+    } else if (stringcmp(line, "dir\0") == 0) {
+      interrupt(0x21, 2, line, 2); /* Load the dirSector */
+      for(i=0;i<16;i++) {
+        if(line[i*32]!=0) { /* There's a file here */
+          filebuffer[1] = 0;
+          for(j=0;j<6;j++) {
+            if(line[i*32+j]!=0) filebuffer[0] = line[i*32+j];
+            else filebuffer[0] = ' ';
+            interrupt(0x21, 0, filebuffer, 0, 0);
+          }
+          interrupt(0x21, 0, "      \0", 0, 0);
+          k = 0;
+          for(j=6;j<32;j++) {
+            if(line[i*32+j]>0) k++;
+          }
+          filebuffer[0] = div(k,10)+48;
+          filebuffer[1] = mod(k,10)+48;
+          filebuffer[2] = 0;
+          interrupt(0x21, 0, filebuffer, 0, 0);
+          interrupt(0x21, 0, " sectors\r\n\0", 0, 0);
+        }
+      }
+    } else if (stringcmp(line, "shutdown\0") == 0) {
+      interrupt(0x21, -1, 0, 0);
+      interrupt(0x21, 0, "Shutdown Failed\r\n\0",0,0);
+    } else if (stringcmp(line, "create \0") == 0) {
+      interrupt(0x21, 1, lineForFile, 0, 0);
+      interrupt(0x21, 0, "\n", 0, 0);
+      j = 0;
+      while (stringcmp(lineForFile, "\r\n\0") != 0) {
+        k = 0;
+        while (lineForFile[k] != '\0') {
+          filebuffer[j+k] = lineForFile[k];
+          k++;
+        }
+        j+=strnlen(lineForFile);
+        interrupt(0x21, 1, lineForFile, 0, 0);
+        interrupt(0x21, 0, "\n", 0, 0);        
+      }
+      interrupt(0x21, 8, line + 7, filebuffer, strnlen(filebuffer)/512+1);
+    }
+    else {
+      interrupt(0x21,0,"Not a valid command\r\n\0",0,0);
+    }
+  }
+}
+
+int stringcmp(char* a, char* b) {
+	int i = 0;
+	while (b[i] != '\0') {
+		if (a[i] != b[i]) {
+			return 1;
+		}
+		i++;
+	}
+	return 0;
+}
+
+/* adapted from glibc */
+int strnlen(char* strn) {
+	char* out;
+	for(out=strn;*out;++out);
+	return (out-strn);
+}
+
+int mod(int x, int y) {
+  while (x>=y) x=x-y;
+  return x;
+}
+
+int div(int x, int y) {
+  int quotient = 0;
+  while ((quotient + 1) * y <= x) quotient  = quotient  + 1;
+  return quotient;
+}

@@ -1,0 +1,11 @@
+We have implemented the following features:
+
+
+General Heirarchy(class order, class existance, etc) :: 1 hour.
+World Drawing(Draws a world successfully) :: 2 hour.
+Class hero exist :: 1 hour
+Other classes exist :: 1 hour
+
+
+Def should've start earlier. Will complete before Milestone 2. Underestimated the time
+it would take to assemble the general mainframe stuff.

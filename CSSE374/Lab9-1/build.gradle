@@ -1,0 +1,25 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+	id 'application'
+}
+
+sourceCompatibility = 1.8
+
+mainClassName = "problem.client.AnimatorApp"
+
+repositories {
+    maven {
+        url "https://maven.csse.rose-hulman.edu/artifactory/libs-release"
+    }
+}
+
+dependencies {
+	testCompile 'junit:junit:4.+'
+}
+
+run {
+	standardInput = System.in
+}
+

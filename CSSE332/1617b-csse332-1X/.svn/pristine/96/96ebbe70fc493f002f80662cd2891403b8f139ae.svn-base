@@ -1,0 +1,27 @@
+/* Kernel */
+/* Tucker Osman, Zach Taylor, Jarrett Alexandar */
+
+#include "kernel.h"
+#include "terminal.h"
+#include "floppy_driver.h"
+#include "interrupt_handler.h"
+
+char line[512];
+char fileBuffer[13312];
+
+int main() {
+
+  for(currentProcess=7;currentProcess>=0;currentProcess--) {
+    processes[currentProcess].active = 0;
+    processes[currentProcess].sp = 0xFF00;
+  }
+
+  makeInterrupt21();
+  makeTimerInterrupt();
+  initTerminal();
+
+  interrupt(0x21,0,"OS Project (c) 2017 Team 1-X\r\n",0,0);
+  interrupt(0x21, 4, "shell\0", 0, 0);
+
+  jmphang();
+}

@@ -1,0 +1,16 @@
+Enter your written solution to exercise 4.18 in this file.
+Be sure to include your name and section number in this document.
+
+Zachary Taylor - 02
+
+a) If the number of kernel threads allocated to the program is less than
+the number of cores available than this implies that some cores are idle
+increaing dead time of cores. Decreasing efficiency.
+
+b) If the number of threads allocated is equal than that implies that all
+cores are in use and this system is running at peak efficiency.
+
+c) There are some idle kernel threads, due to no attached user thread.
+The thread handler has to handle all the threads on the processor which
+unideally means that the processor could be using a kernel thread with no
+attached user process and that some user processes are idle.

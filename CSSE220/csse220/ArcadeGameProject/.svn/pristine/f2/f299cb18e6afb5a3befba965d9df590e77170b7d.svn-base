@@ -1,0 +1,105 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ * Entirely inspired by BallWorld.java.
+ *
+ * @author taylorz1.
+ *         Created Oct 27, 2016.
+ */
+
+public class GameWorld implements GameEnvironment, Drawable, Temporal{
+	private static final long UPDATE_INTERVAL_MS = 10;
+	private final int width;
+	private final int height;
+	private final Color color;
+	
+	private final Shape background;
+	private boolean isPaused;
+
+	public GameWorld(int width, int height, Color color) {
+		this.width = width;
+		this.height = height;
+		this.color = color;
+
+		this.background = new Rectangle2D.Double(0, 0, this.width, this.height);
+		
+		Runnable tickTock = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						Thread.sleep(UPDATE_INTERVAL_MS);
+						timePassed();
+					}
+				} catch (InterruptedException exception) {
+					// Stop when interrupted
+				}
+			}
+		};
+		new Thread(tickTock).start();
+	}
+	@Override
+	public boolean isInsideWorldX(Point2D point) {
+		return point.getX() >= 0 && point.getX() <= this.width;
+	}
+
+	@Override
+	public boolean isInsideWorldY(Point2D point) {
+		return point.getY() >= 0 && point.getY() <= this.height;
+	}
+
+	@Override
+	public boolean isInsideWorld(Point2D point) {
+		return isInsideWorldX(point) && isInsideWorldY(point);
+	}
+
+	@Override
+	public Dimension getSize() {
+		return new Dimension(this.width, this.height);
+	}
+
+	@Override
+	public synchronized List<Drawable> getDrawableParts() {
+		return new ArrayList<Drawable>();
+	}
+
+	@Override
+	public Point2D getCenterPoint() {
+		double x = this.width / 2;
+		double y = this.height / 2;
+		return new Point2D.Double(x, y);
+	}
+
+	// -------------------------------------------------------------------------
+	// Drawable interface
+
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+
+	@Override
+	public Shape getShape() {
+		return this.background;
+	}
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub.
+		
+	}
+	@Override
+	public void die() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	// -------------------------------------------------------------------------
+	
+}

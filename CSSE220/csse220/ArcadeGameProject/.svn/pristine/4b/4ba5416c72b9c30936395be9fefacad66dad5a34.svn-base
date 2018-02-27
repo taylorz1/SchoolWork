@@ -1,0 +1,41 @@
+import java.awt.geom.Point2D;
+
+public abstract class GameObjMov extends GameObject implements Temporal {
+
+	private double dx;
+	private double dy;
+
+	public GameObjMov(GameWorld world, Point2D.Double position) {
+		super(world, position);
+		this.dx = 0;
+		this.dy = 0;
+	}
+
+	public void setDyDx(int dx, int dy) {
+		this.dx = dx;
+		this.dy = dy;
+	}
+
+	public void updatePosition() {
+
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+
+		x += this.dx;
+		y += this.dy;
+
+		this.setPosition(new Point2D.Double(x, y));
+	}
+	
+	@Override
+	public void timePassed() {
+		updatePosition();
+		}
+
+	@Override
+	public void die() {
+		//
+	}
+	
+
+}

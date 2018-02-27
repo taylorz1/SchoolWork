@@ -1,0 +1,37 @@
+ import java.awt.geom.Point2D;
+
+public abstract class GameObject implements Temporal{
+	
+	private GameWindow world;
+	private Point2D.Double position;
+
+	public GameObject(GameWindow world, Point2D.Double position){
+		this.world = world;
+		this.setPosition(position);
+	}
+	
+
+	public Point2D.Double getPosition() {
+		return this.position;
+	}
+
+	public void setPosition(Point2D.Double position) {
+		this.position = position;
+	}
+	protected GameWindow getWindow(){
+		return this.world;
+	}
+	
+	
+	
+	
+	abstract boolean canBeMovedInto();
+	abstract void onBombDamage();
+	
+	abstract void collide(GameObject m);
+	abstract void collideWithPlayer(Hero m);
+	abstract void collideWithMonster(Monster m);
+	abstract void collideWithPowerup(PowerUp m);
+
+	
+}

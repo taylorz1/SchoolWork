@@ -1,0 +1,148 @@
+@startuml
+class Client {
++ static void main(String[] args)
+}
+
+class PerformanceBenchmark {
+# int maxDepth
+# int compositeFanOut
+# int dataFanOut
+# IDatabase db
++ PerformanceBenchmark(int maxDepth, int compositeFanOut, int dataFanOut)
+- void createDb()
+- long randomKeySearch()
++ long getKeySearchAverageTime(int iterations)
+}
+
+class TreeBuilder <<Builder>> {
+# int maxDepth
+# int compositeFanOut
+# int dataFanOut
+# String compositeKeyPattern
+# String dataKeyPattern
+# String dataValuePattern
++ static TreeBuilder create()
+- TreeBuilder()
++ TreeBuilder setMaxDepth(int maxDepth)
++ TreeBuilder setDataFanOut(int dataFanOut)
++ TreeBuilder setCompositeFanOut(int compositeFanOut)
++ TreeBuilder setCompositeKeyPattern(String compositeKeyPattern)
++ TreeBuilder setDataKeyPattern(String dataKeyPattern)
++ TreeBuilder setDataValuePattern(String dataValuePattern)
++ INode build()
+- buildTreeHelper(INode node, int depth)
+}
+
+class TreeDatabaseException extends Exception{
+- static final long serialVersionUID
++ TreeDatabaseException()
++ TreeDatabaseException(String message)
++ TreeDatabaseException(Throwable cause)
++ TreeDatabaseException(String message, Throwable cause)
++ TreeDatabaseException(String message, Throwable cause, boolean enableSurpression, boolean wriatableStackTrace)
+}
+
+class TreePath <<Iterator>> implements Iterable {
+# String rawPath
+# String path
+# List<String> segments
++ static TreePath at(String... pathOrSegments)
++ static TreePath from(INode node)
+- static normalize(String path)
+- TreePath (String path)
++ String getPath()
++ String getPatrialSegments(int startIndex, int endIndex)
++ String getFirstSegment()
++ String getLastSegment()
++ String getSegmentAt(int index)
++ int getSegmentsLength()
++ List<String> getSegments()
++ Iterator Iterator()
++ int hashCOde()
++ boolean equals(Object obj)
+}
+
+interface INode <<Element>> {
+# String getUUID()
+# Object getData()
+# INode getParent()
+# void setParent(INode parent)
+# String getKey()
+# void setKey(String key)
+# TreePath getPath()
+# INode get(String key)
+# INode put(String key, INode node)
+# Map<String, INode> getElements()
+# INode remove(String key)
+# Collection<INode> removeAll(String key)
+# INode searchUUID(String uuid)
+# Collection<INode> searchKey(String key)
+# Collection<INode> searchValue(Object data)
+}
+
+interface IDataNode extends INode {
+}
+
+interface IDatabase {
+	# INode create(TreePath path, Object value);
+	# INode read(TreePath path;
+	# INode update(TreePath path, Object value);
+# 	INode delete(TreePath path);
+
+	# INode searchUUID(String uuid);
+	# Collection<INode> searchKey(String key); 
+	# Collection<INode> searchValue(Object data); 
+}
+
+interface ICompositeNode extends INode {
+}
+
+class DefaultDatabase implements IDatabase {
+# INode root
++ DefaultDatabase()
+# void checkBeforeCreate(TreePath path)
++ INode create(TreePath path, Object value)
++ INode read(TreePath path)
++ INode update(TreePath path, Object value)
++ INode delete(TreePath path)
+}
+
+class CompositeNode <<CompositeElement>> extends AbstractNode implements ICompositeNode {
+# Map<String, INode> elements
++ CompositeNode()
++ Map<String,INode> getElements()
++ INode get(String key)
++ INode put(String key, INode node)
++ Object getData()
++ setData(Object data)
++ INode remove(String key)
++ Collection<INode> removeAll(String key)
++ INode searchUUID(String uuid)
++ Collection<INode> searchKey(String key)
++ List<INode> searchValue(Object data)
+}
+
+abstract class AbstractNode implements INode {
+# String uuid
+# INode parent
+# String key
++ AbstractNode()
++ String getUUID()
++ INode getParent()
++ void setParent(INode parent)
++ String getKey()
++ void setKey(String key)
++ TreePath getPath()
++ int hashCode()
++ boolean equals(Object obj)
+}
+
+client ..> TreeDatabaseException
+DefaultDatabase --> TreePath
+DefaultDatabase --> INode
+TreePath --> INode
+TreeBuilder ..> INode
+client ..> IDatabase
+client ..> INode
+PerformanceBenchmark --> IDatabase
+@enduml

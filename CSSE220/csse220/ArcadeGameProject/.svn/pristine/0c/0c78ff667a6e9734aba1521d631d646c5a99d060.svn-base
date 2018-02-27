@@ -1,0 +1,29 @@
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+/**
+ * The main class for your arcade game.
+ * 
+ * You can design your game any way you like, but make the game start
+ * by running main here.
+ * 
+ * Also don't forget to write javadocs for your classes and functions!
+ * 
+ * @author Buffalo
+ *
+ */
+public class Main {
+	
+	public ArrayList<Point2D.Double[]> levelArrays;
+	public ArrayList<Point2D.Double> heroStarts;
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GameWindow mainWindow = new GameWindow("Bomberman",800,800,new Level(levelArrays.get(0), heroStarts.get(0));
+		mainWindow.run();
+		
+	}
+
+}

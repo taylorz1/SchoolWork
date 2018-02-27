@@ -1,0 +1,15 @@
+
+public class Hero extends GameObjMov{
+	private PowerUp currentPowerUp;
+	private Weapon currentWeapon;
+	
+	public Hero(){
+		this.currentPowerUp = null;
+		this.currentWeapon = null;
+	}
+	
+	public void placeBomb(){
+		
+	}
+	
+}

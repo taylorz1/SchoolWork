@@ -1,0 +1,42 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D.Double;
+
+public class Bomb extends GameObject implements Drawable, Temporal {
+	
+	
+
+	private Color color;
+	private Shape shape;
+
+	public Bomb(GameEnvironment world, Double position, Hero hero) {
+		super(world, position);
+		this.color = Color.BLACK;
+		this.shape = new Ellipse2D.Double(position.x, position.y, 10, 10);
+	}
+
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub.
+		return this.color;
+	}
+	
+	@Override
+	public Shape getShape() {
+		return this.shape;
+	}
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub.
+		
+	}
+
+}

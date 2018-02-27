@@ -1,0 +1,86 @@
+ import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+public abstract class Monster extends GameObjMov implements Drawable {
+
+	private Shape shape;
+	private Color color;
+	private boolean bombDamaged = false;
+	private GameWorld world;
+
+	public Monster(GameWorld world, Point2D.Double position,Color color) {
+		super(world, position);
+		this.shape = new Ellipse2D.Double(position.x, position.y, 5, 5);
+		this.color = color;
+		this.setSize(20);
+		this.world = world;
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Ellipse2D.Double(x-size /2, y-size/2, size, size);
+	}
+
+
+	@Override
+	public abstract void updatePosition();
+
+
+	@Override
+	void onBombDamage() {
+		if (!( (GameWorld) this.getWorld()).getRemove().contains(this)) {
+			this.die();
+		}
+	}
+	public void die() {
+		this.getWorld().removeObj(this);
+		((GameWorld) this.getWorld()).removeMonster(this);
+	}
+
+	@Override
+	void collide(GameObject m) {
+		m.collideWithMonster(this);
+	}
+	
+	@Override
+	void collideWithHero(Hero m) {
+		Rectangle2D boundBox = m.getShape().getBounds2D();
+		Rectangle2D selfbind = this.getShape().getBounds2D();
+		if (boundBox.intersects(selfbind)) {
+			if(!m.isInvincible()){
+			m.die();
+			}else{
+				this.die();
+			}
+		}
+
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithPowerUp(PowerUp m) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	
+
+	
+
+}

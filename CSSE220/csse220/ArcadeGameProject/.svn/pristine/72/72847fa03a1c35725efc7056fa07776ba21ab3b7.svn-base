@@ -1,0 +1,11 @@
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
+public class GameWorldFrame extends JFrame {
+
+	public GameWorldFrame(ArrayList<GameWindowPanel> worlds) {
+		// TODO Auto-generated constructor stub.
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;StudentAssignmentsMain.java&apos; to &apos;BankAccount&apos;" description="Move &apos;StudentAssignmentsMain.java&apos; to &apos;BankAccount&apos;" destination="src/BankAccount" element1="src/StudentAssignmentsMain.java" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1473795287085" updateReferences="true"/>
+</session>

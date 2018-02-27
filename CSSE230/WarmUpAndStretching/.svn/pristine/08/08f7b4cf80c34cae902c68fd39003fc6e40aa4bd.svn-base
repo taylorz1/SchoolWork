@@ -1,0 +1,91 @@
+package list;
+
+/**
+ * 
+ * @author anderson
+ * 
+ * @param <T>
+ *            Any Comparable type
+ * 
+ *            A linked list whose elements are kept in sorted order.
+ */
+public class SortedLinkedList<T extends Comparable<T>> extends
+		DoublyLinkedList<T> {
+
+	/**
+	 * Create an empty list
+	 * 
+	 */
+	public SortedLinkedList() {
+		super();
+	}
+	
+	private class InternalNode extends Node {
+		@Override
+		void buildString(StringBuilder sb) {
+			sb.append(this.data);
+				sb.append(',');
+				this.next.buildString(sb);
+			return;
+		}
+	}
+	/**
+	 * Creates a sorted list containing the same elements as the parameter
+	 * 
+	 * @param list
+	 *            the input list
+	 */
+	public SortedLinkedList(DoublyLinkedList<T> list) {
+		super();
+		// DONE: finish implementing this constructor
+		//while(list.iterator().hasNext()) {
+		//	this.add(list.iterator().next());
+		//}
+	}
+
+	/**
+	 * Adds the given element to the list, keeping it sorted.
+	 */
+	@Override
+	public void add(T element) {
+		// DONE: implement this method
+		if (this.isEmpty()) {
+			Node n = new InternalNode();
+			n.data = element;
+			n.next = this.tail;
+			n.prev = null;
+			this.head = n;
+			this.tail = this.head;
+			return;
+		}
+		Node compare = new InternalNode();
+		compare.data=element;
+		Node current = this.head;
+		int egc = element.compareTo(current.data);
+		if (egc > 0) {
+			current.next = compare;
+			this.tail = compare;
+			compare.prev = this.head;
+		} else if (egc < 0) {
+			this.tail = this.head;
+			this.head = compare;
+			this.head.next = this.tail;
+			this.tail.prev = this.head;
+			this.tail.next = null;
+		}
+	}
+	
+	public boolean isEnd(Node n) {
+		return n == this.tail;
+	}
+
+	@Override
+	public void addFirst(T element) {
+		// TODO: throw UnsupportedOperationException exception
+	}
+
+	@Override
+	public void addLast(T element) {
+		// TODO: throw UnsupportedOperationException exception
+	}
+}

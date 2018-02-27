@@ -1,0 +1,65 @@
+@startuml
+class DataStandardizingApp {
++ HashMap<String, ILineParser> parsers
++ {static} void main(String[] args)
+- void createLineParsers()
+}
+
+note left of DataStandardizingApp
+main() {
+createLineParsers();
+DataStandardizer unifier = new DataStandardizer(this.parsers);
+DataStandardizerUI ui = new DataStandardizerUI(unifier);
+ui.execute();
+}
+end note
+
+class DataStandardizerUI {
+# JFrame frame
+	# JPanel topPanel
+	# JTextField txtField
+	# JButton button
+	# JScrollPane scrollPane
+	# JTextArea textArea
+	# JLabel label
+        - DataStandardizer standardizer
+# void createAndShowGUI()
++ void execute()
+}
+
+class DataStandardizer {
+	# String data
+        # HashMap<String, ILineParser> parsers
+	+ String getCompany()
+	+ String getData()
+        + parse()
+}
+note left of DataStandardizer
+parse() {
+   return this.parsers.get(getCompany()).parse(this.data);
+}
+end note
+
+
+interface ILineParser {
++ parse(String data)
+}
+
+class AmazonLineParser implements ILineParser{
++ parse(String data)
+}
+
+class GoogleLineParser implements ILineParser{
++ parse(String data)
+}
+
+class StandardLineParser implements ILineParser{
++ parse(String data)
+}
+
+DataStandardizingApp ..> DataStandardizer
+DataStandardizingApp ..> DataStandardizerUI
+DataStandardizingApp ..> ILineParser
+DataStandardizerUI --> DataStandardizer
+DataStandardizer --> ILineParser
+@enduml

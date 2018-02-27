@@ -1,0 +1,93 @@
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+public abstract class GameObject implements Drawable, Temporal {
+
+	private GameEnvironment world;
+	private Point2D.Double position;
+	private double size;
+	private Point2D.Double previousposition;
+
+	public GameObject(GameEnvironment world, Point2D.Double position) {
+		this.world = world;
+		this.position=position;
+		this.size = 10;
+	}
+
+	public Point2D.Double getPosition() {
+		return this.position;
+	}
+
+	public void moveToPosition(Point2D.Double center) {
+		this.position = center;
+	}
+
+	protected GameEnvironment getWindow() {
+		return this.world;
+	}
+
+	protected void setPosition(Point2D.Double position) {
+		this.position = position;
+	}
+
+	protected void setSize(double i) {
+		this.size = i;
+	}
+	
+	protected double getSize() {
+		return this.size;
+	}
+
+	protected GameEnvironment getWorld() {
+		return this.world;
+	}
+
+	/// Time
+	@Override
+	public void die() {
+		this.getWorld().removeObj(this);
+	}
+	@Override
+	public void timePassed() {
+		updatePosition();
+		//System.out.println(this.position);
+
+		}
+	
+
+	public abstract void updatePosition();
+
+	// Drawing generic obj
+	@Override
+	public Shape getShape() {
+		double x = getPosition().getX();
+		double y = getPosition().getY();
+		double size = getSize();
+		return new Rectangle2D.Double(x - size / 2, y - size / 2, x + size / 2, y + size / 2);
+	}
+
+	boolean canBeMovedInto() {
+		return false;
+	}
+
+	abstract void onBombDamage();
+		// Usually you do nothing.
+
+	abstract void collide(GameObject m);
+		// You have collided with an object m, you are another object.
+	abstract void collideWithHero(Hero m);
+	abstract void collideWithMonster(Monster m);
+	abstract void collideWithPowerUp(PowerUp m);
+
+	
+	public Point2D.Double getPreviousposition() {
+		return previousposition;
+	}
+
+	public void setPreviousposition(Point2D.Double previousposition) {
+		this.previousposition = previousposition;
+	}
+
+	abstract void collideWithMonster(ImprovedMonster improvedMonster);
+}

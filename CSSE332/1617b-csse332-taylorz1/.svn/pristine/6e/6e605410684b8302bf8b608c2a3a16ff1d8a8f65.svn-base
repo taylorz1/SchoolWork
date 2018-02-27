@@ -1,0 +1,14 @@
+#ifndef __READERS_WRITERS_H_
+#define __READERS_WRITERS_H_
+
+#define MAX_ARRAY_SIZE 32
+
+void makeChild(key_t key, int ID, char* program);
+
+/*You could add an additional semaphore that stops readers from starting
+if a writer is waiting. Thus this solution stops the issue of an endless
+stream of readers that arrive when a writer is waiting.
+*/
+
+
+#endif

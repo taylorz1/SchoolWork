@@ -1,0 +1,31 @@
+#include "./sharedMemory.h"
+#include "./reader.h"
+
+sharedMemoryStruct *ShmPTR;
+
+int main(int argc, char* argv[]) {
+    key_t key = atoi(argv[1]);
+    int i, readerid = atoi(argv[2]);
+    locateAndAttachSharedMemory(key, &ShmPTR);
+
+    /* entry section */
+    sleep(1);
+
+    printf("READER \t %d \t about to read. Reader count = %d.\n",
+        readerid, ShmPTR->readers);
+
+    /* critical section */
+    readDB(readerid);
+
+    /* exit section */
+    printf("   READER \t %d \t done reading. Reader count = %d.\n",
+        readerid, ShmPTR->readers);
+
+    /* Detach shared memory regioin just before terminating. */
+    detachSharedMemory((void *)ShmPTR);
+    return 0;
+}
+
+void readDB(int who) {
+    printf("   READER \t %d \t read %d.\n", who, ShmPTR->data);
+}

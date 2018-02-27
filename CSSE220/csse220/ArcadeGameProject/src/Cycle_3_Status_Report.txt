@@ -1,0 +1,10 @@
+We have added the remaining functionality and resolved several bugs.
+
+Powerups :: 2 hours
+Levels :: 3-4 hours
+Monsters :: 2 hours
+Other stuff :: 2 hours
+
+
+We believe we have set a strong foundation and completed all general requirements.
+Special features should be fun.

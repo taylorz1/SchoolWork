@@ -1,0 +1,71 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.Point2D;
+
+public abstract class GameObjMov extends GameObject implements KeyListener {
+
+	private double dx;
+	private double dy;
+
+	public GameObjMov(GameWorld world, Point2D.Double position) {
+		super(world, position);
+		this.dx = 0;
+		this.dy = 0;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getExtendedKeyCode();
+
+		if (key == KeyEvent.VK_UP) {
+			this.dy = -1;
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			this.dy = 1;
+		}
+		if (key == KeyEvent.VK_LEFT) {
+			this.dx = -1;
+		}
+		if (key == KeyEvent.VK_RIGHT) {
+			this.dx = 1;
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		int key = e.getExtendedKeyCode();
+
+		if (key == KeyEvent.VK_UP) {
+			this.dy = 0;
+		}
+		if (key == KeyEvent.VK_DOWN) {
+			this.dy = 0;
+		}
+		if (key == KeyEvent.VK_LEFT) {
+			this.dx = 0;
+		}
+		if (key == KeyEvent.VK_RIGHT) {
+			this.dx = 0;
+		}
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	public void updatePosition() {
+
+		double x = this.getPosition().getX();
+		double y = this.getPosition().getY();
+
+		x += this.dx;	
+		y += this.dy;
+
+		this.setPosition(new Point2D.Double(x, y));
+	}
+
+}

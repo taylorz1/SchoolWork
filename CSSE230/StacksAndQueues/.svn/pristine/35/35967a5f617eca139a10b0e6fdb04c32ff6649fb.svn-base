@@ -1,0 +1,69 @@
+package evaluator;
+
+import java.util.Stack;
+
+public class InfixEvaluator extends Evaluator {
+
+	@Override
+	public int evaluate(String expression) throws ArithmeticException {
+		// DONE Auto-generated method stub.
+		String j = convertToPostfix(expression);
+		PostfixEvaluator eval = new PostfixEvaluator();
+		return eval.evaluate(j);
+	}
+
+	public String convertToPostfix(String exp) {
+		// DONE Auto-generated method stub.
+		StringBuilder s = new StringBuilder();
+		// Divide up all the tokens
+		String[] toks = exp.split(" ");
+		Stack<String> operators = new Stack<>();
+		Stack<String> temp_op = new Stack<>();
+		int paren_count = 0;
+		int op_c = 0;
+		boolean end = false;
+		for (int i = 0; i < toks.length; i++) {
+			String tok = toks[i];
+			if (isOperator(tok)) {
+				if (operators.isEmpty()) {
+					operators.push(tok);
+				} else {
+					int incoming = precedence(tok);
+					
+				}
+			} else {
+				s.append(tok);
+			}
+		}
+		return s.toString().substring(0, s.length() - 1);
+	}
+
+	private static int precedence(String tok) {
+		switch (tok) {
+		case "+": {
+			return 1;
+		}
+		case "-": {
+			return 1;
+		}
+		case "*": {
+			return 2;
+		}
+		case "/": {
+			return 2;
+		}
+		case "^": {
+			return 3;
+		}
+		case "(": {
+			return 10;
+		}
+		case ")": {
+			return 11;
+		}
+		default:
+			return 0;
+		}
+	}
+
+}

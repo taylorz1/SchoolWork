@@ -1,0 +1,47 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.util.Random;
+
+public class Leaf {
+	// Use this constant list of colors for your leaves. Do not change this
+	// constant.
+	public static final Color[] COLORS = new Color[5];
+	static {
+		COLORS[0] = Color.GREEN;
+		COLORS[1] = Color.YELLOW;
+		COLORS[2] = new Color(255, 200, 0); // orange
+		COLORS[3] = Color.RED;
+		COLORS[4] = new Color(145, 112, 33); // brown
+	}
+
+	// TODO: add instance variables here
+
+	public Leaf() {
+		// You can ignore this once you have written the next constructor.
+	}
+
+	public Leaf(double x, double y, double width) {
+		// TODO: write this constructor
+	}
+
+	public Leaf(double x, double y, double width, int colorIndex) {
+		// TODO: write this constructor
+	}
+
+	public void drawOn(Graphics2D graphics2) {
+		// TODO: write this method
+		// We are giving you code to draw an 80x40 green leaf without veins in the
+		// upper-left corner as an example only. In stage 1, you'll add veins to
+		// the leaf and handle different center locations and sizes.
+		// You'll probably want to modify and add to this code.
+		graphics2.setColor(Leaf.COLORS[0]);
+		Ellipse2D.Double leaf;
+		leaf = new Ellipse2D.Double(0, 0, 80, 40);
+		graphics2.fill(leaf);
+		graphics2.setColor(Color.BLACK);
+		graphics2.draw(leaf);
+
+	}
+}

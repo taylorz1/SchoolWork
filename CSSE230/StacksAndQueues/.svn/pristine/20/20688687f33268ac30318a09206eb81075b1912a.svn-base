@@ -1,0 +1,53 @@
+package evaluator;
+
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+public class InfixEvaluator extends Evaluator {
+
+	private int operatorcount = 0;
+
+	@Override
+	public int evaluate(String expression) throws ArithmeticException {
+		// DONE Auto-generated method stub.
+		String j = convertToPostfix(expression);
+		PostfixEvaluator eval = new PostfixEvaluator();
+		return eval.evaluate(j);
+	}
+
+	public String convertToPostfix(String exp) {
+		// DONE Auto-generated method stub.
+		StringBuilder s = new StringBuilder();
+		// Divide up all the tokens
+		String[] toks = exp.split(" ");
+		Stack<String> operators = new Stack<>();
+		int paren_count=0;
+		for (int i = 0; i < toks.length; i++) {
+			String tok = toks[i];
+			if (isOperator(tok)) {
+				if (tok.equals(")")) {
+					paren_count--;
+					String op = operators.pop(); // Get the operator
+					try {
+					operators.pop(); // To get rid of the other paren.
+					} catch (EmptyStackException e) {
+						throw(new ArithmeticException("Invalid paren count"));
+					}
+					s.append(op+" ");
+					continue;
+				} else if (tok.equals("(")) {
+					paren_count++;
+				}
+				operators.push(tok);
+			} else {
+				s.append(tok+" ");
+			}
+		}
+		
+		if (paren_count != 0) {
+			throw(new ArithmeticException("Invalid paren count"));
+		}
+		return s.toString().substring(0, s.length()-1);
+	}
+
+}

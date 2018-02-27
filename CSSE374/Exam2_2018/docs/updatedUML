@@ -1,0 +1,70 @@
+@startuml
+class CheeseCakeClient {
+static void main(String[] args)
+}
+
+CheeseCakeClient ..> CheeseCakeFactory
+CheeseCakeClient ..> ChocolateCheeseCakeFactory
+CheeseCakeClient ..> StrawberryCheeseCakeFactory
+CheeseCakeClient ..> CheeseCakeApp
+CheeseCakeClient ..> CheeseCakeUI
+
+abstract class AbstractCheeseCakeDecorator {
+# PlainCheeseCake wrapped
+# List<Topping> toppings
++ abstract String toString()
++ abstract void promptTopping()
+}
+
+AbstractCheeseCakeDecorator --> PlainCheeseCake
+AbstractCheeseCakeDecorator --> "1..*" Topping
+
+class CheeseCakeApp extends CheeseCakeFactory{
+- Map<String, CheeseCakeFactory> factories
+
++ void addFactory(String s, CheeseCakeFactory f)
++ PlainCheeseCake createCheeseCake(String type)
+}
+CheeseCakeApp --> "1..*" CheeseCakeFactory
+CheeseCakeApp ..> PlainCheeseCake
+
+class ChocolateCheeseCake extends AbstractCheeseCakeDecorator {
+- ChocolateDrizzle chocolate
++ ChocolateCheeseCake(PlainCheeseCake wrapped)
++ String toString()
+}
+
+
+class StrawberryCheeseCake extends AbstractCheeseCakeDecorator {
++ ChocolateCheeseCake(PlainCheeseCake wrapped)
++ String toString()
+}
+
+interface Topping {
++ String toString()
+}
+
+class ChocolateDrizzle implements Topping{
++ ChocolateDrizzle()
+- boolean melted
++ String toString()
++ void meltme()
++ boolean melted()
+}
+
+class ChocolateCheeseCakeFactory extends CheeseCakeFactory {
++ PlainCheeseCake createCheeseCake(String type)
+}
+
+class StrawberryCheeseCakeFactory extends CheeseCakeFactory {
++ PlainCheeseCake createCheeseCake(String type)
+}
+
+class StrawberryTopping implements Topping{
++ String toString()
+}
+
+class WhippedTopping implements Topping{
++ String toString()
+}
+@enduml

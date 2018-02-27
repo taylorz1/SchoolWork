@@ -1,0 +1,173 @@
+package redblack;
+
+/**
+ * @author DONE: Zachary Taylor
+ */
+public class BinarySearchTreeWithColor {
+
+	RedBlackNode root;
+
+	private final RedBlackNode NULL_NODE = new RedBlackNode(null, Color.BLACK);
+
+	public BinarySearchTreeWithColor() {
+		root = NULL_NODE;
+	}
+
+	/**
+	 * Returns true if the BST satisfies the color properties of a red-black
+	 * tree: - the root node is black; - the are no two consecutive reds; -
+	 * every path from the root node to a NULL_NODE has the same number of black
+	 * nodes.
+	 */
+	public boolean isRedBlack() {
+		// DONE: write me!
+		if (this.root.color != Color.BLACK) {
+			return false;
+		}
+		if (this.root.twored()) {
+			return false;
+		}
+		if (this.root.pathtoBlack()) {
+			return false;
+		}
+		return true;
+	}
+
+	// Below used for testing purposes.
+
+	public void insert(Integer val, boolean paintItBlack) {
+		root = root.insert(val, paintItBlack);
+	}
+
+	/**
+	 * @return A string showing a traversal of the nodes where children are
+	 *         indented so that the structure of the tree can be determined.
+	 */
+	public String toIndentString() {
+		return root.toIndentString("");
+	}
+
+	@Override
+	public String toString() {
+		return root.toString();
+	}
+
+	public enum Color {
+
+		RED, BLACK;
+
+		public String toString() {
+			switch (this) {
+			case RED:
+				return "RED";
+			default:
+				return "BLACK";
+			}
+		}
+	}
+
+	// /////////////// RedBlackNode
+	public class RedBlackNode {
+
+		public Integer data;
+		public RedBlackNode left;
+		public RedBlackNode right;
+		public Color color;
+
+		public RedBlackNode(Integer element, Color col) {
+			this.data = element;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+			this.color = col;
+		}
+
+		public boolean pathtoBlack() {
+			return false;
+		}
+
+//		public int sumOfBlack() {
+//			// DONE Auto-generated method stub.
+//			if (this == NULL_NODE) {
+//				return 0;
+//			}
+//			if (this.right != NULL_NODE && this.left != NULL_NODE) {
+//				if (this.color == Color.RED) {
+//					return this.right.sumOfBlack() + this.left.sumOfBlack();
+//				}
+//				return this.right.sumOfBlack() + this.left.sumOfBlack() + 1;
+//			} else if (this.right != NULL_NODE) {
+//				if (this.color == Color.RED) {
+//					return this.left.sumOfBlack();
+//				}
+//				return this.left.sumOfBlack() + 1;
+//			} else if (this.left != NULL_NODE) {
+//				if (this.color == Color.RED) {
+//					return this.left.sumOfBlack();
+//				}
+//				return this.left.sumOfBlack() + 1;
+//			}
+//			return 0;
+//		}
+
+		public boolean twored() {
+			// DONE Auto-generated method stub.
+			if (this == NULL_NODE) {
+				return false;
+			}
+			if (this.color == Color.RED) {
+				if (this.right != NULL_NODE && this.left != NULL_NODE) {
+					if (this.right.color == Color.RED || this.left.color == Color.RED) {
+						return true;
+					}
+				} else if (this.right != NULL_NODE) {
+					return this.right.color == Color.RED;
+				} else if (this.left != NULL_NODE) {
+					return this.left.color == Color.RED;
+				}
+			}
+			// We're black, so we just need to check that our children aren't
+			// red.
+			if (this.right != NULL_NODE && this.left != NULL_NODE) {
+				return this.left.twored() || this.right.twored();
+			} else if (this.right != NULL_NODE) {
+				return this.right.twored();
+			} else if (this.left != NULL_NODE) {
+				return this.left.twored();
+			}
+			return false;
+		}
+
+		// Below used for testing purposes
+
+		public RedBlackNode insert(Integer val, boolean paintItBlack) {
+			if (this == NULL_NODE) {
+				return new RedBlackNode(val, (paintItBlack ? Color.BLACK : Color.RED));
+			}
+			if (val.compareTo(this.data) <= 0) {
+				left = left.insert(val, paintItBlack);
+			} else {
+				right = right.insert(val, paintItBlack);
+			}
+			return this;
+		}
+
+		@Override
+		public String toString() {
+			if (this == NULL_NODE) {
+				return "";
+			}
+			return left.toString() + this.data.toString() + right.toString();
+		}
+
+		public String toIndentString(String indent) {
+			if (this == NULL_NODE) {
+				return "";
+			}
+
+			String myInfo = indent + String.format("%d %s\n", this.data, this.color.toString());
+
+			return myInfo + this.left.toIndentString(indent + "  ") + this.right.toIndentString(indent + "  ");
+		}
+	}
+
+}

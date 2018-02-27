@@ -1,0 +1,34 @@
+
+public class Monster extends GameObject {
+
+	@Override
+	boolean canBeMovedInto() {
+		// TODO Auto-generated method stub.
+		return false;
+	}
+
+	@Override
+	void onBombDamage() {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collide(GameObject m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithMonster(Monster m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	@Override
+	void collideWithPowerup(PowerUp m) {
+		// TODO Auto-generated method stub.
+
+	}
+
+}

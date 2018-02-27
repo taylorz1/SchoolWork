@@ -1,0 +1,35 @@
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+public class Wall extends GameObject implements Drawable {
+
+	private Shape shape;
+	private Color color;
+	boolean destructable;
+	
+	public Wall(GameWorld world, Point2D.Double position) {
+		super(world, position);
+		CreateWall(position);
+	}
+
+	
+	public void CreateWall(Point2D.Double position) {
+		this.color = Color.BLACK;
+		double x = position.getX();
+		double y = position.getY();
+		this.shape = new Rectangle2D.Double(x-5, y-5, x+5, y+5);
+	}
+	
+	@Override
+	public Color getColor() {
+		return this.color;
+	}
+
+	@Override
+	public Shape getShape() {
+		return this.shape;
+	}
+
+}

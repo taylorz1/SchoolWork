@@ -1,0 +1,84 @@
+package editortrees;
+
+// A node in a height-balanced binary tree with rank.
+// Except for the NULL_NODE (if you choose to use one), one node cannot
+// belong to two different trees.
+
+public class Node {
+	
+	enum Code {
+		SAME, LEFT, RIGHT;
+		// Used in the displayer and debug string
+		public String toString() {
+			switch (this) {
+				case LEFT:
+					return "/";
+				case SAME:
+					return "=";
+				case RIGHT:
+					return "\\";
+				default:
+					throw new IllegalStateException();
+			}
+		}
+	}
+	
+	// The fields would normally be private, but for the purposes of this class, 
+	// we want to be able to test the results of the algorithms in addition to the
+	// "publicly visible" effects
+	
+	char element;            
+	Node left, right; // subtrees
+	int rank;         // inorder position of this node within its own subtree.
+	Code balance; 
+	Node parent = EditTree.NULL_NODE;  // You may want this field.
+	// Feel free to add other fields that you find useful
+
+	// You will probably want to add several other methods
+	public Node(char ch, Node parent) {
+		this.element = ch;
+		this.left = EditTree.NULL_NODE;
+		this.right = EditTree.NULL_NODE;
+		this.balance = Code.SAME;
+	}
+
+	public Node() {
+		// TODO Auto-generated constructor stub.
+		this.left = EditTree.NULL_NODE;
+		this.right = EditTree.NULL_NODE;
+		this.balance = null;
+		this.parent = EditTree.NULL_NODE;
+	}
+
+	// For the following methods, you should fill in the details so that they work correctly
+	public int height() {
+		return -2;
+	}
+
+	public int size() {
+		return -1;
+	}
+	
+	public void toString(StringBuilder toReturn) {
+		if (this == EditTree.NULL_NODE) { 
+			return;
+		}
+		this.left.toString(toReturn);
+		toReturn.append(this.element+", ");
+		this.right.toString(toReturn);
+	}
+
+	public void singleLeft() {
+		// DONE Auto-generated method stub.
+		//We're A
+		Node b = this.right;
+		Node a = this;
+		a.right = b.left;
+		b.left.parent=a;
+		b.parent = a.parent;
+		a.parent = b;
+		a.balance = Code.SAME;
+		b.balance = Code.SAME;
+	}
+
+}

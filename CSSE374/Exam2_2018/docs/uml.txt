@@ -1,0 +1,86 @@
+@startuml
+skinparam linetype ortho
+package edu.rosehulman.csse374.cheesecake {
+
+class PlainCheeseCake {
+ - Crust crust
+ - Cheese cheese
+ + PlainCheeseCake(Crust cr, Cheese ch)
+ + toString()
+}
+PlainCheeseCake --> Crust
+PlainCheeseCake --> Cheese
+
+class CheeseCakeFactory {
+ + PlainCheeseCake createCheeseCake(String type)
+}
+
+CheeseCakeFactory ..> PlainCheeseCake
+CheeseCakeFactory ..> GrahamCrackerCrust
+CheeseCakeFactory ..> CreamCheese
+
+
+
+note left of CheeseCakeFactory::createCheeseCake
+if(!type.equals("plain"))
+  return null;
+
+return new PlainCheeseCake(
+ new GrahamCrackerCrust(), 
+ new CreamCheese()
+);
+endnote
+
+interface Crust {
+ + toString()
+}
+
+
+class GrahamCrackerCrust implements Crust {
+ + toString()
+}
+
+interface Cheese {
+ + toString()
+}
+
+class CreamCheese implements Cheese {
+ + toString()
+}
+
+class CheeseCakeUI {
+ - CheeseCakeFactory factory
+ + UI(CheeseCakeFactory factory)
+ + show()
+}
+
+CheeseCakeUI --> CheeseCakeFactory
+
+note left of CheeseCakeUI::show
+Scanner scanner = new Scanner(System.in);
+String type = scanner.nextLine();
+while(!type.equals("quit")) {
+  PlainCheeseCake cheeseCake = factory.createCheeseCake(type);
+  System.out.println(cheeseCake);
+  type = scanner.nextLine();
+}
+scanner.close(); 
+// Note: Do not close scanner at any other place
+endnote
+}
+
+package client {
+
+class CheeseCakeClient {
+ + {static} void main(String[] args)
+}
+CheeseCakeClient ..> CheeseCakeFactory
+CheeseCakeClient ..> CheeseCakeUI
+
+note left of CheeseCakeClient::main
+CheeseCakeFactory factory = new CheeseCakeFactory();
+CheeseCakeUI ui = new CheeseCakeUI(factory);
+ui.show();
+endnote
+}
+@enduml

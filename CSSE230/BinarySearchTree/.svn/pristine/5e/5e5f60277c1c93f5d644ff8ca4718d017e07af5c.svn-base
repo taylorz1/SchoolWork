@@ -1,0 +1,281 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Stack;
+
+/**
+ * 
+ * Implementation of most of the Set interface operations using a Binary Search
+ * Tree
+ *
+ * @author Matt Boutell and Zachary Taylor.
+ * @param <T>
+ */
+
+public class BinarySearchTree<T> implements Iterable<T>{
+
+	private BinaryNode root;
+
+	// Most of you will prefer to use NULL NODES once you see how to use them.
+	private final BinaryNode NULL_NODE = new BinaryNode();
+
+	public BinarySearchTree() {
+		root = NULL_NODE;
+	}
+
+	// For manual tests only
+	void setRoot(BinaryNode n) {
+		this.root = n;
+	}
+
+	// Not private, since we need access for manual testing.
+	class BinaryNode {
+		private T data;
+		private BinaryNode left;
+		private BinaryNode right;
+
+		public BinaryNode() {
+			this.data = null;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+		public BinaryNode(T element) {
+			this.data = element;
+			this.left = NULL_NODE;
+			this.right = NULL_NODE;
+		}
+
+		public T getData() {
+			return this.data;
+		}
+
+		public BinaryNode getLeft() {
+			return this.left;
+		}
+
+		public BinaryNode getRight() {
+			return this.right;
+		}
+
+		// For manual testing
+		public void setLeft(BinaryNode left) {
+			this.left = left;
+		}
+
+		public void setRight(BinaryNode right) {
+			this.right = right;
+		}
+
+		public int size() {
+			// DONE Auto-generated method stub.
+			if (left == NULL_NODE && right == NULL_NODE) {
+				return 1;
+			}
+			if (left == NULL_NODE) {
+				return 1 + right.size();
+			}
+			if (right == NULL_NODE) {
+				return 1 + left.size();
+			}
+			return (1 + left.size() + right.size());
+		}
+
+		public int height() {
+			if (this == NULL_NODE)
+				return -1;
+			return Math.max(left.height(), right.height()) + 1;
+		}
+
+		public void toArrayList(ArrayList<T> list) {
+			// DONE Auto-generated method stub.
+			if (this == NULL_NODE) {
+				return;
+			}
+			left.toArrayList(list);
+			list.add(this.data);
+			right.toArrayList(list);
+		}
+
+		public boolean containsNonBST(T i) {
+			// DONE Auto-generated method stub.
+			if (this == NULL_NODE) {
+				return false;
+			}
+			if (this.data == i) {
+				return true;
+			}
+			return left.containsNonBST(i) || right.containsNonBST(i);
+		}
+	}
+
+	public int size() {
+		// DONE Auto-generated method stub.
+		if (root == NULL_NODE) {
+			return 0;
+		}
+		return root.size();
+	}
+
+	// DONE: Implement your 3 iterator classes here, plus any other inner helper
+	// classes you'd like.
+
+	public int height() {
+		// DONE Auto-generated method stub.
+		if (root == NULL_NODE) {
+			return -1;
+		}
+		if (root.left == NULL_NODE && root.right == NULL_NODE) {
+			return 0;
+		}
+		return 1 + Math.max(this.root.left.height(), this.root.right.height());
+	}
+
+	ArrayList<T> toArrayList() {
+		ArrayList<T> list = new ArrayList<>();
+		root.toArrayList(list);
+		return list;
+	}
+
+	public Iterator<T> inefficientIterator() {
+		// DONE Auto-generated method stub.
+
+		return new ArrayListIterator(this);
+	}
+
+	public class ArrayListIterator implements Iterator<T> {
+		ArrayList<T> list;
+		int pos;
+
+		public ArrayListIterator(BinarySearchTree<T> tree) {
+			// DONE Auto-generated constructor stub.
+			list = tree.toArrayList();
+			pos = 0;
+		}
+
+		@Override
+		public boolean hasNext() {
+			// DONE Auto-generated method stub.
+			return pos < list.size();
+		}
+
+		@Override
+		public T next() {
+			// DONE Auto-generated method stub.
+			if (!hasNext()) {
+				throw (new NoSuchElementException());
+			}
+			return list.get(pos++);
+		}
+
+	}
+
+	public void insert(int i) {
+		// DONE Auto-generated method stub.
+
+	}
+
+	public Iterator<T> preOrderIterator() {
+		// DONE Auto-generated method stub.
+		return new PreOrderIterator();
+	}
+
+	public class PreOrderIterator implements Iterator<T> {
+		Stack<BinaryNode> st = new Stack<BinaryNode>();
+
+		PreOrderIterator() {
+			if (root != NULL_NODE) {
+				st.push(root);
+			}
+		}
+
+		@Override
+		public boolean hasNext() {
+			// DONE Auto-generated method stub.
+			return !st.isEmpty();
+		}
+
+		@Override
+		public T next() {
+			// DONE Auto-generated method stub.
+			if (!hasNext()) {
+				throw(new NoSuchElementException());
+			}
+			BinaryNode curr = st.pop();
+			if (curr.right != NULL_NODE) {
+				st.push(curr.right);
+			}
+			if (curr.left != NULL_NODE) {
+				st.push(curr.left);
+			}
+			return curr.data;
+		}
+	}
+
+	public boolean isEmpty() {
+		// DONE Auto-generated method stub.
+		return root == NULL_NODE;
+	}
+
+	public boolean containsNonBST(T i) {
+		// DONE Auto-generated method stub.
+		if (root == NULL_NODE) {
+			return false;
+		}
+		return root.containsNonBST(i);
+	}
+
+	@Override
+	public String toString() {
+		return this.toArrayList().toString();
+	}
+
+	public Object[] toArray() {
+		// DONE Auto-generated method stub.
+		return this.toArrayList().toArray();
+	}
+
+	public Iterator<T> iterator() {
+		// DONE Auto-generated method stub.
+		
+		return new inoriterator();
+	}
+	
+	public class inoriterator implements Iterator<T> {
+		Stack<BinaryNode> st = new Stack<BinaryNode>();
+
+		inoriterator() {
+			if (root != NULL_NODE) {
+				BinaryNode curr = root;
+				while(curr != NULL_NODE) {
+					st.push(curr);
+					curr = curr.left;
+				}
+			}
+		}
+
+		@Override
+		public boolean hasNext() {
+			// DONE Auto-generated method stub.
+			return !st.isEmpty();
+		}
+
+		@Override
+		public T next() {
+			// DONE Auto-generated method stub.
+			if (!hasNext()) {
+				throw(new NoSuchElementException());
+			}
+			BinaryNode curr = st.pop();
+			T data = curr.data;
+			if (curr.right != NULL_NODE) {
+				curr = curr.right;
+				while (curr != NULL_NODE) {
+					st.push(curr);
+					curr = curr.left;
+				}
+			}
+			return data;
+		}
+	}
+}

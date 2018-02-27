@@ -1,0 +1,77 @@
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D.Double;
+
+public class Bomb extends GameObject implements Drawable, Temporal {
+	
+	
+
+	private Color color;
+	private Shape shape;
+	private Hero hero;
+	private Rectangle bombExplode;
+	
+	private long timeFlag = (long) 0.0;
+	private long repainter;
+	private boolean exploded = false;
+
+	public Bomb(GameEnvironment world, Double position, Hero hero) {
+		super(world, position);
+		this.color = Color.BLACK;
+		this.hero = hero;
+		setSize(20);
+		this.shape = new Ellipse2D.Double(position.x, position.y, getSize(), getSize());
+		java.awt.geom.Rectangle2D bounder = this.shape.getBounds2D();
+		int x = (int) (bounder.getWidth()+2*getSize());
+		int y = (int) (bounder.getHeight()+2*getSize());
+		this.bombExplode = new Rectangle((int) position.x, (int) position.y, (int) (3*getSize()), (int) (3*getSize()));
+		this.repainter = GameWindowComponent.repaintint();
+		
+	}
+	
+	public Rectangle getbombExplode() {
+		return this.bombExplode;
+	}
+
+	@Override
+	public void timePassed() {
+		// TODO Auto-generated method stub.
+		if (this.timeFlag >= 3000F) { 
+			this.exploded=true;
+			this.color = Color.RED;
+			this.shape = this.bombExplode;
+		}
+		this.timeFlag = this.timeFlag + this.repainter;
+
+	}
+
+	@Override
+	public Color getColor() {
+		// TODO Auto-generated method stub.
+		return this.color;
+	}
+	
+	@Override
+	public Shape getShape() {
+		return this.shape;
+	}
+
+	@Override
+	public void updatePosition() {
+		// TODO Auto-generated method stub.
+		
+	}
+	
+	@Override
+	public void die() {
+		this.hero.setDropped(false);
+		((GameWorld) this.hero.getWorld()).removeObj(this);
+	}
+
+	public boolean getExploded() {
+		return this.exploded;
+	}
+
+}

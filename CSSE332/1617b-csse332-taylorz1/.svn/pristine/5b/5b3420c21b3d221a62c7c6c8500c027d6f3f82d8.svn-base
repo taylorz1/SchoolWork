@@ -1,0 +1,8 @@
+#ifndef __READERS_WRITERS_H_
+#define __READERS_WRITERS_H_
+
+#define MAX_ARRAY_SIZE 32
+
+void makeChild(key_t key, int ID, char* program);
+
+#endif

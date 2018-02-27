@@ -1,0 +1,3 @@
+verilog work "mux16b8.vf"
+verilog work "mux16b8_tb_0.v"
+verilog work "C:/Xilinx/14.7/ISE_DS/ISE//verilog/src/glbl.v"

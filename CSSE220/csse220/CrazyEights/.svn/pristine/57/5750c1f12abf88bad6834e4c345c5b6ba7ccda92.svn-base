@@ -1,0 +1,204 @@
+import java.util.Scanner;
+
+public class CrazyEights {
+	private Deck deck;
+	private int turn;
+	private Player[] players;
+	/**
+	 * Initialize your fields here (then change this documentation).
+	 */
+	public CrazyEights() {
+		
+	}
+
+	/**
+	 * Decodes a command and invokes the right method. You may update this
+	 * method if you find it's necessary for your design, but be careful you
+	 * don't break anything. If you make changes to this method, do it in very
+	 * small increments and frequently run the tests.
+	 * 
+	 * @param command
+	 *            The command to decode
+	 * @return the results of the command. "ok" if success but no result.
+	 */
+	public String handleCommand(String command) {
+		Scanner input = new Scanner(command);
+		String commandType = input.next();
+		String toReturn = null;
+
+		if (commandType.equals("start-game")) {
+			int numPlayers = input.nextInt();
+			String deckName = null;
+			boolean shuffle = true;
+			if (input.hasNext()) {
+				deckName = input.next();
+			}
+			if (input.hasNextBoolean()) {
+				shuffle = input.nextBoolean();
+			}
+			toReturn = handleStartGame(numPlayers, deckName, shuffle);
+		} else if (commandType.equals("play-card")) {
+			String cardValue = input.next();
+			toReturn = handlePlayCard(cardValue);
+
+		} else if (commandType.equals("draw-card")) {
+			toReturn = handleDrawCard();
+		} else if (commandType.equals("exit")) {
+			input.close();
+			System.exit(0);
+		} else {
+			toReturn = "Unknown command " + commandType;
+		}
+		input.close();
+		return toReturn;
+	}
+
+	/**
+	 * Handles starting a game for the specified number of players with the
+	 * specified deck.
+	 */
+	// These are variables
+
+
+	private String handleStartGame(int numPlayers, String deckName, boolean shuffle) {
+		// Set Deck
+		if(deckName==null){
+			deckName="standardDeck";
+		}
+		if(numPlayers<2||numPlayers>4){
+			return "Incorrect number of players, must be between 2 and 4.";
+		}
+		this.deck = new Deck();
+		this.deck.addDeck(deckName.equals("testDeck"));
+		// Shuffle ?
+		if (shuffle) {
+			this.deck.shuffle();
+		}
+		// Create Players
+		this.players = new Player[numPlayers];
+		for (int i = 0; i < numPlayers; i++) {
+			Player player = new Player(i);
+			this.players[i] = player;
+		}
+		
+		//Dealing
+		int i = 0;
+		while (i < 7) {
+			for (int j = 0 ; j < numPlayers; j++) {
+				Card card = this.deck.drawCard();
+				this.players[j].addCardtoHand(card);
+			}
+			i++;
+		}
+		//Set Top Card
+		this.deck.setTopCard();
+
+		// Setting turn.
+		this.turn = 0;
+//		System.out.println("Cards dealt.");
+//		System.out.println("Player 1, your turn.");
+//		System.out.println(this.players[this.turn].printHand());
+//		System.out.println("The top discard is " + this.deck.getTopCard().getRank() + this.deck.getTopCard().getSuit());
+		String str = "Cards dealt." + "\nPlayer 1, your turn." + "\n"
+				+ this.players[this.turn % this.players.length].printHand() + "\nThe top discard is "
+				+ this.deck.getTopCard().getRank() + this.deck.getTopCard().getSuit();
+		return str;
+	}
+
+	/**
+	 * Handles the play-card command.
+	 * 
+	 * @param cardValue
+	 *            - The value (rank and suit) of the card to play.
+	 * @return The string message to display to the user before the game state
+	 *         text.
+	 */
+
+	// Check Status concerning the string checking.
+	private String handlePlayCard(String cardValue) {
+		// TODO: Implement this
+		if (cardValue.length() == 3) {
+			if (cardValue.substring(0, 1).equals("10")) {
+				String suit = cardValue.substring(cardValue.length() - 1);
+				if (!suit.equals("H") || suit.equals("C") || suit.equals("D") || suit.equals("S")) {
+					return errorDraw();
+				}
+			}
+		} else {
+			if (cardValue.length() != 2) {
+				return errorDraw();
+			}
+			String suit = cardValue.substring(cardValue.length());
+			String rank = cardValue.substring(0, 1);
+			if (!suit.equals("H") || suit.equals("C") || suit.equals("D") || suit.equals("S")) {
+				return errorDraw();
+			}
+			if (!(Integer.parseInt(rank) < 11) && !(Integer.parseInt(rank) > 1)) {
+				return errorDraw();
+			}
+		}
+
+		Card card = this.players[this.turn].getCard(cardValue);
+		Card topcard = this.deck.getTopCard();
+		if (card.getEight() || card.getRank().equals(topcard.getRank()) || card.getSuit().equals(topcard.getSuit())) {
+			this.deck.setTopCard(card);
+			this.deck.addDiscard(card, this.players[this.turn % this.players.length]);
+			this.turn++;
+			System.out.print("Card " + card.getCardValue() + " played.");
+			System.out.println("Player 1, your turn.");
+			System.out.println(this.players[this.turn % this.players.length].printHand());
+			System.out.println(
+					"The top discard is " + this.deck.getTopCard().getRank() + this.deck.getTopCard().getSuit());
+			String str = "Card " + card.getCardValue() + " played." + "\nPlayer " + (this.turn + 1) + ", "
+					+ "your turn." + "\n" + this.players[this.turn % this.players.length].printHand()
+					+ "\nThe top discard is " + this.deck.getTopCard().getCardValue();
+			return str;
+		}
+		return "You have made an invalid move";
+	}
+
+	/**
+	 * Handles the draw-card command.
+	 * 
+	 * @return The string message to display to the user before the game state
+	 *         text.
+	 */
+	private String handleDrawCard() {
+
+		// TODO: Implement this		
+		this.players[turn%this.players.length].addCardtoHand(this.deck.drawCard());
+		return "Card " + this.deck.drawCard() + " was drawn.\nPlayer " + (turn%this.players.length + 1) + ", your turn.\nYour cards are "
+				+ this.players[turn%this.players.length].getHandofCard() + "\nThe top discard is " + this.deck.getTopCard();
+		//return null;
+
+	}
+	private String errorDraw() {
+		return "Card was not valid for play. Please try again." + "\nPlayer " + (this.turn + 1) + ", " + "your turn."
+				+ "\n" + this.players[this.turn % this.players.length].printHand().substring(1, this.players[this.turn % this.players.length].printHand().length()-2) + "\nThe top discard is "
+				+ this.deck.getTopCard().getCardValue();
+	}
+
+	/**
+	 * 
+	 * Run the CrazyEights in console mode (that is, input is to come from the
+	 * console).
+	 * 
+	 * THIS METHOD IS WRITTEN FOR YOU - no need to edit
+	 * 
+	 * @param args
+	 *            Command line arguments (ignored)
+	 */
+	public static void main(String[] args) {
+		CrazyEights game = new CrazyEights();
+		System.out.println("Welcome to CrazyEights.  Enter commands.  Type 'exit' to end.");
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		while (true) {
+			String commandLine = scanner.nextLine();
+			String result = game.handleCommand(commandLine);
+			System.out.println(result);
+		}
+
+	}
+
+}

@@ -1,0 +1,16 @@
+import java.awt.Color;
+
+
+/**
+ * 
+ * Should construct a single level of the game world.
+ *
+ * @author taylorz1.
+ *         Created Oct 27, 2016.
+ */
+public class GameWindowPanel {
+	public GameWindowPanel(int width, int height, Color color) {
+		GameWorld world = new GameWorld(width, height, color);
+		GameWorldComponent worldComponent = new GameWorldComponent(world);
+	}
+}

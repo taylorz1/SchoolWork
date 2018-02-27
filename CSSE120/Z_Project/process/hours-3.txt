@@ -1,0 +1,11 @@
+Zachary Taylor
+1.5  8/4 Spent on the TkinterPractice
+.5     8/8 Spent time working on the beginning of the project as described in videos
+1 8/14 Spent time working on Forward function, implemented a stop function.
+.5 8/15 Spent time working on Forward Function and Robot, haven't found the magic number yet.
+1 8/17 Spent time implementing keyboard drive. Still need robot to test. Holding off on committing code due to inability to know if there are errors due to an error already existing in a module not my own.
+2 8/19 Spent time implementing Manhatten movement function.
+2 8/19 Spent time working attempting to connect robot, NOTE: Need to fix Sprint 2. Sprint 3 should be complete in theory aside from conversion factors which rely on robots and of course testing.
+.5 8/19 See above.
+2 8/21 Time fixing keyboard drive function. Tested some functions with robot with Dr. Mutchler
+.5 8/24 Added time conversions. Function 1 and function 2 are now finished entirely.

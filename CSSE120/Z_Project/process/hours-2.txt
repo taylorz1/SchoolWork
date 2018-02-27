@@ -1,0 +1,9 @@
+Annette Ho
+1 8/4 Went on a whole group skype metting to discuss about how the project is going to work
+1 8/4 Did Tkinter practice exercises
+1 8/4 Experiment with more Tkinter stuff, ex: make a button to close the current window
+0.5 8/8 Watched the project kickoff videos
+2 8/9 Implement the code for reading teammate time files
+2 8/14 Implement the code for composing music
+2 8/15 Implement the code for follow a curvey black line
+1 8/16 Implement the code for follow a curvey black line

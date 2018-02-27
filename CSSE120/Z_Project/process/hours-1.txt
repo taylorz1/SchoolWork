@@ -1,0 +1,12 @@
+Nick Harrelson
+1.5 8/14  Caught up on TkinterPractice/Examples
+1   8/15  Worked on Session 20, setting up trello/team repository
+0.5 8/15  Set up my m file using the video
+1.5 8/15  Began work on robot simulator due to lack of robot
+0.5 8/16  Communicated with team, added GUI interface for sprint 1 feature
+1   8/17  Implimented feature, move in a square, need to wait on team to test on robot
+1.5 8/17  Robot can now tweet the current status of it's LED
+0.5 8/19  Coordinated with team, split up tweet function
+1.5 8/21  Researched the pixy camera and bang-bang/PID control
+1   8/21  Implimented "stalker" feature, robot can now follow biggest object in view
+0.5 8/21  Added extra comments, emailed team
